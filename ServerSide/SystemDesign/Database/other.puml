@@ -38,8 +38,9 @@ class DeletedLibrarian{
 
 }
 class DeletedItem{
-  
 }
+
+
 
 
 @enduml

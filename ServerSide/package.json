@@ -1,0 +1,15 @@
+{
+  "name": "tali3",
+  "version": "1.0.0",
+  "description": "This is a softawre for managing libraries",
+  "main": "index.js",
+  "scripts": {
+    "start":"nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tali3 Team",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

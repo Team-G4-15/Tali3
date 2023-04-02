@@ -1,0 +1,1 @@
+console.log("To run the server");
