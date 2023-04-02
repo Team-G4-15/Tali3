@@ -1,0 +1,45 @@
+@startuml
+title Settings
+class LibrarainSettings{
+  // librarian settings or even user settings
+  displayMode:varchar 
+  Email_Notifications:varchar
+  Language:varchar
+}
+
+class SystemSettings{
+
+}
+class UserSettigns{
+}
+
+
+class Reservation{
+  //for the student app to reserve books
+}
+class Reviews{
+  // user reviews
+
+}
+
+class WishList{
+// to recommend new books
+}
+
+class Vendors{
+  // To recored the buyers
+}
+
+class DeletedUsers{
+
+}
+
+class DeletedLibrarian{
+
+}
+class DeletedItem{
+  
+}
+
+
+@enduml

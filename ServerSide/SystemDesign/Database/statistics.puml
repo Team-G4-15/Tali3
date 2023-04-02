@@ -1,0 +1,24 @@
+@startuml
+title Statistics
+
+class Statistics{
+Total_number_loans_per_item: Integer
+Total_number_visits: Integer
+Total_number_items_added: Integer
+Total_number_patrons_registered: Integer
+}
+// what needs to be changed to adapt for the dashboard
+//best host for mysql
+//php my admin
+//setup mysql
+class LatestLoanedItems{
+}
+
+class LatestUsers{
+}
+class Reward{
+  // reward borrowers for their frequent visits
+}
+
+
+@enduml
