@@ -8,38 +8,29 @@ class LibrarainSettings{
 }
 
 class SystemSettings{
-
-}
-class UserSettigns{
-}
-
-
-class Reservation{
-  //for the student app to reserve books
-}
-class Reviews{
-  // user reviews
+  // policy
 
 }
 
-class WishList{
+
+class BookWishList{
 // to recommend new books
+Book_ISBN:Integer
+Book_Name:String 
+Author_ID:String
+Field_ID:String
+Book_Description:String
+Language_ID:Integer
 }
-
-class Vendors{
-  // To recored the buyers
+class PaperWishList{
+// to recommend new books
+Book_ISBN:Integer
+Book_Name:String 
+Author_ID:String
+Field_ID:String
+Book_Description:String
+Language_ID:Integer
 }
-
-class DeletedUsers{
-
-}
-
-class DeletedLibrarian{
-
-}
-class DeletedItem{
-}
-
 
 
 

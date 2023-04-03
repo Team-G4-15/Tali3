@@ -1,20 +1,20 @@
-@startuml 
+@startuml
 title Tali3 Database
 
 class University {
 
   University_ID:Integer(Primary key)
-  Name:String 
+  Name:String
   Address:String
   PhoneNumber:String
   Email:String
 }
 
 class Library{
-    Library_ID:Integer(Primary key)
-    Name:String
-    Department:String
-    University_ID:Integer(Foreign key)
+  Library_ID:Integer(Primary key)
+  Name:String
+  Department:String
+  University_ID:Integer(Foreign key)
 }
 
 class Librarian{
@@ -24,10 +24,10 @@ class Librarian{
 }
 
 class Patron{
-  Patron_Email:String(Primary Key) 
+  Patron_Email:String(Primary Key)
   LastName:String
   FirstName:String
-  Type:Char 
+  Type:Char
   University_ID:Integer(Forign Key)
 }
 
@@ -39,27 +39,29 @@ class Field{
 }
 
 class Item{
+  // to discuss the item
   Title:String
   Keywords:String
   Location_ID:Integer
+  Item_Description:String
   Type:Char
   +Item_ID(Book or Any other class):(Primary and Foreign Key)
   Quantity:Integer
+  +Vendor_ID:Integer(Foreign Key)
   +Publisher_ID:Integer(Foreign Key)
   +Field_ID:Integer(Foreign key)
   +Language_Code: String (Foreign key)
-  
 }
 
 class Book{
   +Book_ID:Integer(Primary key)
   ISBN:Integer
   Edition:Integer
-  Publish_Date:Date     
+  Publish_Date:Date
 }
 
 class Published{
-  Author_ID:Integer 
+  Author_ID:Integer
   Item_ID:Integer
   + PrimaryKey(Author_ID,Item_ID)
 
@@ -67,12 +69,12 @@ class Published{
 
 class Author{
   +Author_ID:Integer (Primary Key)
-  Author_Name:String 
+  Author_Name:String
 }
 
 class Copy{
   Copy_Number:Integer
-  Reception_Date:Date 
+  Reception_Date:Date
   + PrimaryKey(Copy_Number,Item_ID)
   +Item_ID:Integer(Forgeign Key)
 }
@@ -95,37 +97,49 @@ class ResearchPaper{
   Publish_Date:Date
 }
 
-
-
 class CurrentLoan{
-    +Librarian_Email:String(Foreign key)
-    +Item_ID:Integer(Foreign key)
-    +Patron_Email:String(Foreign key)
-    Copy_Number:Integer
-    Loan_date: date
-    due_date: date
-    Renewal_count: Integer
-    + PrimaryKey(Item_ID,Patron_Email,Copy_Number,Load_date)
+  + Loan_ID: Integer(Primary key)
+  + Librarian_Email:String(Foreign key)
+  + Item_ID:Integer(Foreign key)
+  + Patron_Email:String(Foreign key)
+  Copy_Number:Integer
+  Loan_date: date
+  due_date: date
+  Renewal_count: Integer
+  + PrimaryKey(Item_ID,Patron_Email,Copy_Number,Loan_date)
 
-    // we insert in the history whenever\n there is a new loan.once they return the book\n we delete form current loan and set boolean in history to false 
+  // we insert in the history whenever\n there is a new loan.once they return the book\n we delete form current loan and set boolean in history to false
 }
+
 class History{
-    + Librarian_Email:String(Foreign key)
-    + Item_ID:Integer(Foreign key)
-    + Patron_Email:String(Foreign key)
-    Copy_Number:Integer
-    Loan_date: date
-    due_date: date
-    return_date: date
-    returned: boolean
-    Renewal_count: Integer
-    + PrimaryKey(Item_ID,Patron_Email,Copy_Number,Load_date)
+  + Loan_ID: Integer(Primary key)
+  + Librarian_Email:String(Foreign key)
+  + Item_ID:Integer(Foreign key)
+  + Patron_Email:String(Foreign key)
+  Copy_Number:Integer
+  Loan_date: date
+  due_date: date
+  return_date: date
+  Renewal_count: Integer
+  + PrimaryKey(Item_ID,Patron_Email,Copy_Number,Loan_date)
 }
+
 class Renewals{
-  Renewal_ID:Integer(Primary key)
-  Loan_ID: String (Composite key)
+  + Loan_ID: Integer(Foreign key)
   Renewal_date: date
+  Old_due_date: date
   Due_date: date
+  + PrimaryKey(Loan_ID, Renewal_date)
+}
+
+class LostItems{
+  + Librarian_Email:String(Foreign key)
+  + Item_ID:Integer(Foreign key)
+  Copy_Number:Integer
+  Reception_date: Date
+  Lost_date:date
+  Reason:String
+  + PrimaryKey(Item_ID,Librarian_Email,Copy_Number)
 }
 
 class Location{
@@ -135,6 +149,23 @@ class Location{
   Shelf_Num: String
 }
 
+
+class Vendors{
+
+  Vendor_ID:String(Primary Key)
+  Vendor_Name:String
+  Vendor_email:String
+  Vendor_phone:Integer
+  Vendor_address:String
+  Vendor_type:String
+
+}
+
+class LibrarianHistory{
+  + Librarian_Email:String (Primary key)
+  Full_Name:String
+  Quit_Date:Date
+}
 
 
 Author-up->Published :published
@@ -167,6 +198,10 @@ History-up->Librarian :resposible_for
 Patron-up->History :loaned
 Copy-up->History :has_loaner
 
+CurrentLoan-up->LostItems :move_to
+CurrentLoan-left->Renewals :renew
 
+Item -->Vendors:brought_from
+
+Librarian -up->LibrarianHistory:quit_job
 @enduml
- 
