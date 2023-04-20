@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
 // authentication routes
 Route::post('/AddAdmin', [AuthController::class, 'signup']);
 Route::post('/AdminLogin', [AuthController::class, 'login']);
+Route::get('/books', function (Request $request) {
+
+    return Book::all();
+});

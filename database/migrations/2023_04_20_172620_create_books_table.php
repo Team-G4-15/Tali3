@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->integer('ISBN');
-            $table->string('desc');
-            $table->string("keywords");
-            $table->integer('Quantity');
+            $table->unsignedBigInteger('ISBN');
+            $table->string('desc')->nullable();
+            $table->string("keywords")->nullable();
+            $table->integer('Quantity')->default(0);
             $table->timestamps();
-            $table->bigInteger('lang_id');
-            $table->bigInteger('location_id');
-            $table->bigInteger('field_id');
-            $table->bigInteger('vendor_id');
-            $table->date("publish_date");
-            $table->string('edition');
+            $table->bigInteger('lang_id')->nullable();
+            $table->bigInteger('location_id')->nullable();
+            $table->bigInteger('field_id')->nullable();
+            $table->bigInteger('vendor_id')->nullable();
+            $table->date("publish_date")->nullable();
+            $table->string('edition')->nullable();
         });
     }
 
