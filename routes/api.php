@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
+use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +29,10 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/AddAdmin', [AuthController::class, 'signup']);
 Route::post('/AdminLogin', [AuthController::class, 'login']);
 Route::get('/books', function (Request $request) {
-
     return Book::all();
 });
+
+//Book modification routes
+Route::post("/books", [BookController::class, 'AddBook']);
+Route::delete("/books/{id}",[BookController::class, 'DeleteBook']);
+Route::post("/books/{id}",[BookController::class,'LoanBook']);
