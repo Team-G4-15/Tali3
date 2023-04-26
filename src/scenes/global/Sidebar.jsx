@@ -17,8 +17,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import {
-    Add,
+import {  Add,
     JoinFull,
     LoginOutlined,
     PersonAdd,
@@ -36,7 +35,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => setSelected(title)
+      }
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -65,15 +65,12 @@ const Sidebar = () => {
           padding: "5px 35px 5px 20px !important",
           color: "#000000 !important",
         },
-        "& .pro-inner-item:hover": {
-          color: "#FD5F00 !important",
+        "& .pro-inner-item.active": {
+          padding: "5px 35px 5px 20px !important",
+          color: "#ffffff !important",
         },
-        "& .pro-inner-item:active": {
-          color: "#FD5F00 !important",
-        },
-
         "& .pro-menu-item.active": {
-          color: "#FD5F00 !important",
+          backgroundColor:"#FD5F00 !important",
         },
       }}
     >
@@ -120,8 +117,8 @@ const Sidebar = () => {
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
-                  width="auto"
-                  height="auto"
+                  width="100px"
+                  height="100px"
                   src={`../../assets/user.png`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
