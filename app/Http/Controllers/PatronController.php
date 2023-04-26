@@ -29,7 +29,7 @@ class PatronController extends Controller
         return response("Patron Successfully deleted", 200);
     }
     function getAllPatrons(PatronRequest $request){
-        return Patron::findAll();
+        return \App\Models\Patron::findAll();
     }
 
 }
