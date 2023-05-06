@@ -68,7 +68,10 @@ const Login = () => {
                 onChange={handleChange}
                 value={values.email}
                 name="email"
-                sx={{ gridColumn: "span 4" }}
+                sx={{
+                  gridColumn: "span 4",
+                  color: "#F6F6E9"
+                }}
               />
 
               <TextField
@@ -92,7 +95,9 @@ const Login = () => {
               >
               </div>
               <FormGroup>
-                <FormControlLabel control={<Checkbox />} label="Remember Me" />
+                <FormControlLabel sx={{
+                  color: "#F6F6E9"
+                }} control={<Checkbox />} label="Remember Me" />
               </FormGroup>
               <Button type="submit" color="secondary" variant="contained">
                 Log in
