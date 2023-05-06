@@ -109,7 +109,6 @@ const SignUp = () => {
                                 sx={{ gridColumn: "span 4" }}
                             />
 
-
                             <FormGroup>
                                 <FormControlLabel sx={{
                                     color: "#0A2A5C"
