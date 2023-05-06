@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField } from "@mui/material";
+import { Checkbox, Box, Button, FormControlLabel, TextField, FormGroup } from "@mui/material";
 import { Formik } from "formik";
-import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from './Header';
 import "./checkbox.css";
-
-
 const SignUp = () => {
     const navigate = useNavigate();
     const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -113,31 +110,19 @@ const SignUp = () => {
                             />
 
 
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    name="Remember Me"
-                                    id="customCheck1"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck1">
-                                    Remember Me
-                                </label>
-                            </div>
-
-                            <Box display="flex" justifyContent="end" mt="20px">
-                                <Button type="submit" color="secondary" variant="contained">
-                                    Sign Up
-                                </Button>
-                            </Box>
+                            <FormGroup>
+                                <FormControlLabel sx={{
+                                    color: "#0A2A5C"
+                                }} control={<Checkbox />} label="Remember Me" />
+                            </FormGroup>
+                            <Button type="submit" color="secondary" variant="contained">
+                                Log in
+                            </Button>
 
                             <Box display="flex" justifyContent="center" alignItems="center" mt="20px">
                                 <a href={"/login"} mr="2px">
                                     Already Have an Account?
                                 </a>
-                                {/*<Button type="submit" color="secondary" variant="contained" onClick={() => navigate("/login")}>
-                                    Log in
-                                </Button>*/}
                             </Box>
 
                         </Box>

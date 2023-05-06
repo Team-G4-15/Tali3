@@ -1,8 +1,11 @@
 import React from "react";
-import Login from "./login.component";
+import { Grid } from "@mui/material";
+import Logo from "./Logo";
+import { Box } from "@mui/material";
+import SignUp from "./signup.component";
 import LogoLoginSingup from "./Logo.Login.Signup";
 
-const SplitScreenLogin = () => {
+const SplitScreenSignup = () => {
     return (
         <>
 
@@ -13,19 +16,17 @@ const SplitScreenLogin = () => {
                     justifyContent: "space-evenly",
                     alignItems: "center",
                     width: "100%",
-                    background: 'linear-gradient(to right, #0A2A5C 50%, #F6F6E9 50%)',
+                    background: 'linear-gradient(to right, #F6F6E9 50%, #0A2A5C 50%)',
                 }}
             >
 
                 <div
                     style={{
-                        margin: "20px",
-
-
+                        margin: "20px"
                     }}
                 >
 
-                    <LogoLoginSingup />
+                    <SignUp />
 
                 </div>
                 <div
@@ -34,7 +35,7 @@ const SplitScreenLogin = () => {
                     }}
                 >
 
-                    <Login />
+                    <LogoLoginSingup />
 
                 </div>
             </div>
@@ -44,4 +45,4 @@ const SplitScreenLogin = () => {
 };
 
 
-export default SplitScreenLogin;
+export default SplitScreenSignup;
