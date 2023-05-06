@@ -52,7 +52,7 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const {user, token} = useUserContext();
+  const { user, token } = useUserContext();
 
 
   return (
@@ -152,14 +152,14 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-           {(user && token)&& <Item
+            {(user && token) && <Item
               title="Dashboard"
               to="/dashboard"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-           }
+            }
 
             <Typography
               variant="h6"
@@ -183,7 +183,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Cataloging"
+              title="Cataloging (Books)"
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
