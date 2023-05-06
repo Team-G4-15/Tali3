@@ -7,8 +7,6 @@ import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useUserContext } from "../contexts/UserContextProvider";
 import { Navigate, useNavigate } from "react-router-dom";
-import { CheckBox } from "@mui/icons-material";
-
 
 
 const Login = () => {
@@ -17,7 +15,6 @@ const Login = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
   const handleFormSubmit = (values) => {
-    //console.log(payload);
     axiosClient
       .post("/AdminLogin", values)
       .then((respose) => {
@@ -42,8 +39,6 @@ const Login = () => {
       <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
         {({
           values,
-          errors,
-          touched,
           handleBlur,
           handleChange,
           handleSubmit,
