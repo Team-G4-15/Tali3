@@ -16,7 +16,7 @@ const SplitScreenLogin = () => {
                     justifyContent: "space-evenly",
                     alignItems: "center",
                     width: "100%",
-                    background: 'linear-gradient(to right, #F6F6E9 50%, #0A2A5C 50%)',
+                    background: 'linear-gradient(to right, #0A2A5C 50%, #F6F6E9 50%)',
                 }}
             >
 

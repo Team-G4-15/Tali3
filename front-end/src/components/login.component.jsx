@@ -96,7 +96,7 @@ const Login = () => {
               </div>
               <FormGroup>
                 <FormControlLabel sx={{
-                  color: "#F6F6E9"
+                  color: "#0A2A5C"
                 }} control={<Checkbox />} label="Remember Me" />
               </FormGroup>
               <Button type="submit" color="secondary" variant="contained">
