@@ -1,18 +1,39 @@
-import React, { Component } from 'react';
+import React, { Component, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { axiosClient } from "../utilities/axiosClient";
 import Header from './Header';
 import "./checkbox.css";
-
+import { useUserContext } from "../contexts/UserContextProvider";
 
 const SignUp = () => {
-    const navigate = useNavigate();
+    
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    let { setUser, setToken } = useUserContext();
+    let [error, setErrors] = useState(null); 
+    const navigate = useNavigate();
     const handleFormSubmit = (values) => {
         console.log(values);
+        axiosClient
+        .post("/AdminLogin", values)
+        .then((response) => {
+        setUser(response.data.user);
+        setToken(response.data.token);
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+
+        let data = err.response.data;
+        if (!data.message) {
+          setErrors(data);
+        } else {
+          setErrors(data.message);
+        }
+      });
     };
     return (
         <Box m="20px">
@@ -90,10 +111,10 @@ const SignUp = () => {
                                 label="Password"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                value={values.email}
+                                value={values.password}
                                 name="password"
-                                error={!!touched.email && !!errors.email}
-                                helperText={touched.email && errors.email}
+                                error={!!touched.password && !!errors.password}
+                                helperText={touched.password && errors.password}
                                 sx={{ gridColumn: "span 4" }}
                             />
 
@@ -105,10 +126,10 @@ const SignUp = () => {
                                 label="Confirm Password"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                value={values.email}
+                                value={values.password}
                                 name="password_confirm"
-                                error={!!touched.email && !!errors.email}
-                                helperText={touched.email && errors.email}
+                                error={!!touched.password && !!errors.password}
+                                helperText={touched.password && errors.password}
                                 sx={{ gridColumn: "span 4" }}
                             />
 
@@ -135,9 +156,9 @@ const SignUp = () => {
                                 <a href={"/login"} mr="2px">
                                     Already Have an Account?
                                 </a>
-                                {/*<Button type="submit" color="secondary" variant="contained" onClick={() => navigate("/login")}>
+                                {<Button type="submit" color="secondary" variant="contained" onClick={() => navigate("/login")}>
                                     Log in
-                                </Button>*/}
+                                </Button>}
                             </Box>
 
                         </Box>
@@ -165,20 +186,16 @@ const checkoutSchema = yup.object().shape({
     firstName: yup.string().required("required"),
     lastName: yup.string().required("required"),
     email: yup.string().email("invalid email").required("required"),
-    contact: yup
-        .string()
-        .matches(phoneRegExp, "Phone number is not valid")
-        .required("required"),
-    address1: yup.string().required("required"),
-    address2: yup.string().required("required"),
+    password: yup.string()
+    .min(4)
+    .required("required"),
+    
 });
 const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
-    contact: "",
-    address1: "",
-    address2: "",
+    password:"",
 };
 
 export default SignUp;

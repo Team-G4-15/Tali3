@@ -60,9 +60,9 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'librarian' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\librarian::class,
         ],
 
         // 'users' => [
@@ -91,8 +91,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'librarian' => [
+            'provider' => 'librarian',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

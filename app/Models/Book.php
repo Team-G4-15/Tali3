@@ -5,22 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class book extends Model
 {
-    use HasFactory;
-    protected $table = 'books';
+    protected $table = 'book';
+    protected $primaryKey = 'book_id';
+    public $timestamps = false;
 
-    protected $fillable = [
-        'title',
-        'ISBN',
-        'desc',
-        'keywords',
-        'Quantity',
-        'lang_id',
-        'location_id',
-        'field_id',
-        'vendor_id',
-        'publish_date',
-        'edition',
-    ];
+    public function author()
+    {
+        return $this->belongsTo(author::class);
+    }
+
+    public function copies()
+    {
+        return $this->hasMany(copy::class);
+    }
+    use HasFactory;
 }

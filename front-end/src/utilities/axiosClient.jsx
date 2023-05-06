@@ -24,6 +24,7 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
     (res) => res,
     (error) => {
+        console.log(axiosClient.interceptors.response);
         let { response } = error;
         if (response && response.status === 401) {
             // unauthorized so basically the provided token is not valid and henece we remove it

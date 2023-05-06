@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
-use App\Models\User;
+use App\Models\librarian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
@@ -23,18 +23,23 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $token = $user->createToken("main")->plainTextToken;;
-        return response(['user' => $user, 'token' => $token]);
+        return response(['librarian' => $user, 'token' => $token]);
     }
     public function signup(SignupRequest $request)
     {
-        $data = $request->validated();
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+        echo "we reached this";
+        $data = $request;
+        $test = 1;
+        $full_name = $data["firstName"];
+        $full_name .= " " .$data["lastName"];
+        $librarian = librarian::create([
+            'full_name' => $full_name,
+            'library_id' => $test,
+            'librarian_email' => $data['email'],
             'password' => bcrypt($data['password'])
         ]);
-        $token = $user->createToken('main')->planTextToken;
-        return response(['user' => $user, 'token' => $token]);
+        $token = $librarian->createToken('main')->plainTextToken;
+        return response(['librarian' => $librarian, 'token' => $token]);
     }
 
     public function logout(Request $request)

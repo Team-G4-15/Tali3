@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class SignupRequest extends FormRequest
 {
@@ -22,12 +23,14 @@ class SignupRequest extends FormRequest
      */
     public function rules(): array
     {
+        $output = new ConsoleOutput();
+        $output->writeln("<info>my message</info>");
         // here we define the rules that should be applied to the input
         /* This will help us to get proper error messages */
         return [
 
-            'name' => 'required|string|max:50',
-            'email' => 'required|email|unique:users,email,except,id',
+            'firstName' => 'required|string|max:50',
+            'email' => 'required|email',
             'password' => ['required', 'confirmed', Password::min(8)->letters()->symbols()]
         ];
     }
