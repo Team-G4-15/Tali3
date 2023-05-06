@@ -1,8 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
-import Logo from "./Logo";
-import { Box } from "@mui/material";
-import SignUp from "./Signup.Component";
+import SignUp from "./signup.component";
 import LogoLoginSingup from "./Logo.Login.Signup";
 
 const SplitScreenSignup = () => {

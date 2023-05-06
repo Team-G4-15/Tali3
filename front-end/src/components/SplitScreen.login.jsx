@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "./Login.Component";
+import Login from "./login.component";
 import LogoLoginSingup from "./Logo.Login.Signup";
 
 const SplitScreenLogin = () => {

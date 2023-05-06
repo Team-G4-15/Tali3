@@ -1,44 +1,62 @@
-import React, { Component } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Checkbox, Box, Button, FormControlLabel, TextField, FormGroup } from "@mui/material";
+import React, {  useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+    Checkbox,
+    Box,
+    Button,
+    FormControlLabel,
+    TextField,
+    FormGroup,
+} from "@mui/material";
 import { Formik } from "formik";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from './Header';
+import Header from "./Header";
 import "./checkbox.css";
+import { axiosClient } from "../utilities/axiosClient";
+import { useUserContext } from "../contexts/UserContextProvider";
 const SignUp = () => {
+    let [error, setError] = useState(null);
+    let {  setUser, setToken } = useUserContext();
     const navigate = useNavigate();
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const handleFormSubmit = (values) => {
         console.log(values);
+        axiosClient
+            .post("/AddAdmin", values)
+            .then((res) => {
+                setUser(res.data.user);
+                setToken(res.data.token);
+                navigate("/dashboard");
+            })
+            .catch((err) => {
+
+            });
     };
     return (
         <div>
-
             <Header title="Sign Up" subtitle="Create Tali3 account" />
-            <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={initialValues}
-            >
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
                 {({
                     values,
-                    errors,
-                    touched,
+
                     handleBlur,
                     handleChange,
                     handleSubmit,
                 }) => (
-
                     <form onSubmit={handleSubmit}>
-
                         <Box
                             display="grid"
                             gap="30px"
                             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
                             sx={{
-                                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                                "& > div": {
+                                    gridColumn: isNonMobile
+                                        ? undefined
+                                        : "span 4",
+                                },
                             }}
                         >
-
                             <TextField
                                 fullWidth
                                 variant="filled"
@@ -48,8 +66,6 @@ const SignUp = () => {
                                 onChange={handleChange}
                                 value={values.firstName}
                                 name="firstName"
-                                error={!!touched.firstName && !!errors.firstName}
-                                helperText={touched.firstName && errors.firstName}
                                 sx={{ gridColumn: "span 2" }}
                             />
                             <TextField
@@ -61,8 +77,6 @@ const SignUp = () => {
                                 onChange={handleChange}
                                 value={values.lastName}
                                 name="lastName"
-                                error={!!touched.lastName && !!errors.lastName}
-                                helperText={touched.lastName && errors.lastName}
                                 sx={{ gridColumn: "span 2" }}
                             />
 
@@ -75,8 +89,6 @@ const SignUp = () => {
                                 onChange={handleChange}
                                 value={values.email}
                                 name="email"
-                                error={!!touched.email && !!errors.email}
-                                helperText={touched.email && errors.email}
                                 sx={{ gridColumn: "span 4" }}
                             />
 
@@ -87,13 +99,10 @@ const SignUp = () => {
                                 label="Password"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                value={values.email}
+                                value={values.password}
                                 name="password"
-                                error={!!touched.email && !!errors.email}
-                                helperText={touched.email && errors.email}
                                 sx={{ gridColumn: "span 4" }}
                             />
-
 
                             <TextField
                                 fullWidth
@@ -102,49 +111,52 @@ const SignUp = () => {
                                 label="Confirm Password"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                value={values.email}
-                                name="password_confirm"
-                                error={!!touched.email && !!errors.email}
-                                helperText={touched.email && errors.email}
+                                value={values.password_confirmation}
+                                name="password_confirmation"
                                 sx={{ gridColumn: "span 4" }}
                             />
 
                             <FormGroup>
-                                <FormControlLabel sx={{
-                                    color: "#0A2A5C"
-                                }} control={<Checkbox />} label="Remember Me" />
+                                <FormControlLabel
+                                    sx={{
+                                        color: "#0A2A5C",
+                                    }}
+                                    control={<Checkbox />}
+                                    label="Remember Me"
+                                />
                             </FormGroup>
-                            <Button type="submit" color="secondary" variant="contained">
-                                Log in
+                            <Button
+                                type="submit"
+                                color="secondary"
+                                variant="contained"
+                            >
+                                Create Account
                             </Button>
 
-                            <Box display="flex" justifyContent="center" alignItems="center" mt="20px">
+                            <Box
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                mt="20px"
+                            >
                                 <a href={"/login"} mr="2px">
                                     Already Have an Account?
                                 </a>
                             </Box>
-
                         </Box>
-
-
-
                     </form>
-
-
-
                 )}
             </Formik>
         </div>
-    )
-}
+    );
+};
 
 const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
-    contact: "",
-    address1: "",
-    address2: "",
+    password: "",
+    password_confirmation: "",
 };
 
 export default SignUp;
