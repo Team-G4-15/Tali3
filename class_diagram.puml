@@ -1,0 +1,150 @@
+@startuml
+
+
+class UserContext{
+    Token: String
+    +setUser(User)
+    +setToken(Token)
+}
+class User
+{
+    first_name : String
+    last_name : String
+    email : Email
+}
+
+class Admin
+{
+
+}
+
+UserContext o-- User
+
+
+class ReactComponent {
+    States : (ReactHook[ ])
+}
+
+ReactComponent o-- UserContext
+
+class AxiosClient
+{
+    base_url : String
+    +interceptors()
+}
+
+
+ReactComponent o-- AxiosClient 
+
+class Admin{
+  + Librarian_Email:String 
+  Full_Name:String
+  Password:String
+}
+
+class Patron{
+  Patron_Email:String
+  LastName:String
+  FirstName:String
+  Type:Char
+
+}
+abstract class Item{
+  // to discuss the item
+  Title:String
+  Keywords:String
+  Location_ID:Integer
+  Item_Description:String
+  Type:Char
+  +Item_ID(Book or Any other class)
+  Quantity:Integer
+
+  +Publisher_ID:Integer
+
+}
+
+class Book{
+  +Book_ID:Integer
+  ISBN:Integer
+  Edition:Integer
+  Publish_Date:Date
+}
+
+class Published{
+  Author_ID:Integer
+  Item_ID:Integer
+ 
+
+}
+
+class Author{
+  +Author_ID:Integer 
+  Author_Name:String
+}
+
+class BookPage{
+
+}
+
+
+class PatronPage{
+
+}
+
+Patron --> User
+
+Admin --> User
+
+class Periodical{
+  +Periodical_ID:Integer
+  ISSN: Integer
+  Frequency:String
+}
+
+class ResearchPaper{
+  +ResearchPaper_ID:Integer
+  DOI: Integer
+  Publish_Date:Date
+}
+
+
+
+ResearchPaper --> Item
+Book --> Item
+Periodical --> Item
+
+
+abstract class DisplayPage{
+
+}
+
+DisplayPage --> ReactComponent
+
+DisplayPage *-- Item
+
+BookPage --> DisplayPage
+PatronPage --> DisplayPage
+
+
+class Loan{
+    + Loan_ID: Integer
+  + Librarian_Email:String
+  + Item_ID:Integer
+  + Patron_Email:String
+  Copy_Number:Integer
+  Loan_date: date
+  due_date: date
+  Renewal_count: Integer
+}
+
+
+
+
+Loan *-- Patron
+Loan *-- Item
+
+Author "1..*" - "1..*" Item
+(Author, Item) . Published
+
+
+@enduml
