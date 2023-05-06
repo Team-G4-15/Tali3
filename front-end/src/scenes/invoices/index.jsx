@@ -4,6 +4,8 @@ import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
+import AddBoxIcon from '@mui/icons-material/AddBox';
+
 const Invoices = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -50,12 +52,20 @@ const Invoices = () => {
       <Box sx={{ justifyContent: "space-between", display: "flex" }}>
         <Header title="INVOICES" subtitle="List of Invoice Balances" />
         <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddBoxIcon />}
           sx={{
-            backgroundColor: "black",
+            backgroundColor: "#FD5F00",
             color: "white",
-            fontSize: "15px",
-            ":hover": {
-              color: "black"
+            "&:hover": {
+              backgroundColor: "#FF7100",
+            },
+            "&:active": {
+              backgroundColor: "#FF7100",
+            },
+            "&:focus": {
+              backgroundColor: "#FF7100",
             }
           }}
           onClick={() => navigate("/addBook")}
