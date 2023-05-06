@@ -6,6 +6,7 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import PersonAdd from '@mui/icons-material/PersonAdd';
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -72,11 +73,25 @@ const Team = () => {
       <Box sx={{ justifyContent: "space-between", display: "flex" }}>
         <Header title="Members" subtitle="Managing the memebers" />
         <Button
+          variant="contained"
+          color="primary"
+          startIcon={<PersonAdd />}
           sx={{
-            backgroundColor: "black",
-            color: "white"
+            backgroundColor: "#FD5F00",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#FF7100",
+            },
+            "&:active": {
+              backgroundColor: "#FF7100",
+            },
+            "&:focus": {
+              backgroundColor: "#FF7100",
+            }
           }}
-        >Add Member</Button>
+        >
+          Add Member
+        </Button>
       </Box>
       <Box
         m="40px 0 0 0"
