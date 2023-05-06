@@ -6,7 +6,9 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
-const Team = () => {
+import { useNavigate } from "react-router-dom";
+const Members = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
@@ -70,13 +72,21 @@ const Team = () => {
   return (
     <Box m="20px">
       <Box sx={{ justifyContent: "space-between", display: "flex" }}>
-        <Header title="Members" subtitle="Managing the memebers" />
+        <Header title="Members" subtitle="Managing the members" />
         <Button
+          variant="outlined"
           sx={{
             backgroundColor: "black",
-            color: "white"
+            color: "white",
+            fontSize: "15px",
+            ":hover": {
+              color: "black"
+            },
+            borderRadius: "25px",
+
           }}
-        >Add Member</Button>
+          onClick={() => navigate("/addMember")}
+        >Add a Member</Button>
       </Box>
       <Box
         m="40px 0 0 0"
@@ -113,4 +123,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default Members;

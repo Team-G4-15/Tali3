@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -15,21 +15,21 @@ const SignUp = () => {
         console.log(values);
     };
     return (
-        <Box m="20px">
+        <div>
+
             <Header title="Sign Up" subtitle="Create Tali3 account" />
             <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
-                validationSchema={checkoutSchema}
             >
                 {({
-                      values,
-                      errors,
-                      touched,
-                      handleBlur,
-                      handleChange,
-                      handleSubmit,
-                  }) => (
+                    values,
+                    errors,
+                    touched,
+                    handleBlur,
+                    handleChange,
+                    handleSubmit,
+                }) => (
 
                     <form onSubmit={handleSubmit}>
 
@@ -131,7 +131,7 @@ const SignUp = () => {
                                 </Button>
                             </Box>
 
-                            <Box display="flex" justifyContent="center" alignItems="center"  mt="20px">
+                            <Box display="flex" justifyContent="center" alignItems="center" mt="20px">
                                 <a href={"/login"} mr="2px">
                                     Already Have an Account?
                                 </a>
@@ -150,28 +150,10 @@ const SignUp = () => {
 
                 )}
             </Formik>
-
-
-        </Box>
+        </div>
     )
 }
 
-
-
-const phoneRegExp =
-    /^((\+[1-9]{1, 4}[ -]?)|(\([0-9]{2, 3}\)[ -]?)|([0-9]{2, 4})[ -]?)*?[0-9]{3, 4}[ -]?[0-9]{3, 4}$/;
-
-const checkoutSchema = yup.object().shape({
-    firstName: yup.string().required("required"),
-    lastName: yup.string().required("required"),
-    email: yup.string().email("invalid email").required("required"),
-    contact: yup
-        .string()
-        .matches(phoneRegExp, "Phone number is not valid")
-        .required("required"),
-    address1: yup.string().required("required"),
-    address2: yup.string().required("required"),
-});
 const initialValues = {
     firstName: "",
     lastName: "",

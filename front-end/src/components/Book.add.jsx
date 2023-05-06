@@ -21,7 +21,7 @@ const AddBook = () => {
             .then((respose) => {
                 setUser(respose.data.user);
                 setToken(respose.data.token);
-                navigate("/dashboard");
+                // navigate("/dashboard");
             })
             .catch((err) => {
                 console.log(err);
@@ -147,8 +147,10 @@ const AddBook = () => {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={values.vendorID}
-                                    label="VendorID"
+                                    // label="VendorID"
+                                    // placeholder="VendorID"
                                     name="vendorID"
+                                    renderValue={value => ` • + ${value}`}
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
 

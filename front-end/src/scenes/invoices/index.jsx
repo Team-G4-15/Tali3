@@ -50,13 +50,16 @@ const Invoices = () => {
       <Box sx={{ justifyContent: "space-between", display: "flex" }}>
         <Header title="INVOICES" subtitle="List of Invoice Balances" />
         <Button
+          variant="outlined"
           sx={{
             backgroundColor: "black",
             color: "white",
             fontSize: "15px",
             ":hover": {
               color: "black"
-            }
+            },
+            borderRadius: "25px",
+
           }}
           onClick={() => navigate("/addBook")}
         >Add a Book</Button>
