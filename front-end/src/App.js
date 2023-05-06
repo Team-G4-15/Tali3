@@ -19,6 +19,9 @@ import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 import { UserContextProvider } from "./contexts/UserContextProvider";
 import AddBook from "./components/Book.add";
+import ADDUser from "./components/User.add";
+import AddLoan from "./components/Loan.add";
+
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -47,6 +50,9 @@ function App() {
                 <Route path="/login" element={<Login />}></Route>
                 <Route path="/dashboard" element={<Dashboard />}></Route>
                 <Route path="/addBook" element={<AddBook />}></Route>
+                <Route path="/ADDUser" element={<ADDUser />}></Route>
+                <Route path="/AddLoan" element={<AddLoan />}></Route>
+
               </Routes>
             </main>
           </div>

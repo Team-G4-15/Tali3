@@ -6,8 +6,10 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import { useNavigate } from "react-router-dom";
 const Team = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "id", headerName: "ID" },
@@ -76,6 +78,7 @@ const Team = () => {
             backgroundColor: "black",
             color: "white"
           }}
+          onClick={() => navigate("/AddLoan")}
         >Add Member</Button>
       </Box>
       <Box

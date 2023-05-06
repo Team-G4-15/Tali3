@@ -36,7 +36,6 @@ const AddBook = () => {
     };
     return (
         <>
-
             <Box m="20px">
                 <Header title="Add a Book" subtitle="Add a book to Tali3's Database" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
