@@ -1,16 +1,37 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import Header from "../../components/Header";
-
-const Team = () => {
+import InputBase from "@mui/material/InputBase";
+import {IconButton} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import DeleteIcon from '@mui/icons-material/Delete';
+const Memeber = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
+    {
+      field: "avatar",
+      headerName: "",
+      flex: 1,
+      renderCell: (params) => (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "40px",
+          }}
+        >
+          <img
+            src={params.value}
+            alt="avatar"
+            style={{ borderRadius: "50%", width: "40px", height: "40px" }}
+          />
+        </Box>
+      ),
+    },
     { field: "id", headerName: "ID" },
     {
       field: "name",
@@ -19,58 +40,47 @@ const Team = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
       field: "email",
       headerName: "Email",
       flex: 1,
-    },
-    {
-      field: "accessLevel",
-      headerName: "Access Level",
-      flex: 1,
-      renderCell: ({ row: { access } }) => {
-        return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            backgroundColor={
-              access === "admin"
-                ? colors.greenAccent[600]
-                : access === "manager"
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
-            }
-            borderRadius="4px"
-          >
-            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "manager" && <SecurityOutlinedIcon />}
-            {access === "user" && <LockOpenOutlinedIcon />}
-            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
-            </Typography>
-          </Box>
-        );
-      },
     },
   ];
 
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Box display="flex" sx={{gap:4}}>
+      <Box
+        display="flex"
+        backgroundColor={colors.primary[400]}
+        borderRadius="30px"
+      >
+        <InputBase sx={{ ml: 2, flex: 1 ,width:"300px" }} placeholder="Email" />
+      </Box>
+      <Box
+        display="flex"
+        backgroundColor={colors.primary[400]}
+        borderRadius="30px"
+      >
+        <InputBase sx={{ ml: 2, flex: 1 ,width:"300px"}} placeholder="ID" />
+      </Box>
+      <Box sx={{gap:"40px" , marginLeft: "auto" ,mr:"100px"}} display="flex"justifyContent="flex-end"  >
+      <Box backgroundColor={colors.primary[400]} borderRadius="50%"  >
+      <IconButton sx={{ borderRadius: "50%" , width: 48, height: 48 }} backgroundColor={colors.primary[400]} type="button">
+        <SearchIcon style={{ color:colors.primary[900]}}/>
+        </IconButton>
+      </Box>
+      <Box backgroundColor={colors.primary[400]} borderRadius="50%"  >
+      <IconButton sx={{ borderRadius: "50%" , width: 48, height: 48 }} backgroundColor={colors.primary[400]} type="button">
+        <ControlPointIcon style={{color:colors.primary[900]}}/>
+        </IconButton>
+      </Box>
+      <Box backgroundColor={colors.primary[400]} borderRadius="50%"  >
+      <IconButton sx={{ borderRadius: "50%" , width: 48, height: 48 }} backgroundColor={colors.primary[400]} type="button">
+        <DeleteIcon style={{color:colors.primary[900]}}/>
+        </IconButton>
+      </Box>
+      </Box>
+      </Box>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -85,7 +95,7 @@ const Team = () => {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: "{colors.primary[400]}",
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -93,7 +103,7 @@ const Team = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: "{colors.primary[400]}",
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
@@ -106,4 +116,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default Memeber;
