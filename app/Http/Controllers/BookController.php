@@ -38,9 +38,9 @@ class BookController extends Controller
     } else {
         return response("Error creating the loan ", 400);
     }
-
-    */
-
-
+*/
 
 }
+
+
+
