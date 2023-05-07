@@ -4,7 +4,7 @@ import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
-import AddBook from "../../components/Book.Add";
+import AddBook from "../../components/Book.add";
 import { useState } from "react";
 const Cataloging = () => {
   const theme = useTheme();
