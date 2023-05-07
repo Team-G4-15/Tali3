@@ -1,13 +1,36 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme, Modal } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
-const Invoices = () => {
+import AddBook from "../../components/Book.Add";
+import { useState } from "react";
+const Cataloging = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
+
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "50%",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    overflowY: "auto",
+    maxHeight: "75%",
+    borderRadius: "2.5%"
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -61,9 +84,18 @@ const Invoices = () => {
             borderRadius: "25px",
 
           }}
-          onClick={() => navigate("/addBook")}
+          onClick={handleOpen}
+
         >Add a Book</Button>
       </Box>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        keepMounted
+      >
+        <AddBook style={style} />
+      </Modal>
 
       <Box
         m="40px 0 0 0"
@@ -100,4 +132,4 @@ const Invoices = () => {
   );
 };
 
-export default Invoices;
+export default Cataloging;

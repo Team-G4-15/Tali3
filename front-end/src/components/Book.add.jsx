@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { Box, Button, InputLabel, MenuItem, Select, TextField, useMediaQuery } from "@mui/material";
+import { Box, Button, InputLabel, MenuItem, Modal, Select, TextField, useMediaQuery } from "@mui/material";
 import Header from "./Header";
 import { useUserContext } from "../contexts/UserContextProvider";
 import { Formik } from "formik";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
-const AddBook = () => {
+
+const AddBook = ({ style }) => {
+
+
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
     let { setUser, setToken } = useUserContext();
@@ -15,13 +18,11 @@ const AddBook = () => {
 
         console.log(values);
 
-        //console.log(payload);
         axiosClient
             .post("/AdminLogin", values)
             .then((respose) => {
                 setUser(respose.data.user);
                 setToken(respose.data.token);
-                // navigate("/dashboard");
             })
             .catch((err) => {
                 console.log(err);
@@ -36,8 +37,7 @@ const AddBook = () => {
     };
     return (
         <>
-
-            <Box m="20px">
+            <Box m="20px" sx={style}>
                 <Header title="Add a Book" subtitle="Add a book to Tali3's Database" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
                     {({
@@ -147,17 +147,15 @@ const AddBook = () => {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={values.vendorID}
-                                    // label="VendorID"
-                                    // placeholder="VendorID"
                                     name="vendorID"
-                                    renderValue={value => ` • + ${value}`}
+                                    renderValue={value => value}
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
 
                                 >
-                                    <MenuItem value={values.vendor1} name="vendor1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.vendor2} name="vendor2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.vendor3} name="vendor3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="vendor1">VENDOR</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="vendor2">VENDOR</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="vendor3">VENDOR</MenuItem>
                                 </Select>
 
 
@@ -169,11 +167,12 @@ const AddBook = () => {
                                     name="publisherID"
                                     label="publisherID"
                                     onChange={handleChange}
+                                    renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.publisher1} name="publisher1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.publisher2} name="publisher2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.publisher3} name="publisher3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"publisher1"} name="publisher1">PUBLISHER</MenuItem>
+                                    <MenuItem value={"publisher2"} name="publisher2">PUBLISHER</MenuItem>
+                                    <MenuItem value={"publisher3"} name="publisher3">PUBLISHER</MenuItem>
                                 </Select>
 
                                 <InputLabel id="demo-simple-select-label">Field ID</InputLabel>
@@ -186,9 +185,9 @@ const AddBook = () => {
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.field1} name="field1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.field2} name="field2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.field3} name="field3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"FIELD1"} name="field1">FIELD</MenuItem>
+                                    <MenuItem value={"FIELD2"} name="field2">FIELD</MenuItem>
+                                    <MenuItem value={"FIELD3"} name="field3">FIELD</MenuItem>
                                 </Select>
 
 
@@ -202,9 +201,9 @@ const AddBook = () => {
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.langcode1} name="langcode1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.langcode2} name="langcode2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.langcode3} name="langcode3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"LANGCODE1"} name="langcode1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"LANGCODE2"} name="langcode2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"LANGCODE3"} name="langcode3">MOCKDATA</MenuItem>
                                 </Select>
 
 
@@ -220,8 +219,6 @@ const AddBook = () => {
                 </Formik>
 
             </Box>
-
-
 
 
         </>
