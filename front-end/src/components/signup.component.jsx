@@ -136,12 +136,8 @@ const SignUp = () => {
                                     label="Remember Me"
                                 />
                             </FormGroup>
-                            <Button
-                                type="submit"
-                                color="secondary"
-                                variant="contained"
-                            >
-                                Create Account
+                            <Button type="submit" color="secondary" variant="contained">
+                                Sign Up
                             </Button>
 
                             <Box

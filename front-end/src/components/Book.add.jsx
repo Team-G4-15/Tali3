@@ -8,8 +8,6 @@ import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
 
 const AddBook = ({ style }) => {
-
-
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
     let { setUser, setToken } = useUserContext();

@@ -6,6 +6,7 @@ import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 import AddBook from "../../components/Book.add";
 import { useState } from "react";
+import AddBoxIcon from '@mui/icons-material/AddBox';
 const Cataloging = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -72,20 +73,25 @@ const Cataloging = () => {
 
       <Box sx={{ justifyContent: "space-between", display: "flex" }}>
         <Header title="INVOICES" subtitle="List of Invoice Balances" />
-        <Button
-          variant="outlined"
-          sx={{
-            backgroundColor: "black",
-            color: "white",
-            fontSize: "15px",
-            ":hover": {
-              color: "black"
-            },
-            borderRadius: "25px",
 
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddBoxIcon />}
+          sx={{
+            backgroundColor: "#FD5F00",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#FF7100",
+            },
+            "&:active": {
+              backgroundColor: "#FF7100",
+            },
+            "&:focus": {
+              backgroundColor: "#FF7100",
+            }
           }}
           onClick={handleOpen}
-
         >Add a Book</Button>
       </Box>
 

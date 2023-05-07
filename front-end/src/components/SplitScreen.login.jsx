@@ -33,7 +33,6 @@ const SplitScreenLogin = () => {
                         margin: "20px"
                     }}
                 >
-
                     <Login />
 
                 </div>
