@@ -24,11 +24,22 @@ const SignUp = () => {
         axiosClient
             .post("/AddAdmin", values)
             .then((res) => {
+                console.log(res);
                 setUser(res.data.user);
                 setToken(res.data.token);
                 navigate("/dashboard");
             })
             .catch((err) => {
+
+
+                let data = err.response.data;
+                if (!data.message) {
+                    setError(data);
+                } else {
+                    const first_sentence=data.message.indexOf(".");
+                    setError(data["message"].substring(0,first_sentence));
+                }
+
 
             });
     };
