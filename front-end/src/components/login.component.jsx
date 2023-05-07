@@ -29,10 +29,11 @@ const Login = () => {
                 navigate("/dashboard");
             })
             .catch((err) => {
-                console.log(err);
+                if (!err.response) {
+                    return  setErrors(err.message);
+                 }
 
                 let data = err.response.data;
-                console.log(data);
                 if (!data.message) {
                     setErrors(data);
                 } else {

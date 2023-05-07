@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Checkbox,
@@ -16,7 +16,7 @@ import { axiosClient } from "../utilities/axiosClient";
 import { useUserContext } from "../contexts/UserContextProvider";
 const SignUp = () => {
     let [error, setError] = useState(null);
-    let {  setUser, setToken } = useUserContext();
+    let { setUser, setToken } = useUserContext();
     const navigate = useNavigate();
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const handleFormSubmit = (values) => {
@@ -30,17 +30,17 @@ const SignUp = () => {
                 navigate("/dashboard");
             })
             .catch((err) => {
-
+                if (!err.response) {
+                   return  setError(err.message);
+                }
 
                 let data = err.response.data;
                 if (!data.message) {
                     setError(data);
                 } else {
-                    const first_sentence=data.message.indexOf(".");
-                    setError(data["message"].substring(0,first_sentence));
+                    const first_sentence = data.message.indexOf(".");
+                    setError(data["message"].substring(0, first_sentence));
                 }
-
-
             });
     };
     return (

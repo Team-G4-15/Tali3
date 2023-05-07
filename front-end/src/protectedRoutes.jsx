@@ -12,15 +12,23 @@ import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import Calendar from "./scenes/calendar/calendar";
 import AddBook from "./components/Book.add";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
+import { useEffect } from "react";
 
 export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
-    let { user, token } = useUserContext();
+    const { user, token } = useUserContext();
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user || !token) {
+           navigate("/");
+        }
+    }, []);
 
     return (
         <>
-            {user && token &&
+            {user && token && (
                 <>
                     <Sidebar isSidebar={isSidebar} />
                     <main className="content">
@@ -41,7 +49,7 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                         </Routes>
                     </main>
                 </>
-            }
+            )}
         </>
     );
 };
