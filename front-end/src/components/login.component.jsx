@@ -7,6 +7,10 @@ import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useUserContext } from "../contexts/UserContextProvider";
 import { Navigate, useNavigate } from "react-router-dom";
+import { CenterFocusStrong, CheckBox } from "@mui/icons-material";
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+
 
 
 const Login = () => {
@@ -102,6 +106,19 @@ const Login = () => {
           </form>
         )}
       </Formik>
+      <Typography variant="body1" sx={
+        {
+          color: "#0A2A5C",
+          textAlign: "center",
+          marginTop: "20px"
+        }
+          
+      }>
+        Don't have an account?{' '}
+        <Link href="/" underline="hover">
+          Sign up
+        </Link>
+      </Typography>
     </Box>
   );
 };
