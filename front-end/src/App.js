@@ -19,6 +19,9 @@ import { UserContextProvider } from "./contexts/UserContextProvider";
 import AddBook from "./components/Book.Add";
 import SplitScreenLogin from "./components/SplitScreen.login";
 import SplitScreenSignup from "./components/SplitScreen.signup";
+import ADDUser from "./components/User.add";
+import AddLoan from "./components/Loan.add";
+
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -55,7 +58,10 @@ function App() {
                     <Route path="/geography" element={<Geography />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/addBook" element={<AddBook />} />
-                  </Routes>
+                    <Route path="/ADDUser" element={<ADDUser />}></Route>
+                <Route path="/AddLoan" element={<AddLoan />}></Route>
+
+              </Routes>
                 </main>
               </>
             )}

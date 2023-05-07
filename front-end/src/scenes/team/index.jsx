@@ -7,9 +7,11 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Members = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "id", headerName: "ID" },
@@ -85,8 +87,8 @@ const Members = () => {
             borderRadius: "25px",
 
           }}
-          onClick={() => navigate("/addMember")}
-        >Add a Member</Button>
+          onClick={() => navigate("/AddLoan")}
+        >Add Member</Button>
       </Box>
       <Box
         m="40px 0 0 0"
