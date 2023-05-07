@@ -115,7 +115,7 @@ const SignUp = () => {
                                 }} control={<Checkbox />} label="Remember Me" />
                             </FormGroup>
                             <Button type="submit" color="secondary" variant="contained">
-                                Log in
+                                Sign Up
                             </Button>
 
                             <Box display="flex" justifyContent="center" alignItems="center" mt="20px">
@@ -129,9 +129,6 @@ const SignUp = () => {
 
 
                     </form>
-
-
-
                 )}
             </Formik>
         </div>

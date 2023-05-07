@@ -16,11 +16,11 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 import { UserContextProvider } from "./contexts/UserContextProvider";
+import SplitScreenLogin from "./components/SplitScreen.Login";
+import SplitScreenSignup from "./components/SplitScreen.Signup";
+import AddUser from "./components/User.Add";
+import AddLoan from "./components/Loan.Add";
 import AddBook from "./components/Book.Add";
-import SplitScreenLogin from "./components/SplitScreen.login";
-import SplitScreenSignup from "./components/SplitScreen.signup";
-import ADDUser from "./components/User.add";
-import AddLoan from "./components/Loan.add";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -58,10 +58,10 @@ function App() {
                     <Route path="/geography" element={<Geography />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/addBook" element={<AddBook />} />
-                    <Route path="/ADDUser" element={<ADDUser />}></Route>
-                <Route path="/AddLoan" element={<AddLoan />}></Route>
+                    <Route path="/AddUser" element={<AddUser />}></Route>
+                    <Route path="/AddLoan" element={<AddLoan />}></Route>
 
-              </Routes>
+                  </Routes>
                 </main>
               </>
             )}
