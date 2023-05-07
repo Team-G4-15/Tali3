@@ -30,7 +30,7 @@ class BookController extends Controller
         return response("Book Successfully deleted", 200);
     }
 
-    function LoanBook(LoanRequest $request,$id){
+    /*function LoanBook(LoanRequest $request,$id){
         $data = $request->validated();
         $loan = Loan::create($data);
         if($loan){
@@ -38,7 +38,8 @@ class BookController extends Controller
     } else {
         return response("Error creating the loan ", 400);
     }
-    }
+
+    */
 
 
 
