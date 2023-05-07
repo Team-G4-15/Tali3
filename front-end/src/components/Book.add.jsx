@@ -8,6 +8,10 @@ import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
 
 const AddBook = ({ style }) => {
+<<<<<<< HEAD
+=======
+    //response not working/compatible.
+>>>>>>> origin/merge
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
     let { setUser, setToken } = useUserContext();
@@ -17,10 +21,14 @@ const AddBook = ({ style }) => {
         console.log(values);
 
         axiosClient
-            .post("/AdminLogin", values)
+            .post("/books/add", values)
             .then((respose) => {
+<<<<<<< HEAD
                 setUser(respose.data.user);
                 setToken(respose.data.token);
+=======
+                //not done
+>>>>>>> origin/merge
             })
             .catch((err) => {
                 console.log(err);
@@ -191,9 +199,9 @@ const AddBook = ({ style }) => {
                                     renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.publisher1} name="publisher1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.publisher2} name="publisher2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.publisher3} name="publisher3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="publisher1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="publisher2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="publisher3">MOCKDATA</MenuItem>
                                 </Select>
 
                                 <InputLabel id="demo-simple-select-label">Field ID</InputLabel>
@@ -204,11 +212,12 @@ const AddBook = ({ style }) => {
                                     label="field_name"
                                     name="field_name"
                                     onChange={handleChange}
+                                    renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.field1} name="field1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.field2} name="field2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.field3} name="field3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="field1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="field2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="field3">MOCKDATA</MenuItem>
                                 </Select>
 
 
@@ -220,11 +229,12 @@ const AddBook = ({ style }) => {
                                     label="language_code"
                                     name="language_code"
                                     onChange={handleChange}
+                                    renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.langcode1} name="langcode1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.langcode2} name="langcode2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.langcode3} name="langcode3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="langcode1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="langcode2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="langcode3">MOCKDATA</MenuItem>
                                 </Select>
 
 

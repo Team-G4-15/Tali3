@@ -13,7 +13,13 @@ import Header from "./Header";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useUserContext } from "../contexts/UserContextProvider";
-import {  useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { CenterFocusStrong, CheckBox } from "@mui/icons-material";
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+
+
+
 const Login = () => {
     let { setUser, setToken } = useUserContext();
     let [error, setErrors] = useState(null); //
@@ -93,35 +99,42 @@ const Login = () => {
                                 sx={{ gridColumn: "span 4" }}
                             />
 
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}
-                            ></div>
-                            <FormGroup>
-                                <FormControlLabel
-                                    sx={{
-                                        color: "#0A2A5C",
-                                    }}
-                                    control={<Checkbox />}
-                                    label="Remember Me"
-                                />
-                            </FormGroup>
-                            <Button
-                                type="submit"
-                                color="secondary"
-                                variant="contained"
-                            >
-                                Log in
-                            </Button>
-                        </Box>
-                    </form>
-                )}
-            </Formik>
-        </Box>
-    );
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+              </div>
+              <FormGroup>
+                <FormControlLabel sx={{
+                  color: "#0A2A5C"
+                }} control={<Checkbox />} label="Remember Me" />
+              </FormGroup>
+              <Button type="submit" color="secondary" variant="contained">
+                Log in
+              </Button>
+            </Box>
+
+          </form>
+        )}
+      </Formik>
+      <Typography variant="body1" sx={
+        {
+          color: "#0A2A5C",
+          textAlign: "center",
+          marginTop: "20px"
+        }
+          
+      }>
+        Don't have an account?{' '}
+        <Link href="/" underline="hover">
+          Sign up
+        </Link>
+      </Typography>
+    </Box>
+  );
 };
 
 const initialValues = {
