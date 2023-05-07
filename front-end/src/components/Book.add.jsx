@@ -8,6 +8,7 @@ import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
 
 const AddBook = ({ style }) => {
+    //response not working/compatible.
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
     let { setUser, setToken } = useUserContext();
@@ -17,10 +18,9 @@ const AddBook = ({ style }) => {
         console.log(values);
 
         axiosClient
-            .post("/AdminLogin", values)
+            .post("/books/add", values)
             .then((respose) => {
-                setUser(respose.data.user);
-                setToken(respose.data.token);
+                //not done
             })
             .catch((err) => {
                 console.log(err);
@@ -62,8 +62,8 @@ const AddBook = ({ style }) => {
                                     label="Title"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_title}
-                                    name="book_title"
+                                    value={values.title}
+                                    name="title"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -74,8 +74,8 @@ const AddBook = ({ style }) => {
                                     label="Keywords (seperated by comma)"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_keywords}
-                                    name="book_keywords"
+                                    value={values.keywords}
+                                    name="keywords"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -86,8 +86,8 @@ const AddBook = ({ style }) => {
                                     label="Location ID"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_locationID}
-                                    name="book_locationID"
+                                    value={values.location_id}
+                                    name="location_id"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -98,8 +98,8 @@ const AddBook = ({ style }) => {
                                     label="Item Description"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_desc}
-                                    name="book_desc"
+                                    value={values.description}
+                                    name="description"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -110,8 +110,8 @@ const AddBook = ({ style }) => {
                                     label="Type (Insert a Character)"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_type}
-                                    name="book_type"
+                                    value={values.type}
+                                    name="type"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -122,8 +122,8 @@ const AddBook = ({ style }) => {
                                     label="ISBN"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_isbn}
-                                    name="book_isbn"
+                                    value={values.isbn}
+                                    name="isbn"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -134,8 +134,31 @@ const AddBook = ({ style }) => {
                                     label="Quantity"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_quantity}
-                                    name="book_quantity"
+                                    value={values.quantity}
+                                    name="quantity"
+                                    sx={{ gridColumn: "span 4" }}
+                                />
+
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Edition"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.edition}
+                                    name="edition"
+                                    sx={{ gridColumn: "span 4" }}
+                                />
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="date"
+                                    label="Publish date"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.publish_date}
+                                    name="publish_date"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -144,8 +167,8 @@ const AddBook = ({ style }) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.vendorID}
-                                    name="vendorID"
+                                    value={values.vendor_id}
+                                    name="vendor_id"
                                     renderValue={value => value}
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
@@ -161,31 +184,32 @@ const AddBook = ({ style }) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.publisherID}
-                                    name="publisherID"
-                                    label="publisherID"
+                                    value={values.publisher_id}
+                                    name="publisher_id"
+                                    label="publisher_id"
                                     onChange={handleChange}
                                     renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"publisher1"} name="publisher1">PUBLISHER</MenuItem>
-                                    <MenuItem value={"publisher2"} name="publisher2">PUBLISHER</MenuItem>
-                                    <MenuItem value={"publisher3"} name="publisher3">PUBLISHER</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="publisher1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="publisher2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="publisher3">MOCKDATA</MenuItem>
                                 </Select>
 
                                 <InputLabel id="demo-simple-select-label">Field ID</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.fieldID}
-                                    label="fieldID"
-                                    name="fieldID"
+                                    value={values.field_name}
+                                    label="field_name"
+                                    name="field_name"
                                     onChange={handleChange}
+                                    renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"FIELD1"} name="field1">FIELD</MenuItem>
-                                    <MenuItem value={"FIELD2"} name="field2">FIELD</MenuItem>
-                                    <MenuItem value={"FIELD3"} name="field3">FIELD</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="field1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="field2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="field3">MOCKDATA</MenuItem>
                                 </Select>
 
 
@@ -193,15 +217,16 @@ const AddBook = ({ style }) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.langcode}
-                                    label="langcode"
-                                    name="langcode"
+                                    value={values.language_code}
+                                    label="language_code"
+                                    name="language_code"
                                     onChange={handleChange}
+                                    renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"LANGCODE1"} name="langcode1">MOCKDATA</MenuItem>
-                                    <MenuItem value={"LANGCODE2"} name="langcode2">MOCKDATA</MenuItem>
-                                    <MenuItem value={"LANGCODE3"} name="langcode3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="langcode1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="langcode2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="langcode3">MOCKDATA</MenuItem>
                                 </Select>
 
 
@@ -229,29 +254,18 @@ const AddBook = ({ style }) => {
 }
 const initialValues = {
     title: "",
-    book_title: "",
-    book_keywords: "",
-    locationID: "",
-    book_desc: "",
-    book_type: "",
-    book_isbn: "",
-    book_quantity: "",
-    vendorID: "",
-    vendor1: "",
-    vendor2: "",
-    vendor3: "",
-    publisherID: "",
-    publisher1: "",
-    publisher2: "",
-    publisher3: "",
-    fieldID: "",
-    field1: "",
-    field2: "",
-    field3: "",
-    langcode: "",
-    langcode1: "",
-    langcode2: "",
-    langcode3: ""
+    keywords: "",
+    location_id: "",
+    description: "",
+    type: "",
+    isbn: "",
+    quantity: "",
+    vendor_id: "",
+    publisher_id: "",
+    field_name: "",
+    language_code: "",
+    edition:"",
+    publish_date:""
 };
 
 export default AddBook;
