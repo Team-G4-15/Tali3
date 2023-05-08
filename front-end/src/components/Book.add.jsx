@@ -112,17 +112,7 @@ const AddBook = ({ style }) => {
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Location ID"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.location_id}
-                                    name="location_id"
-                                    sx={{ gridColumn: "span 4" }}
-                                />
+
 
                                 <TextField
                                     fullWidth
