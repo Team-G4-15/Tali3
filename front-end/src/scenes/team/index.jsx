@@ -85,7 +85,7 @@ const Members = () => {
             borderRadius: "25px",
 
           }}
-          onClick={() => navigate("/AddLoan")}
+          onClick={() => navigate("/AddUser")}
         >Add Member</Button>
       </Box>
       <Box
