@@ -1,16 +1,22 @@
-import { Box, Button, Typography, useTheme, Modal } from "@mui/material";
+import { Box, Button, Typography, useTheme, Modal, Collapse, Alert, IconButton, CircularProgress } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 import AddBook from "../../components/Book.add";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import CloseIcon from '@mui/icons-material/Close';
+import { BookAddingContext } from "../../contexts/BookAddingContext";
+
 const Cataloging = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
+  const [successOpen, setSuccessOpen] = useState(null);
+  const [errorOpen, setErrorOpen] = useState(null);
+  const [processing, setProcessing] = useState(null);
 
 
   const style = {
@@ -72,7 +78,7 @@ const Cataloging = () => {
 
 
       <Box sx={{ justifyContent: "space-between", display: "flex" }}>
-        <Header title="INVOICES" subtitle="List of Invoice Balances" />
+        <Header title="Cataloging" subtitle="Tali3 Library" />
 
         <Button
           variant="contained"
@@ -100,7 +106,12 @@ const Cataloging = () => {
         onClose={handleClose}
         keepMounted
       >
-        <AddBook style={style} />
+        <BookAddingContext.Provider value={{
+          setErrorOpen, setSuccessOpen, handleClose, setProcessing
+        }}>
+
+          <AddBook style={style} />
+        </BookAddingContext.Provider>
       </Modal>
 
       <Box
@@ -132,6 +143,64 @@ const Cataloging = () => {
           },
         }}
       >
+
+
+        <Collapse
+          in={processing}
+        >
+          <Box
+            sx={{ display: "flex ", justifyContent: "center", mb: 2 }}
+          >
+            <CircularProgress />
+          </Box>
+        </Collapse>
+
+
+
+
+        <Collapse in={successOpen}
+        >
+          <Alert
+            severity="success"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={
+                  () => setSuccessOpen(false)
+                }
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{
+              mb: 2
+            }}
+          >
+            Book Added Succesfully !
+          </Alert>
+        </Collapse>
+        <Collapse in={errorOpen} >
+
+          <Alert
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={
+                  () => setErrorOpen(false)
+                }
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }} >
+            Server Error Occured When Adding The Book
+          </Alert>
+        </Collapse>
         <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
       </Box>
     </Box>

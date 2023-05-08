@@ -1,28 +1,38 @@
-import React, { useState } from "react";
-import { Box, Button, InputLabel, MenuItem, Modal, Select, TextField, useMediaQuery } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import { Alert, Box, Button, Collapse, IconButton, InputLabel, MenuItem, Select, TextField, useMediaQuery } from "@mui/material";
 import Header from "./Header";
 import { useUserContext } from "../contexts/UserContextProvider";
 import { Formik } from "formik";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
+import { BookAddingContext } from "../contexts/BookAddingContext";
 
 const AddBook = ({ style }) => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
-    let { setUser, setToken } = useUserContext();
-    let [error, setErrors] = useState(null); //
-    const handleFormSubmit = (values) => {
+    const [error, setErrors] = useState(null);
+    const { setErrorOpen, setSuccessOpen, handleClose, setProcessing } = useContext(BookAddingContext);
 
-        console.log(values);
+
+    const handleFormSubmit = (values) => {
+        setProcessing(true);
+
+
+        handleClose();
+
 
         axiosClient
-            .post("/AdminLogin", values)
+            .post("/book/add", values)
             .then((respose) => {
-                setUser(respose.data.user);
-                setToken(respose.data.token);
+                setProcessing(false);
+                setSuccessOpen(true);
+
             })
             .catch((err) => {
+                setErrorOpen(true);
+                setProcessing(false);
+
                 console.log(err);
 
                 let data = err.response.data;
@@ -62,8 +72,8 @@ const AddBook = ({ style }) => {
                                     label="Title"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_title}
-                                    name="book_title"
+                                    value={values.title}
+                                    name="title"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -74,8 +84,8 @@ const AddBook = ({ style }) => {
                                     label="Keywords (seperated by comma)"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_keywords}
-                                    name="book_keywords"
+                                    value={values.keywords}
+                                    name="keywords"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -86,8 +96,8 @@ const AddBook = ({ style }) => {
                                     label="Location ID"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_locationID}
-                                    name="book_locationID"
+                                    value={values.location_id}
+                                    name="location_id"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -98,8 +108,8 @@ const AddBook = ({ style }) => {
                                     label="Item Description"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_desc}
-                                    name="book_desc"
+                                    value={values.description}
+                                    name="description"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -110,8 +120,8 @@ const AddBook = ({ style }) => {
                                     label="Type (Insert a Character)"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_type}
-                                    name="book_type"
+                                    value={values.type}
+                                    name="type"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -122,8 +132,8 @@ const AddBook = ({ style }) => {
                                     label="ISBN"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_isbn}
-                                    name="book_isbn"
+                                    value={values.isbn}
+                                    name="isbn"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -134,18 +144,44 @@ const AddBook = ({ style }) => {
                                     label="Quantity"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_quantity}
-                                    name="book_quantity"
+                                    value={values.quantity}
+                                    name="quantity"
                                     sx={{ gridColumn: "span 4" }}
                                 />
+
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Edition"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.edition}
+                                    name="edition"
+                                    sx={{ gridColumn: "span 4" }}
+                                />
+
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Publish Date (dd/mm/yyyy) "
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.publish_date}
+                                    name="publish_date"
+                                    sx={{ gridColumn: "span 4" }}
+                                />
+
+
 
                                 <InputLabel
                                     id="demo-simple-select-label">Vendor ID</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.vendorID}
-                                    name="vendorID"
+                                    value={values.vendor_id}
+                                    name="vendor_id"
                                     renderValue={value => value}
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
@@ -161,9 +197,8 @@ const AddBook = ({ style }) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.publisherID}
-                                    name="publisherID"
-                                    label="publisherID"
+                                    value={values.publisher_id}
+                                    name="publisher_id"
                                     onChange={handleChange}
                                     renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
@@ -177,9 +212,8 @@ const AddBook = ({ style }) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.fieldID}
-                                    label="fieldID"
-                                    name="fieldID"
+                                    value={values.field_name}
+                                    name="field_name"
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
                                 >
@@ -193,9 +227,8 @@ const AddBook = ({ style }) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.langcode}
-                                    label="langcode"
-                                    name="langcode"
+                                    value={values.language_code}
+                                    name="language_code"
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
                                 >
@@ -217,8 +250,6 @@ const AddBook = ({ style }) => {
                 </Formik>
 
             </Box>
-
-
         </>
 
 
@@ -229,29 +260,18 @@ const AddBook = ({ style }) => {
 }
 const initialValues = {
     title: "",
-    book_title: "",
-    book_keywords: "",
-    locationID: "",
-    book_desc: "",
-    book_type: "",
-    book_isbn: "",
-    book_quantity: "",
-    vendorID: "",
-    vendor1: "",
-    vendor2: "",
-    vendor3: "",
-    publisherID: "",
-    publisher1: "",
-    publisher2: "",
-    publisher3: "",
-    fieldID: "",
-    field1: "",
-    field2: "",
-    field3: "",
-    langcode: "",
-    langcode1: "",
-    langcode2: "",
-    langcode3: ""
+    keywords: "",
+    location_id: "",
+    description: "",
+    type: "",
+    isbn: "",
+    quantity: "",
+    vendor_id: "",
+    publisher_id: "",
+    field_name: "",
+    language_code: "",
+    edition: "",
+    publish_date: ""
 };
 
 export default AddBook;
