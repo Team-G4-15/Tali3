@@ -12,12 +12,11 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-
     
     function AddBook(BookRequest $request)
     {
         $data = $request->validated();
-        $book = book::create($data);
+        $book = Book::create($data);
         if ($book) {
             error_log($book);
             $author = ["book_id"=>$book["book_id"],"author_id"=>(int)$request["publisher_id"]];

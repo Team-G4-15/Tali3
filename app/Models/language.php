@@ -12,6 +12,7 @@ class language extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    protected $table="language";
     protected $fillable = [
         'language_code',
         'language',

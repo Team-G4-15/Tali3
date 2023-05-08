@@ -20,14 +20,13 @@ class Book extends Model
         'keywords',
         'language_code',
         'location_id',
-        'field_id',
+        'field_name',
         'vendor_id' ,
         'publish_date',
         'edition' ,
         'field_name' ,
         'type',
-        'quantity',
-        
+        'quantity'
     ];
 
 

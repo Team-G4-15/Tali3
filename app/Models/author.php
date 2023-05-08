@@ -10,7 +10,6 @@ class author extends Model
     protected $table = 'author';
     public $timestamps=false;
     protected $primaryKey = 'author_id';
-
     protected $fillable = [
         'author_name'
     ];

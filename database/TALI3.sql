@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 07, 2023 at 04:09 PM
+-- Generation Time: May 07, 2023 at 04:36 PM
 -- Server version: 8.0.32-0ubuntu0.22.10.2
 -- PHP Version: 8.1.7-1ubuntu3.3
 
@@ -44,11 +44,24 @@ CREATE TABLE IF NOT EXISTS `author` (
 
 DROP TABLE IF EXISTS `book`;
 CREATE TABLE IF NOT EXISTS `book` (
-  `book_id` int NOT NULL,
+  `book_id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(480) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `keywords` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `description` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `quantity` int NOT NULL,
+  `location_id` int NOT NULL,
+  `language_code` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `vendor_id` int NOT NULL,
+  `field_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `isbn` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `edition` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `publish_date` date DEFAULT NULL,
-  PRIMARY KEY (`book_id`)
+  PRIMARY KEY (`book_id`),
+  KEY `Fk_language_books` (`language_code`),
+  KEY `Fk_field_books` (`field_name`),
+  KEY `Fk_vendor_books` (`vendor_id`),
+  KEY `Fk_location_books` (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -59,10 +72,10 @@ CREATE TABLE IF NOT EXISTS `book` (
 
 DROP TABLE IF EXISTS `copy`;
 CREATE TABLE IF NOT EXISTS `copy` (
-  `item_id` int NOT NULL,
+  `book_id` int NOT NULL,
   `copy_number` int NOT NULL,
   `reception_date` date DEFAULT NULL,
-  PRIMARY KEY (`item_id`,`copy_number`),
+  PRIMARY KEY (`book_id`,`copy_number`),
   KEY `copy_number_idx` (`copy_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -80,12 +93,12 @@ CREATE TABLE IF NOT EXISTS `current_loan` (
   `loan_date` datetime NOT NULL,
   `email` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `patron_email` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `item_id` int NOT NULL,
+  `book_id` int NOT NULL,
   `copy_number` int NOT NULL,
   PRIMARY KEY (`loan_id`),
   KEY `Fk_patron_current_loan` (`patron_email`),
   KEY `Fk_librarian_current_loan` (`email`),
-  KEY `Fk_item_current_loan` (`item_id`),
+  KEY `Fk_books_current_loan` (`book_id`),
   KEY `Fk_copy_current_loan` (`copy_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -131,7 +144,7 @@ DROP TABLE IF EXISTS `history`;
 CREATE TABLE IF NOT EXISTS `history` (
   `loan_id` int NOT NULL,
   `email` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `item_id` int NOT NULL,
+  `book_id` int NOT NULL,
   `patron_email` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `copy_number` int NOT NULL,
   `loan_date` datetime NOT NULL,
@@ -141,33 +154,8 @@ CREATE TABLE IF NOT EXISTS `history` (
   PRIMARY KEY (`loan_id`),
   KEY `Fk_librarian_history` (`email`),
   KEY `Fk_patron_history` (`patron_email`),
-  KEY `Fk_item_history` (`item_id`),
+  KEY `Fk_books_history` (`book_id`),
   KEY `Fk_copy_history` (`copy_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `item`
---
-
-DROP TABLE IF EXISTS `item`;
-CREATE TABLE IF NOT EXISTS `item` (
-  `item_id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(480) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `keywords` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `description` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `quantity` int NOT NULL,
-  `location_id` int NOT NULL,
-  `language_code` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `vendor_id` int NOT NULL,
-  `field_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`item_id`),
-  KEY `Fk_language_item` (`language_code`),
-  KEY `Fk_field_item` (`field_name`),
-  KEY `Fk_vendor_item` (`vendor_id`),
-  KEY `Fk_location_item` (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -255,19 +243,19 @@ CREATE TABLE IF NOT EXISTS `location` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lost_items`
+-- Table structure for table `lost_books`
 --
 
-DROP TABLE IF EXISTS `lost_items`;
-CREATE TABLE IF NOT EXISTS `lost_items` (
+DROP TABLE IF EXISTS `lost_books`;
+CREATE TABLE IF NOT EXISTS `lost_books` (
   `copy_number` int NOT NULL,
   `reception_date` datetime NOT NULL,
   `lost_date` datetime NOT NULL,
   `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `item_id` int NOT NULL,
-  PRIMARY KEY (`copy_number`,`email`,`item_id`),
-  KEY `Fk_librarian_lost_items` (`email`)
+  `book_id` int NOT NULL,
+  PRIMARY KEY (`copy_number`,`email`,`book_id`),
+  KEY `Fk_librarian_lost_bookss` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -370,8 +358,8 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 DROP TABLE IF EXISTS `published`;
 CREATE TABLE IF NOT EXISTS `published` (
   `author_id` int NOT NULL,
-  `item_id` int NOT NULL,
-  KEY `Fk_item_published` (`item_id`),
+  `book_id` int NOT NULL,
+  KEY `Fk_books_published` (`book_id`),
   KEY `Fk_author_published` (`author_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -452,20 +440,23 @@ CREATE TABLE IF NOT EXISTS `vendor` (
 -- Constraints for table `book`
 --
 ALTER TABLE `book`
-  ADD CONSTRAINT `Fk_item_book` FOREIGN KEY (`book_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Fk_field_books` FOREIGN KEY (`field_name`) REFERENCES `field` (`field_name`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `Fk_language_books` FOREIGN KEY (`language_code`) REFERENCES `language` (`language_code`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `Fk_location_books` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
+  ADD CONSTRAINT `Fk_vendor_books` FOREIGN KEY (`vendor_id`) REFERENCES `vendor` (`vendor_id`);
 
 --
 -- Constraints for table `copy`
 --
 ALTER TABLE `copy`
-  ADD CONSTRAINT `Fk_item_copy` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Fk_books_copy` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `current_loan`
 --
 ALTER TABLE `current_loan`
+  ADD CONSTRAINT `Fk_books_current_loan` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Fk_copy_current_loan` FOREIGN KEY (`copy_number`) REFERENCES `copy` (`copy_number`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `Fk_item_current_loan` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Fk_librarian_current_loan` FOREIGN KEY (`email`) REFERENCES `librarian` (`email`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Fk_patron_current_loan` FOREIGN KEY (`patron_email`) REFERENCES `patron` (`patron_email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -473,19 +464,10 @@ ALTER TABLE `current_loan`
 -- Constraints for table `history`
 --
 ALTER TABLE `history`
+  ADD CONSTRAINT `Fk_books_history` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Fk_copy_history` FOREIGN KEY (`copy_number`) REFERENCES `copy` (`copy_number`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `Fk_item_history` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Fk_librarian_history` FOREIGN KEY (`email`) REFERENCES `librarian` (`email`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Fk_patron_history` FOREIGN KEY (`patron_email`) REFERENCES `patron` (`patron_email`) ON UPDATE CASCADE;
-
---
--- Constraints for table `item`
---
-ALTER TABLE `item`
-  ADD CONSTRAINT `Fk_field_item` FOREIGN KEY (`field_name`) REFERENCES `field` (`field_name`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `Fk_language_item` FOREIGN KEY (`language_code`) REFERENCES `language` (`language_code`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `Fk_location_item` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
-  ADD CONSTRAINT `Fk_vendor_item` FOREIGN KEY (`vendor_id`) REFERENCES `vendor` (`vendor_id`);
 
 --
 -- Constraints for table `librarian`
@@ -500,10 +482,10 @@ ALTER TABLE `library`
   ADD CONSTRAINT `Fk_university_library` FOREIGN KEY (`university_id`) REFERENCES `university` (`university_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `lost_items`
+-- Constraints for table `lost_books`
 --
-ALTER TABLE `lost_items`
-  ADD CONSTRAINT `Fk_librarian_lost_items` FOREIGN KEY (`email`) REFERENCES `librarian` (`email`) ON UPDATE CASCADE;
+ALTER TABLE `lost_books`
+  ADD CONSTRAINT `Fk_librarian_lost_bookss` FOREIGN KEY (`email`) REFERENCES `librarian` (`email`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `old_renewals`
@@ -522,7 +504,7 @@ ALTER TABLE `patron`
 --
 ALTER TABLE `published`
   ADD CONSTRAINT `Fk_author_published` FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `Fk_item_published` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Fk_books_published` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `renewals`
@@ -534,7 +516,7 @@ ALTER TABLE `renewals`
 -- Constraints for table `research_paper`
 --
 ALTER TABLE `research_paper`
-  ADD CONSTRAINT `Fk_item_research_paper` FOREIGN KEY (`paper_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Fk_books_research_paper` FOREIGN KEY (`paper_id`) REFERENCES `book` (`book_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

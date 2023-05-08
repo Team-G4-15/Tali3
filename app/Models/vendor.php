@@ -9,11 +9,14 @@ class vendor extends Model
 {
     protected $table = 'vendor';
     protected $primaryKey = 'vendor_id';
-    public $timestamps=false;
+    public $timestamps = false;
     public $incrementing = true;
     protected $fillable = [
-        'name', 'email', 'phone_number', 'address', 'type'
+        'name',
+        'email',
+        'phone_number',
+        'address',
+        'type'
     ];
-
     use HasFactory;
 }
