@@ -23,6 +23,9 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post("/books/add", [BookController::class, 'AddBook']);
+Route::delete("/book/{id}",[BookController::class, 'DeleteBook']);
+Route::post("/book/{id}",[BookController::class,'LoanBook']);
 });
 
 // authentication routes
@@ -31,6 +34,4 @@ Route::post('/AdminLogin', [AuthController::class, 'login']);
 
 
 //Book modification routes
-Route::post("/books", [BookController::class, 'AddBook']);
-Route::delete("/books/{id}",[BookController::class, 'DeleteBook']);
-Route::post("/books/{id}",[BookController::class,'LoanBook']);
+
