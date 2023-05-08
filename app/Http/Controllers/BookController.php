@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\LoanRequest;
 use App\Models\book;
-use App\Models\current_loan;
+use App\Models\publisher;
 use Illuminate\Http\Request;
 
 
@@ -17,6 +17,7 @@ class BookController extends Controller
         $data = $request->validated();
         $book = book::create($data);
         if ($book) {
+            
             return response("Book Created Succesfully", 200);
         } else {
             return response("Error creating the book ", 400);

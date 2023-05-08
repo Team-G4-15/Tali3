@@ -1,29 +1,39 @@
-import React, { useState } from "react";
-import { Box, Button, InputLabel, MenuItem, Modal, Select, TextField, useMediaQuery } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import { Alert, Box, Button, Collapse, IconButton, InputLabel, MenuItem, Select, TextField, useMediaQuery } from "@mui/material";
 import Header from "./Header";
 import { useUserContext } from "../contexts/UserContextProvider";
 import { Formik } from "formik";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
+import { BookAddingContext } from "../contexts/BookAddingContext";
 
 const AddBook = ({ style }) => {
     //response not working/compatible.
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
-    let { setUser, setToken } = useUserContext();
-    let [error, setErrors] = useState(null); //
-    const handleFormSubmit = (values) => {
+    const [error, setErrors] = useState(null);
+    const { setErrorOpen, setSuccessOpen, handleClose, setProcessing } = useContext(BookAddingContext);
 
-        console.log(values);
+
+    const handleFormSubmit = (values) => {
+        setProcessing(true);
+
+
+        handleClose();
+
 
         axiosClient
-            .post("/books/add", values)
+            .post("/book/add", values)
             .then((respose) => {
-                console.log(respose);
-                //not done
+                setProcessing(false);
+                setSuccessOpen(true);
+
             })
             .catch((err) => {
+                setErrorOpen(true);
+                setProcessing(false);
+
                 console.log(err);
 
                 let data = err.response.data;
@@ -151,17 +161,20 @@ const AddBook = ({ style }) => {
                                     name="edition"
                                     sx={{ gridColumn: "span 4" }}
                                 />
+
                                 <TextField
                                     fullWidth
                                     variant="filled"
-                                    type="date"
-                                    label="Publish date"
+                                    type="text"
+                                    label="Publish Date (dd/mm/yyyy) "
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.publish_date}
                                     name="publish_date"
                                     sx={{ gridColumn: "span 4" }}
                                 />
+
+
 
                                 <InputLabel
                                     id="demo-simple-select-label">Vendor ID</InputLabel>
@@ -187,7 +200,6 @@ const AddBook = ({ style }) => {
                                     id="demo-simple-select"
                                     value={values.publisher_id}
                                     name="publisher_id"
-                                    label="publisher_id"
                                     onChange={handleChange}
                                     renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
@@ -202,7 +214,6 @@ const AddBook = ({ style }) => {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={values.field_name}
-                                    label="field_name"
                                     name="field_name"
                                     onChange={handleChange}
                                     renderValue={value => value}
@@ -219,7 +230,6 @@ const AddBook = ({ style }) => {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={values.language_code}
-                                    label="language_code"
                                     name="language_code"
                                     onChange={handleChange}
                                     renderValue={value => value}
@@ -243,8 +253,6 @@ const AddBook = ({ style }) => {
                 </Formik>
 
             </Box>
-
-
         </>
 
 
@@ -265,8 +273,8 @@ const initialValues = {
     publisher_id: "",
     field_name: "",
     language_code: "",
-    edition:"",
-    publish_date:""
+    edition: "",
+    publish_date: ""
 };
 
 export default AddBook;
