@@ -31,6 +31,6 @@ Route::post('/AdminLogin', [AuthController::class, 'login']);
 
 
 //Book modification routes
-Route::post("/books/add", [BookController::class, 'AddBook']);
-Route::delete("/books/{id}",[BookController::class, 'DeleteBook']);
-Route::post("/books/{id}",[BookController::class,'LoanBook']);
+Route::post("/book/add", [BookController::class, 'AddBook']);
+Route::delete("/book/{id}",[BookController::class, 'DeleteBook']);
+Route::post("/book/{id}",[BookController::class,'LoanBook']);
