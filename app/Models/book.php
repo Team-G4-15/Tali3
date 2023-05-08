@@ -5,25 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class book extends Model
+class BOOK extends Model
 {
     protected $table = 'book';
     protected $primaryKey = 'book_id';
-    public $incrementing = false;
+    public $incrementing = true;
 
-    public $timestamps=false;
+    public $timestamps=true;
 
     protected $fillable = [
-        'book_id',
-        'isbn',
-        'edition',
-        'publish_date'
+        'title' ,
+        'isbn' ,
+        'desc' ,
+        'keywords',
+        'language_code',
+        'location_id',
+        'field_id',
+        'vendor_id' ,
+        'publish_date',
+        'edition' ,
+        'field_name' ,
+        'type' => 'c',
     ];
 
-    public function item()
-    {
-        return $this->belongsTo(item::class, 'item_id', 'book_id');
-    }
 
     use HasFactory;
 }

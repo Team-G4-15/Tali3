@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { BookAddingContext } from "../contexts/BookAddingContext";
 
 const AddBook = ({ style }) => {
+    //response not working/compatible.
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
     const [error, setErrors] = useState(null);
@@ -203,9 +204,9 @@ const AddBook = ({ style }) => {
                                     renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"publisher1"} name="publisher1">PUBLISHER</MenuItem>
-                                    <MenuItem value={"publisher2"} name="publisher2">PUBLISHER</MenuItem>
-                                    <MenuItem value={"publisher3"} name="publisher3">PUBLISHER</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="publisher1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="publisher2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="publisher3">MOCKDATA</MenuItem>
                                 </Select>
 
                                 <InputLabel id="demo-simple-select-label">Field ID</InputLabel>
@@ -215,11 +216,12 @@ const AddBook = ({ style }) => {
                                     value={values.field_name}
                                     name="field_name"
                                     onChange={handleChange}
+                                    renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"FIELD1"} name="field1">FIELD</MenuItem>
-                                    <MenuItem value={"FIELD2"} name="field2">FIELD</MenuItem>
-                                    <MenuItem value={"FIELD3"} name="field3">FIELD</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="field1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="field2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="field3">MOCKDATA</MenuItem>
                                 </Select>
 
 
@@ -230,11 +232,12 @@ const AddBook = ({ style }) => {
                                     value={values.language_code}
                                     name="language_code"
                                     onChange={handleChange}
+                                    renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"LANGCODE1"} name="langcode1">MOCKDATA</MenuItem>
-                                    <MenuItem value={"LANGCODE2"} name="langcode2">MOCKDATA</MenuItem>
-                                    <MenuItem value={"LANGCODE3"} name="langcode3">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA1"} name="langcode1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA2"} name="langcode2">MOCKDATA</MenuItem>
+                                    <MenuItem value={"MOCKDATA3"} name="langcode3">MOCKDATA</MenuItem>
                                 </Select>
 
 
