@@ -26,7 +26,8 @@ class BOOK extends Model
         'edition' ,
         'field_name' ,
         'type',
-        'quantity'
+        'quantity',
+        
     ];
 
 

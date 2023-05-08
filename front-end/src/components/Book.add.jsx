@@ -28,7 +28,7 @@ const AddBook = ({ style }) => {
             .then((respose) => {
                 setProcessing(false);
                 setSuccessOpen(true);
-
+                
             })
             .catch((err) => {
                 setErrorOpen(true);
@@ -165,7 +165,7 @@ const AddBook = ({ style }) => {
                                 <TextField
                                     fullWidth
                                     variant="filled"
-                                    type="text"
+                                    type="date"
                                     label="Publish Date (dd/mm/yyyy) "
                                     onBlur={handleBlur}
                                     onChange={handleChange}
@@ -204,9 +204,9 @@ const AddBook = ({ style }) => {
                                     renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"MOCKDATA1"} name="publisher1">MOCKDATA</MenuItem>
-                                    <MenuItem value={"MOCKDATA2"} name="publisher2">MOCKDATA</MenuItem>
-                                    <MenuItem value={"MOCKDATA3"} name="publisher3">MOCKDATA</MenuItem>
+                                    <MenuItem value={1} name="publisher1">MOCKDATA</MenuItem>
+                                    <MenuItem value={2} name="publisher2">MOCKDATA</MenuItem>
+                                    <MenuItem value={3} name="publisher3">MOCKDATA</MenuItem>
                                 </Select>
 
                                 <InputLabel id="demo-simple-select-label">Field ID</InputLabel>
