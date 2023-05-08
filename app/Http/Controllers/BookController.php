@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
 
+    
     function AddBook(BookRequest $request)
     {
         $data = $request->validated();
