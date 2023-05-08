@@ -16,11 +16,20 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 import { UserContextProvider } from "./contexts/UserContextProvider";
+<<<<<<< HEAD
 import SplitScreenLogin from "./components/SplitScreen.login";
 import SplitScreenSignup from "./components/SplitScreen.signup";
 import AddUser from "./components/User.add";
 import AddLoan from "./components/Loan.add";
 import AddBook from "./components/Book.add";
+=======
+import SplitScreenLogin from "./components/SplitScreen.Login";
+import SplitScreenSignup from "./components/SplitScreen.Signup";
+import AddUser from "./components/User.Add";
+import AddLoan from "./components/Loan.Add";
+import AddBook from "./components/Book.Add";
+
+>>>>>>> 7b298d5832fc2757d0ee4f4fb7c15f95214054bf
 function App() {
     const [theme, colorMode] = useMode();
     const [isSidebar, setIsSidebar] = useState(true);
