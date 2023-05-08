@@ -33,12 +33,13 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
-            {pathname === "/login" || pathname === "/" ? (
+            {/* {pathname === "/login" || pathname === "/" ? (
               <Routes>
                 <Route path="/" element={<SplitScreenSignup />} />
                 <Route path="/login" element={<SplitScreenLogin />} />
               </Routes>
-            ) : (
+            ) : ( */}
+
               <>
                 <Sidebar isSidebar={isSidebar} />
                 <main className="content">
@@ -61,7 +62,7 @@ function App() {
 
                   </Routes>
                 </main>
-              </>)}
+              </>
             </div>
         </ThemeProvider>
       </ColorModeContext.Provider>
