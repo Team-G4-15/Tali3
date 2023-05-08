@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BOOK extends Model
+class Book extends Model
 {
     protected $table = 'book';
     protected $primaryKey = 'book_id';
@@ -16,7 +16,7 @@ class BOOK extends Model
     protected $fillable = [
         'title' ,
         'isbn' ,
-        'desc' ,
+        'description' ,
         'keywords',
         'language_code',
         'location_id',
@@ -25,7 +25,8 @@ class BOOK extends Model
         'publish_date',
         'edition' ,
         'field_name' ,
-        'type' => 'c',
+        'type',
+        'quantity'
     ];
 
 

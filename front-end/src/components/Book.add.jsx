@@ -23,7 +23,7 @@ const AddBook = ({ style }) => {
 
 
         axiosClient
-            .post("/book/add", values)
+            .post("/books/add", values)
             .then((respose) => {
                 setProcessing(false);
                 setSuccessOpen(true);
@@ -187,9 +187,9 @@ const AddBook = ({ style }) => {
                                     sx={{ gridColumn: "span 4" }}
 
                                 >
-                                    <MenuItem value={"MOCKDATA1"} name="vendor1">VENDOR</MenuItem>
-                                    <MenuItem value={"MOCKDATA2"} name="vendor2">VENDOR</MenuItem>
-                                    <MenuItem value={"MOCKDATA3"} name="vendor3">VENDOR</MenuItem>
+                                    <MenuItem value={1} name="vendor1">VENDOR</MenuItem>
+                                    <MenuItem value={2} name="vendor2">VENDOR</MenuItem>
+                                    <MenuItem value={3} name="vendor3">VENDOR</MenuItem>
                                 </Select>
 
 
@@ -218,7 +218,7 @@ const AddBook = ({ style }) => {
                                     renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"MOCKDATA1"} name="field1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"testField"} name="field1">MOCKDATA</MenuItem>
                                     <MenuItem value={"MOCKDATA2"} name="field2">MOCKDATA</MenuItem>
                                     <MenuItem value={"MOCKDATA3"} name="field3">MOCKDATA</MenuItem>
                                 </Select>
@@ -234,7 +234,7 @@ const AddBook = ({ style }) => {
                                     renderValue={value => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={"MOCKDATA1"} name="langcode1">MOCKDATA</MenuItem>
+                                    <MenuItem value={"code1"} name="langcode1">MOCKDATA</MenuItem>
                                     <MenuItem value={"MOCKDATA2"} name="langcode2">MOCKDATA</MenuItem>
                                     <MenuItem value={"MOCKDATA3"} name="langcode3">MOCKDATA</MenuItem>
                                 </Select>

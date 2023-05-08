@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class field extends Model
 {
+
+    protected $table = "field";
     protected $primaryKey = 'field_name';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps=false;
+    public $timestamps = false;
 
 
     protected $fillable = [

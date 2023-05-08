@@ -11,11 +11,11 @@ class published extends Model
     protected $table = 'published';
 
     public $timestamps=false;
-    protected $primaryKey = ['author_id', 'item_id'];
+    protected $primaryKey = ['author_id', 'book_id'];
 
     protected $fillable = [
         'author_id',
-        'item_id'
+        'book_id'
     ];
 
     public function author()
