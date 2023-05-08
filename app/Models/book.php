@@ -16,7 +16,7 @@ class BOOK extends Model
     protected $fillable = [
         'title' ,
         'isbn' ,
-        'desc' ,
+        'description' ,
         'keywords',
         'language_code',
         'location_id',
@@ -25,7 +25,8 @@ class BOOK extends Model
         'publish_date',
         'edition' ,
         'field_name' ,
-        'type' => 'c',
+        'type',
+        'quantity'
     ];
 
 
