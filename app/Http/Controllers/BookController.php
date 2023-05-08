@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\LoanRequest;
 use App\Models\book;
-use App\Models\publisher;
+use App\Models\published;
+use App\Models\current_loan;
 use Illuminate\Http\Request;
 
 
@@ -17,10 +18,14 @@ class BookController extends Controller
         $data = $request->validated();
         $book = book::create($data);
         if ($book) {
-            
+            error_log($book);
+            $author = ["book_id"=>$book["book_id"],"author_id"=>(int)$request["publisher_id"]];
+            if($author){
+            published::create($author);
+            }
             return response("Book Created Succesfully", 200);
         } else {
-            return response("Error creating the book ", 400);
+            return response("Error creating the book", 400);
         }
     }
 
@@ -33,11 +38,11 @@ class BookController extends Controller
 
     function LoanBook(LoanRequest $request,$id){
         $data = $request->validated();
-        $loan = Loan::create($data);
+        $loan = current_loan::create($data);
         if($loan){
             return response("Loan Created Succesfully", 200);
     } else {
-        return response("Error creating the loan ", 400);
+        return response("Error creating the loan", 400);
     }
     }
 
