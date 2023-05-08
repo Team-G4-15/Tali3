@@ -1,20 +1,15 @@
 import React, { useState } from "react";
-import { Box, Button, InputLabel, MenuItem, Modal, Select, TextField, useMediaQuery } from "@mui/material";
+import { Box, Button, InputLabel, MenuItem,  Select, TextField, useMediaQuery } from "@mui/material";
 import Header from "./Header";
-import { useUserContext } from "../contexts/UserContextProvider";
 import { Formik } from "formik";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
 
 const AddBook = ({ style }) => {
-<<<<<<< HEAD
-=======
     //response not working/compatible.
->>>>>>> origin/merge
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
-    let { setUser, setToken } = useUserContext();
     let [error, setErrors] = useState(null); //
     const handleFormSubmit = (values) => {
 
@@ -23,12 +18,7 @@ const AddBook = ({ style }) => {
         axiosClient
             .post("/books/add", values)
             .then((respose) => {
-<<<<<<< HEAD
-                setUser(respose.data.user);
-                setToken(respose.data.token);
-=======
                 //not done
->>>>>>> origin/merge
             })
             .catch((err) => {
                 console.log(err);
