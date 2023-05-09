@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Box, IconButton, Typography, Button, TextField, InputAdornment } from "@mui/material";
+import { Box, IconButton, Typography, Button, TextField, InputAdornment, Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions, } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
@@ -12,9 +15,9 @@ const Cataloging = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
   const [filteredRows, setFilteredRows] = useState(mockDataContacts);
-
+  const [deleteRowId, setDeleteRowId] = useState(null);
   const handleSearchTitle = (value) => {
-    const newfilteredRows = filteredRows.filter((row) =>
+  const newfilteredRows = filteredRows.filter((row) =>
       String(row.title).toLowerCase().includes(value.toLowerCase())
     );
     setFilteredRows(newfilteredRows);
@@ -71,7 +74,16 @@ const Cataloging = () => {
   };
 
   const handleDelete = (id) => {
-    // Handle delete logic here
+    setDeleteRowId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    setFilteredRows((rows) => rows.filter((row) => row.id !== deleteRowId));
+    setDeleteRowId(null);
+  };
+
+  const handleCloseDialog = () => {
+    setDeleteRowId(null);
   };
   const columns = [
     { field: "pic", headerName: "Pic", flex: 0.5 },
@@ -108,6 +120,22 @@ const Cataloging = () => {
       field: "availability",
       headerName: "Availability",
       flex: 1,
+      renderCell: (params) => (
+        <Box
+          sx={{
+            color:
+              params.value === "Available"
+                ? "#03C988"
+                : params.value === "On Loan"
+                ? "#FE3535"
+                : "#0A2A5C",
+            borderRadius: "4px",
+            padding: "4px 8px",
+          }}
+        >
+          {params.value}
+        </Box>
+      )
     },
     {
       field: "delete",
@@ -267,8 +295,33 @@ const Cataloging = () => {
           components={{ Toolbar: GridToolbar }}
         />
       </Box>
-    </Box>
+      <Dialog
+  open={Boolean(deleteRowId)}
+  onClose={handleCloseDialog}
+  sx={{ "& .MuiDialog-paper": { width: "400px" } }}
+>
+  <DialogTitle>Confirm Delete</DialogTitle>
+  <DialogContent>
+    <Typography>Are you sure you want to delete this row?</Typography>
+  </DialogContent>
+  <DialogActions sx={{ justifyContent: "center", pb: "24px" }}>
+    <Button
+      onClick={handleCloseDialog}
+      variant="contained"
+      sx={{ backgroundColor: "#4caf50", color: "#fff", minWidth: "120px", mr: "16px" }}
+    >
+      Cancel
+    </Button>
+    <Button
+      onClick={handleConfirmDelete}
+      variant="contained"
+      sx={{ backgroundColor: "#f44336", color: "#fff", minWidth: "120px" }}
+    >
+      Delete
+    </Button>
+  </DialogActions>
+</Dialog>
+                </Box>
   );
 };
-
 export default Cataloging;

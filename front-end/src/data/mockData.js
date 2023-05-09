@@ -76,9 +76,9 @@ export const mockDataTeam = [
 ];
 
 export const mockDataContacts = [
-  { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", isbn: "978-3-16-148410-0", publisher: "Penguin Random House", publicationDate: "April 10, 1925" },
-  { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", isbn: "978-0-446-31078-9", publisher: "Grand Central Publishing", publicationDate: "July 11, 1960" },
-  { id: 3, title: "1984", author: "George Orwell", isbn: "978-0-14-103614-4", publisher: "Penguin Books", publicationDate: "June 8, 1949" },
+  { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", isbn: "978-3-16-148410-0", publisher: "Penguin Random House", publicationDate: "April 10, 1925",availability:"Available" },
+  { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", isbn: "978-0-446-31078-9", publisher: "Grand Central Publishing", publicationDate: "July 11, 1960",availability:"On Loan" },
+  { id: 3, title: "1984", author: "George Orwell", isbn: "978-0-14-103614-4", publisher: "Penguin Books", publicationDate: "June 8, 1949", availability:"Reserved"},
   { id: 4, title: "Pride and Prejudice", author: "Jane Austen", isbn: "978-0-14-143951-8", publisher: "Penguin Books", publicationDate: "January 28, 1813" },
   { id: 5, title: "The Catcher in the Rye", author: "J.D. Salinger", isbn: "978-0-316-76953-3", publisher: "Back Bay Books", publicationDate: "July 16, 1951" },
   { id: 6, title: "Animal Farm", author: "George Orwell", isbn: "978-0-14-103613-7", publisher: "Penguin Books", publicationDate: "August 17, 1945" },
