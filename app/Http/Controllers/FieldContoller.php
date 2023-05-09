@@ -9,7 +9,8 @@ class FieldContoller extends Controller
 {
     //
 
-    public function getAllFields(Request $request){
+    public function getAllFields(Request $request)
+    {
         return field::all();
 
     }
