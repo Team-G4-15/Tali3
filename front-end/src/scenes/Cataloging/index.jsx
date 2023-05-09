@@ -31,6 +31,7 @@ import { HandleSearchChanges } from "../../utilities/SearchHelper";
 const Cataloging = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     //const navigate = useNavigate();
     const [filteredRows, setFilteredRows] = useState(mockDataContacts);
     const [deleteRowId, setDeleteRowId] = useState(null);
@@ -39,6 +40,10 @@ const Cataloging = () => {
     const [processing, setProcessing] = useState(null);
 
     const [searchState, setSearchState] = useState({});
+
+
+    // we need to refactor the state
+    const [pageNumber,setPageNumber]=useState(0);
     const handleSearchTitle = (value) => {
         // this is the function that handles the search input changing fields
         HandleSearchChanges(
@@ -483,6 +488,15 @@ const Cataloging = () => {
                     rows={filteredRows}
                     columns={columns}
                     components={{ Toolbar: GridToolbar }}
+                    onPageChange={(newPage)=>{
+                        if(newPage>pageNumber){
+                            console.log("Next Page");
+                        }else{
+                            console.log("Previous Page");
+                        }
+                    }
+                }
+
                 />
             </Box>
             <Dialog
