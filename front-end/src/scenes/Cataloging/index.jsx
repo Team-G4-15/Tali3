@@ -388,7 +388,7 @@ const Cataloging = () => {
                     },
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                       color: `colors.primary[1000] !important`,
-                      gap: "250px",
+
                     }
                   }}
             >
