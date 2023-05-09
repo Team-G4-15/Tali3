@@ -92,7 +92,7 @@ const Cataloging = () => {
         HandleSearchChanges(
             value,
             searchState,
-            "publication_date",
+            "publicationDate",
             filteredRows,
             mockDataContacts,
             setSearchState,
@@ -208,7 +208,7 @@ const Cataloging = () => {
             flex: 1,
         },
         {
-            field: "publication_date",
+            field: "publicationDate",
             headerName: "Publication Date",
             flex: 1,
         },

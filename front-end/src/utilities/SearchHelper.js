@@ -7,19 +7,25 @@ export function HandleSearchChanges(
     setSearchState,
     setFilteredRows
 ) {
-    const options = { ...searchState, [field]: value };
-    let newfilteredRows;
+    let options = { ...searchState, [field]: value };
+    /*
+    if (value === "") {
+        options = { ...searchState };
+        if (field in options) {
+            // removing the field from the seach state
+            delete options.field;
+        }
+    } else {
+        options = { ...searchState, [field]: value };
+    }*/
+
     //let result = SearchHelper(searchState, field);
 
-    newfilteredRows = mockDataContacts.filter(function (row) {
+    const newfilteredRows = mockDataContacts.filter(function (row) {
         let isRowMatch = true;
 
         for (const fieldItem in row) {
-            if (
-                fieldItem in options &&
-                options[fieldItem] !== "" &&
-                value !== ""
-            ) {
+            if (fieldItem in options) {
                 if (fieldItem !== "isbn") {
                     isRowMatch =
                         isRowMatch &&
@@ -37,8 +43,6 @@ export function HandleSearchChanges(
         }
         return isRowMatch;
     });
-
     setSearchState(options);
-
     setFilteredRows(newfilteredRows);
 }
