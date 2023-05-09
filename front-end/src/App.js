@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { UserContextProvider } from "./contexts/UserContextProvider";
+import AddBook from "./components/Book.add";
 import SplitScreenLogin from "./components/SplitScreen.login";
 import SplitScreenSignup from "./components/SplitScreen.signup";
 
