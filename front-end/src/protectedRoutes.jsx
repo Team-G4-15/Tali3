@@ -3,7 +3,7 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Members from "./scenes/team";
 import Invoices from "./scenes/invoices";
-import Contacts from "./scenes/contacts";
+//import Contacts from "./scenes/contacts";
 import Bar from "./scenes/bar";
 import Form from "./scenes/form";
 import Line from "./scenes/line";
@@ -15,6 +15,7 @@ import AddBook from "./components/Book.add";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
 import { useEffect } from "react";
+import Cataloging from "./scenes/Cataloging";
 
 export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
     const { user, token } = useUserContext();
@@ -35,8 +36,8 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                         <Topbar setIsSidebar={setIsSidebar} />
                         <Routes>
                             <Route path="/members" element={<Members />} />
-                            <Route path="/contacts" element={<Contacts />} />
-                            <Route path="/invoices" element={<Invoices />} />
+                            {/* <Route path="/contacts" element={<Contacts />} /> */}
+                            <Route path="/Cataloging" element={<Cataloging />} />
                             <Route path="/form" element={<Form />} />
                             <Route path="/bar" element={<Bar />} />
                             <Route path="/pie" element={<Pie />} />

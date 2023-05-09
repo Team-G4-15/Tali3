@@ -11,7 +11,9 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataInvoices } from "../../data/mockData";
+
+
+// import { mockDataInvoices } from "../../data/";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 import AddBook from "../../components/Book.add";
@@ -236,7 +238,7 @@ const Cataloging = () => {
                 </Collapse>
                 <DataGrid
                     checkboxSelection
-                    rows={mockDataInvoices}
+                   // rows={mockDataInvoices}
                     columns={columns}
                 />
             </Box>
