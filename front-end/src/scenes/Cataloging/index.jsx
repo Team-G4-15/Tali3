@@ -26,65 +26,102 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utilities/axiosClient";
 import AddBook from "../../components/Book.add";
-import { ColorLensSharp } from "@mui/icons-material";
+import { HandleSearchChanges } from "../../utilities/SearchHelper";
+
 const Cataloging = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const [filteredRows, setFilteredRows] = useState(mockDataContacts);
     const [deleteRowId, setDeleteRowId] = useState(null);
     const [successOpen, setSuccessOpen] = useState(null);
     const [errorOpen, setErrorOpen] = useState(null);
     const [processing, setProcessing] = useState(null);
+
+    const [searchState, setSearchState] = useState({});
     const handleSearchTitle = (value) => {
-        const newfilteredRows = filteredRows.filter((row) =>
-            String(row.title).toLowerCase().includes(value.toLowerCase())
+        // this is the function that handles the search input changing fields
+        HandleSearchChanges(
+            value,
+            searchState,
+            "title",
+            filteredRows,
+            mockDataContacts,
+            setSearchState,
+            setFilteredRows
         );
-        setFilteredRows(newfilteredRows);
     };
 
     const handleSearchAuthor = (value) => {
-        const newfilteredRows = filteredRows.filter((row) =>
-            String(row.author).toLowerCase().includes(value.toLowerCase())
+        HandleSearchChanges(
+            value,
+            searchState,
+            "author",
+            filteredRows,
+            mockDataContacts,
+            setSearchState,
+            setFilteredRows
         );
-        setFilteredRows(newfilteredRows);
     };
 
     const handleSearchISBN = (value) => {
-        const newfilteredRows = filteredRows.filter((row) =>
-            String(row.isbn).toLowerCase().includes(value.toLowerCase())
+        HandleSearchChanges(
+            value,
+            searchState,
+            "isbn",
+            filteredRows,
+            mockDataContacts,
+            setSearchState,
+            setFilteredRows
         );
-        setFilteredRows(newfilteredRows);
     };
 
     const handleSearchPublisher = (value) => {
-        const newfilteredRows = filteredRows.filter((row) =>
-            String(row.publisher).toLowerCase().includes(value.toLowerCase())
+        HandleSearchChanges(
+            value,
+            searchState,
+            "publisher",
+            filteredRows,
+            mockDataContacts,
+            setSearchState,
+            setFilteredRows
         );
-        setFilteredRows(newfilteredRows);
     };
 
     const handleSearchPublicationDate = (value) => {
-        const newfilteredRows = filteredRows.filter((row) =>
-            String(row.publication_date)
-                .toLowerCase()
-                .includes(value.toLowerCase())
+        HandleSearchChanges(
+            value,
+            searchState,
+            "publication_date",
+            filteredRows,
+            mockDataContacts,
+            setSearchState,
+            setFilteredRows
         );
-        setFilteredRows(newfilteredRows);
     };
 
     const handleSearchBarCode = (value) => {
-        const newfilteredRows = filteredRows.filter((row) =>
-            String(row.barcode).toLowerCase().includes(value.toLowerCase())
+        HandleSearchChanges(
+            value,
+            searchState,
+            "barcode",
+            filteredRows,
+            mockDataContacts,
+            setSearchState,
+            setFilteredRows
         );
-        setFilteredRows(newfilteredRows);
     };
 
     const handleSearchAvailability = (value) => {
-        const newfilteredRows = filteredRows.filter((row) =>
-            String(row.availability).toLowerCase().includes(value.toLowerCase())
+        HandleSearchChanges(
+            value,
+            searchState,
+            "availability",
+            filteredRows,
+            mockDataContacts,
+            setSearchState,
+            setFilteredRows
         );
-        setFilteredRows(newfilteredRows);
     };
 
     const handleClearSearch = () => {
@@ -362,35 +399,34 @@ const Cataloging = () => {
                 height="75vh"
                 sx={{
                     "& .MuiDataGrid-root": {
-                      border: "none",
+                        border: "none",
                     },
                     "& .MuiDataGrid-cell": {
-                      borderBottom: "none",
+                        borderBottom: "none",
                     },
                     "& .name-column--cell": {
-                      color: colors.greenAccent[300],
+                        color: colors.greenAccent[300],
                     },
                     "& .MuiDataGrid-columnHeaders": {
-                      backgroundColor: "#0443A5",
-                      color: "white",
-                      borderBottom: "none",
+                        backgroundColor: "#0443A5",
+                        color: "white",
+                        borderBottom: "none",
                     },
                     "& .MuiDataGrid-virtualScroller": {
-                      backgroundColor: colors.primary[400],
+                        backgroundColor: colors.primary[400],
                     },
                     "& .MuiDataGrid-footerContainer": {
-                      borderTop: "none",
-                      backgroundColor: "#0443A5",
-                      color: "white",
+                        borderTop: "none",
+                        backgroundColor: "#0443A5",
+                        color: "white",
                     },
                     "& .MuiCheckbox-root": {
-                      color: "white",
+                        color: "white",
                     },
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                      color: `colors.primary[1000] !important`,
-
-                    }
-                  }}
+                        color: `colors.primary[1000] !important`,
+                    },
+                }}
             >
                 <Collapse in={processing}>
                     <Box
