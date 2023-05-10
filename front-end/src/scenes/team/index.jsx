@@ -6,6 +6,7 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 const Members = () => {
   const theme = useTheme();
@@ -73,18 +74,28 @@ const Members = () => {
     <Box m="20px">
       <Box sx={{ justifyContent: "space-between", display: "flex" }}>
         <Header title="Members" subtitle="Managing the members" />
-        <Button
-          variant="outlined"
-          sx={{
-            backgroundColor: "black",
-            color: "white",
-            fontSize: "15px",
-            ":hover": {
-              color: "black"
-            },
-            borderRadius: "25px",
-
-          }}
+         <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon />}
+                    sx={{
+                        backgroundColor: "#FD5F00",
+                        color: "white",
+                        "&:hover": {
+                            backgroundColor: "#FF7100",
+                        },
+                        "&:active": {
+                            backgroundColor: "#FF7100",
+                        },
+                        "&:focus": {
+                            backgroundColor: "#FF7100",
+                        },
+                        borderRadius: "10%",
+                        padding: "12px 24px",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                    }}
+                    
           onClick={() => navigate("/AddUser")}
         >Add Member</Button>
       </Box>
