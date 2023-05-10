@@ -22,8 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post("/books/add", [BookController::class, 'AddBook']);
     Route::delete("/book/{id}", [BookController::class, 'DeleteBook']);
     Route::post("/book/{id}", [BookController::class, 'LoanBook']);
+    
 });
-
+Route::get("/books",[BookController::class,'AllBooks']);
 // authentication routes
 Route::post('/AddAdmin', [AuthController::class, 'signup']);
 Route::post('/AdminLogin', [AuthController::class, 'login']);
