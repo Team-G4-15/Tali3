@@ -1,11 +1,12 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
-
+import { useNavigate } from "react-router-dom";
 const Invoices = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "id", headerName: "ID" },
@@ -44,7 +45,23 @@ const Invoices = () => {
 
   return (
     <Box m="20px">
-      <Header title="INVOICES" subtitle="List of Invoice Balances" />
+
+
+      <Box sx={{ justifyContent: "space-between", display: "flex" }}>
+        <Header title="INVOICES" subtitle="List of Invoice Balances" />
+        <Button
+          sx={{
+            backgroundColor: "black",
+            color: "white",
+            fontSize: "15px",
+            ":hover": {
+              color: "black"
+            }
+          }}
+          onClick={() => navigate("/addBook")}
+        >Add a Book</Button>
+      </Box>
+
       <Box
         m="40px 0 0 0"
         height="75vh"
