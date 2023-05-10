@@ -29,6 +29,7 @@ import AddBook from "../../components/Book.add";
 import { ColorLensSharp } from "@mui/icons-material";
 const Cataloging = () => {
     const theme = useTheme();
+    
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
     const [filteredRows, setFilteredRows] = useState(mockDataContacts);
@@ -42,7 +43,11 @@ const Cataloging = () => {
         );
         setFilteredRows(newfilteredRows);
     };
-
+useEffect(()=>{
+    axiosClient.get("/books").then(res=>{
+        setFilteredRows(res)
+    }).catch(err=>{})
+},[]);
     const handleSearchAuthor = (value) => {
         const newfilteredRows = filteredRows.filter((row) =>
             String(row.author).toLowerCase().includes(value.toLowerCase())

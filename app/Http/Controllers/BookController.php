@@ -16,7 +16,7 @@ class BookController extends Controller
     function AddBook(BookRequest $request)
     {
         $data = $request->validated();
-        $book = Book::create($data);
+        $book = book::create($data);
         if ($book) {
             error_log($book);
             $author = ["book_id"=>$book["book_id"],"author_id"=>(int)$request["publisher_id"]];
@@ -31,7 +31,7 @@ class BookController extends Controller
 
     function DeleteBook($id)
     {
-        $book = Book::findOrFail($id);
+        $book = book::findOrFail($id);
         $book->delete();
         return response("Book Successfully deleted", 200);
     }
