@@ -136,22 +136,7 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Login"
-              to="/login"
-              icon={<LoginOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Item
-              title="Sign Up"
-              to="/"
-              icon={<PersonAdd />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
+            
             {(user && token) && <Item
               title="Dashboard"
               to="/dashboard"
