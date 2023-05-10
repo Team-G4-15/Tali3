@@ -20,13 +20,15 @@ import AddBook from "../../components/Book.add";
 import { useState, useEffect } from "react";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import CloseIcon from "@mui/icons-material/Close";
-import { BookAddingContext } from "../../contexts/BookAddingContext";
+import { AddingContext } from "../../contexts/AddingContext";
 import { axiosClient } from "../../utilities/axiosClient";
+import { AddAuthor } from "../../components/Author.add";
 
 const Cataloging = () => {
     const theme = useTheme();
     const navigate = useNavigate();
     const colors = tokens(theme.palette.mode);
+    //States for the POPUS
     const [successOpen, setSuccessOpen] = useState(null);
     const [errorOpen, setErrorOpen] = useState(null);
     const [processing, setProcessing] = useState(null);
@@ -49,6 +51,7 @@ const Cataloging = () => {
             setFields(response.data);
         });
         axiosClient.get("/authors").then((response) => {
+            console.log(publisher);
             setPublisher(response.data);
         });
         axiosClient.get("/locations").then((response) => {
@@ -71,9 +74,51 @@ const Cataloging = () => {
         borderRadius: "2.5%",
     };
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+
+
+    // CONTROLLERS FOR ADD BOOK MODAL
+    const [openBookAdd, setOpenBookAdd] = useState(false);
+    const handleOpenBookAdd = () => setOpenBookAdd(true);
+    const handleCloseBookAdd = () => setOpenBookAdd(false);
+
+
+    // CONTROLLERS FOR ADD AUTHOR MODAL
+    const [openAuthorAdd, setOpenAuthorAdd] = useState(false);
+    const handleOpenAuthorAdd = () => {
+        handleCloseBookAdd();
+        setOpenAuthorAdd(true);
+    }
+    const handleCloseAuthorAdd = () => {
+        setOpenAuthorAdd(false);
+        handleOpenBookAdd();
+    }
+
+
+
+
+    // CONTROLLERS FOR ADD VENDOR MODAL
+    const [openVendorAdd, setOpenVendorAdd] = useState(false);
+    const handleOpenVendorAdd = () => {
+        handleCloseBookAdd();
+        setOpenVendorAdd(true);
+    }
+    const handleCloseVendorAdd = () => {
+        setOpenVendorAdd(false);
+        handleOpenBookAdd();
+    };
+
+
+
+    // CONTROLLERS FOR THE PROGRESS BAR
+    const [openProgressBar, setOpenProgressBar] = useState(false);
+    const handleOpenProgressBar = () => {
+        setOpenProgressBar(true);
+    }
+    const handleCloseProgressBar = () => {
+        setOpenProgressBar(false);
+    }
+
+
 
     const columns = [
         { field: "id", headerName: "ID" },
@@ -116,6 +161,10 @@ const Cataloging = () => {
                 <Header title="Cataloging" subtitle="Tali3 Library" />
 
                 <Button
+                    onClick={() => setOpenProgressBar(true)}
+                >WACK</Button>
+
+                <Button
                     variant="contained"
                     color="primary"
                     startIcon={<AddBoxIcon />}
@@ -132,29 +181,81 @@ const Cataloging = () => {
                             backgroundColor: "#FF7100",
                         },
                     }}
-                    onClick={handleOpen}
+                    onClick={handleOpenBookAdd}
                 >
                     Add a Book
                 </Button>
             </Box>
 
-            <Modal open={open} onClose={handleClose} keepMounted>
-                <BookAddingContext.Provider
+
+            {/* ADDING A BOOK MODAL */}
+
+            <Modal
+                open={openBookAdd}
+                onClose={handleCloseBookAdd}
+                keepMounted
+            >
+                <AddingContext.Provider
                     value={{
                         setErrorOpen,
                         setSuccessOpen,
-                        handleClose,
+                        handleCloseBookAdd,
                         setProcessing,
                         feilds,
                         publisher,
                         languages,
                         vendors,
-                        locations
-
+                        locations,
+                        handleOpenAuthorAdd
                     }}
                 >
                     <AddBook style={style} />
-                </BookAddingContext.Provider>
+                </AddingContext.Provider>
+            </Modal>
+
+            {/* ADDING AUTHOR MODAL */}
+
+            <Modal
+                open={openAuthorAdd}
+                onClose={handleCloseAuthorAdd}
+                keepMounted
+            >
+                <AddingContext.Provider
+                    values={{
+                        handleCloseAuthorAdd,
+                        handleOpenBookAdd,
+                        setPublisher
+                    }}
+                >
+                    <AddAuthor style={style} />
+                </AddingContext.Provider>
+            </Modal>
+
+
+            {/* ADDING VENDOR MODAL */}
+
+            {/* <Modal
+                open={openAuthorAdd}
+                onClose={handleCloseAuthorAdd}
+                keepMounted
+            >
+                <AddingContext.Provider
+                    values={
+                        handleCloseAuthorAdd
+                    }
+                >
+                    <AddVendor style={style} />
+                </AddingContext.Provider>
+            </Modal> */}
+
+
+            {/* PROGRESS BAR MODAL */}
+
+
+            <Modal
+                open={openProgressBar}
+            >
+                <CircularProgress />
             </Modal>
 
             <Box
@@ -238,7 +339,7 @@ const Cataloging = () => {
                 </Collapse>
                 <DataGrid
                     checkboxSelection
-                   // rows={mockDataInvoices}
+                    // rows={mockDataInvoices}
                     columns={columns}
                 />
             </Box>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useTransition } from "react";
 import {
     Box,
     Button,
@@ -13,29 +13,31 @@ import { Formik } from "formik";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
-import { BookAddingContext } from "../contexts/BookAddingContext";
+import { AddingContext } from "../contexts/AddingContext";
+import { Add } from "@mui/icons-material";
 
 const AddBook = ({ style }) => {
-    //response not working/compatible.
+
     const isNonMobile = useMediaQuery("(min-width:600px)");
-    const navigate = useNavigate();
     const [error, setErrors] = useState(null);
     const {
         setErrorOpen,
         setSuccessOpen,
-        handleClose,
+        handleCloseBookAdd,
         setProcessing,
         feilds,
         publisher,
         languages,
         vendors,
         locations,
-    } = useContext(BookAddingContext);
+        handleOpenAuthorAdd,
+        handleOpenVendorAdd
+    } = useContext(AddingContext);
 
     const handleFormSubmit = (values) => {
         setProcessing(true);
 
-        handleClose();
+        handleCloseBookAdd();
 
         axiosClient
             .post("/books/add", values)
@@ -84,7 +86,7 @@ const AddBook = ({ style }) => {
                                     "& > div": {
                                         gridColumn: isNonMobile
                                             ? undefined
-                                            : "span 2",
+                                            : "span 4",
                                     },
                                 }}
                             >
@@ -188,50 +190,98 @@ const AddBook = ({ style }) => {
                                 <InputLabel id="demo-simple-select-label">
                                     Vendor
                                 </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={values.vendor_id}
-                                    name="vendor_id"
-                                    //renderValue={(value) => value}
-                                    onChange={handleChange}
+
+
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    {vendors.map((e) => {
-                                        return (
-                                            <MenuItem
-                                                value={e.vendor_id}
-                                                name="v"
-                                            >
-                                                {e.name}
-                                            </MenuItem>
-                                        );
-                                    })}
-                                </Select>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={values.vendor_id}
+                                        name="vendor_id"
+                                        //renderValue={(value) => value}
+                                        onChange={handleChange}
+                                        sx={{ gridColumn: "span 4" }}
+                                        fullWidth
+                                    >
+                                        {vendors.map((e) => {
+                                            return (
+                                                <MenuItem
+                                                    value={e.vendor_id}
+                                                    name="v"
+                                                >
+                                                    {e.name}
+                                                </MenuItem>
+                                            );
+                                        })}
+                                    </Select>
+                                    <Button
+                                        startIcon={<Add />}
+                                        color="secondary"
+                                        variant="contained"
+                                        sx={{ marginLeft: "5px" }}
+                                        onClick={
+                                            () => {
+                                                handleCloseBookAdd();
+                                                handleOpenVendorAdd();
+                                            }
+                                        }
+                                    >
+                                        Vendor
+                                    </Button>
+                                </Box>
+
+
 
                                 <InputLabel id="demo-simple-select-label">
                                     Publisher
                                 </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={values.publisher_id}
-                                    name="publisher_id"
-                                    onChange={handleChange}
-                                    //renderValue={(value) => value}
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    {publisher.map((e) => {
-                                        return (
-                                            <MenuItem
-                                                value={e.author_id}
-                                                name="v"
-                                            >
-                                                {e.author_name}
-                                            </MenuItem>
-                                        );
-                                    })}
-                                </Select>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={values.publisher_id}
+                                        name="publisher_id"
+                                        onChange={handleChange}
+                                        renderValue={(value) => value}
+                                        fullWidth
+                                    >
+                                        {publisher.map((e) => {
+                                            console.log(e);
+                                            return (
+                                                <MenuItem
+                                                    value={e.author_id}
+                                                    name="v"
+                                                >
+                                                    {e.author_name}
+                                                </MenuItem>
+                                            );
+                                        })}
+                                    </Select>
+                                    <Button
+                                        startIcon={<Add />}
+                                        color="secondary"
+                                        variant="contained"
+                                        sx={{ marginLeft: "5px" }}
+                                        onClick={() => {
+                                            handleCloseBookAdd();
+                                            console.log("book closed");
+                                            handleOpenAuthorAdd();
+                                            console.log("auhtor open");
+
+                                        }}
+                                    >
+                                        Author
+                                    </Button>
+                                </Box>
+
 
                                 <InputLabel id="demo-simple-select-label">
                                     Field
@@ -269,7 +319,7 @@ const AddBook = ({ style }) => {
                                     //renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                     {languages.map((e) => {
+                                    {languages.map((e) => {
                                         return (
                                             <MenuItem
                                                 value={e.language_code}
@@ -294,7 +344,7 @@ const AddBook = ({ style }) => {
                                     //renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                     {locations.map((e) => {
+                                    {locations.map((e) => {
                                         return (
                                             <MenuItem
                                                 value={e.location_id}

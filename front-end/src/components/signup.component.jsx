@@ -31,7 +31,7 @@ const SignUp = () => {
             })
             .catch((err) => {
                 if (!err.response) {
-                   return  setError(err.message);
+                    return setError(err.message);
                 }
 
                 let data = err.response.data;

@@ -12,10 +12,10 @@ import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import Calendar from "./scenes/calendar/calendar";
 import AddBook from "./components/Book.add";
+import Cataloging from "./scenes/Cataloging";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
 import { useEffect } from "react";
-import Cataloging from "./scenes/Cataloging";
 
 export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
     const { user, token } = useUserContext();

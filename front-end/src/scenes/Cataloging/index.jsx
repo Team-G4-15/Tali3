@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { BookAddingContext } from "../../contexts/BookAddingContext";
+import { useContext, useEffect, useState, useRef, useLayoutEffect } from "react";
+import { AddingContext } from "../../contexts/AddingContext";
 import {
     Box,
     IconButton,
@@ -15,7 +15,6 @@ import {
     Alert,
     CircularProgress,
 } from "@mui/material";
-
 import CloseIcon from "@mui/icons-material/Close";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
@@ -27,8 +26,12 @@ import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utilities/axiosClient";
 import AddBook from "../../components/Book.add";
 import { ColorLensSharp } from "@mui/icons-material";
+import { AddAuthor } from "../../components/Author.add";
+import { AppHeightContext } from "../../contexts/AppHeight";
+import { AddVendor } from "../../components/Vendor.add";
 const Cataloging = () => {
     const theme = useTheme();
+    const { setHeight } = useContext(AppHeightContext);
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
     const [filteredRows, setFilteredRows] = useState(mockDataContacts);
@@ -36,6 +39,19 @@ const Cataloging = () => {
     const [successOpen, setSuccessOpen] = useState(null);
     const [errorOpen, setErrorOpen] = useState(null);
     const [processing, setProcessing] = useState(null);
+
+    const ref = useRef(null);
+
+
+    const [height, setHeightState] = useState(0);
+
+    useLayoutEffect(() => {
+
+        //setHeightState(ref.current.offsetHeight);
+        setHeight(ref.current.offsetHeight + 120);
+        console.log(ref.current.offsetHeight);
+    }, []);
+
     const handleSearchTitle = (value) => {
         const newfilteredRows = filteredRows.filter((row) =>
             String(row.title).toLowerCase().includes(value.toLowerCase())
@@ -130,9 +146,40 @@ const Cataloging = () => {
             setLocations(response.data);
         });
     }, []);
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+
+
+
+
+
+    // CONTROLLERS FOR ADD BOOK MODAL
+    const [openBookAdd, setOpenBookAdd] = useState(false);
+    const handleOpenBookAdd = () => setOpenBookAdd(true);
+    const handleCloseBookAdd = () => setOpenBookAdd(false);
+
+
+
+    // CONTROLLERS FOR ADD AUTHOR MODAL
+    const [openAuthorAdd, setOpenAuthorAdd] = useState(false);
+    const handleOpenAuthorAdd = () => {
+        setOpenAuthorAdd(true);
+    }
+    const handleCloseAuthorAdd = () => {
+        setOpenAuthorAdd(false);
+        setOpenBookAdd(true);
+    }
+
+
+    // CONTROLLERS FOR ADD VENDOR MODAL
+    const [openVendorAdd, setOpenVendorAdd] = useState(false);
+    const handleOpenVendorAdd = () => {
+        setOpenVendorAdd(true);
+    }
+    const handleCloseVendorAdd = () => {
+        setOpenVendorAdd(false);
+        handleOpenBookAdd();
+    };
+
+
 
     const style = {
         position: "absolute",
@@ -191,8 +238,8 @@ const Cataloging = () => {
                             params.value === "Available"
                                 ? "#03C988"
                                 : params.value === "On Loan"
-                                ? "#FE3535"
-                                : "#0A2A5C",
+                                    ? "#FE3535"
+                                    : "#0A2A5C",
                         borderRadius: "4px",
                         padding: "4px 8px",
                     }}
@@ -227,7 +274,7 @@ const Cataloging = () => {
         },
     ];
     return (
-        <Box m="20px">
+        <Box m="20px" ref={ref}>
             <Box sx={{ justifyContent: "space-between", display: "flex" }}>
                 <Header title="Books" subtitle="List of Books in The Library" />
                 <Button
@@ -260,29 +307,77 @@ const Cataloging = () => {
                             backgroundColor: "#A0A0A0",
                         },
                     }}
-                    onClick={handleOpen}
+                    onClick={handleOpenBookAdd}
                 >
                     add book
                 </Button>
             </Box>
 
-            <Modal open={open} onClose={handleClose} keepMounted>
-                <BookAddingContext.Provider
+
+            <Modal
+                open={openBookAdd}
+                onClose={handleCloseBookAdd}
+                keepMounted
+            >
+                <AddingContext.Provider
                     value={{
                         setErrorOpen,
                         setSuccessOpen,
-                        handleClose,
+                        handleCloseBookAdd,
                         setProcessing,
                         feilds,
                         publisher,
                         languages,
                         vendors,
                         locations,
+                        handleOpenAuthorAdd,
+                        handleOpenVendorAdd
                     }}
                 >
                     <AddBook style={style} />
-                </BookAddingContext.Provider>
+                </AddingContext.Provider>
             </Modal>
+
+
+
+            {/* ADDING AUTHOR MODAL */}
+
+            <Modal
+                open={openAuthorAdd}
+                onClose={handleCloseAuthorAdd}
+                keepMounted
+            >
+                <AddingContext.Provider
+                    value={{
+                        handleCloseAuthorAdd,
+                        handleOpenBookAdd,
+                        setPublisher
+                    }}
+                >
+                    <AddAuthor style={style} />
+                </AddingContext.Provider>
+            </Modal>
+
+            {/* ADDING VENDOR MODAL */}
+
+            <Modal
+                open={openVendorAdd}
+                onClose={handleCloseVendorAdd}
+                keepMounted
+            >
+                <AddingContext.Provider
+                    value={{
+                        handleCloseVendorAdd,
+                        handleOpenBookAdd,
+                        setVendors
+                    }}
+                >
+                    <AddVendor style={style} />
+                </AddingContext.Provider>
+            </Modal>
+
+
+
             <Box
                 style={{
                     display: "flex",
@@ -362,35 +457,35 @@ const Cataloging = () => {
                 height="75vh"
                 sx={{
                     "& .MuiDataGrid-root": {
-                      border: "none",
+                        border: "none",
                     },
                     "& .MuiDataGrid-cell": {
-                      borderBottom: "none",
+                        borderBottom: "none",
                     },
                     "& .name-column--cell": {
-                      color: colors.greenAccent[300],
+                        color: colors.greenAccent[300],
                     },
                     "& .MuiDataGrid-columnHeaders": {
-                      backgroundColor: "#0443A5",
-                      color: "white",
-                      borderBottom: "none",
+                        backgroundColor: "#0443A5",
+                        color: "white",
+                        borderBottom: "none",
                     },
                     "& .MuiDataGrid-virtualScroller": {
-                      backgroundColor: colors.primary[400],
+                        backgroundColor: colors.primary[400],
                     },
                     "& .MuiDataGrid-footerContainer": {
-                      borderTop: "none",
-                      backgroundColor: "#0443A5",
-                      color: "white",
+                        borderTop: "none",
+                        backgroundColor: "#0443A5",
+                        color: "white",
                     },
                     "& .MuiCheckbox-root": {
-                      color: "white",
+                        color: "white",
                     },
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                      color: `colors.primary[1000] !important`,
-                      gap: "250px",
+                        color: `colors.primary[1000] !important`,
+                        gap: "250px",
                     }
-                  }}
+                }}
             >
                 <Collapse in={processing}>
                     <Box
@@ -486,7 +581,7 @@ const Cataloging = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </Box>
+        </Box >
     );
 };
 export default Cataloging;

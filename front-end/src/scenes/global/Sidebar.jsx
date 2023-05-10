@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, SvgIcon, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -27,6 +27,8 @@ import {
   Upload,
 } from "@mui/icons-material";
 import { useUserContext } from "../../contexts/UserContextProvider";
+import { AppHeightContext } from "../../contexts/AppHeight";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -47,12 +49,19 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const Sidebar = () => {
+
+
+  const { height } = useContext(AppHeightContext);
+
   const [isLogged, setLogged] = useState(false);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const { user, token } = useUserContext();
+
+
+  //useEffect(() => { height = height ? height + 200 : null }, [])
 
 
   return (
@@ -74,10 +83,12 @@ const Sidebar = () => {
         "& .pro-inner-item:active": {
           color: "#FD5F00 !important",
         },
-
         "& .pro-menu-item.active": {
           color: "#FD5F00 !important",
         },
+        "height": {
+          height
+        }
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
@@ -257,7 +268,7 @@ const Sidebar = () => {
           </Box>
         </Menu>
       </ProSidebar>
-    </Box>
+    </Box >
   );
 };
 
