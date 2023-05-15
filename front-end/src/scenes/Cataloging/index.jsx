@@ -312,7 +312,6 @@ useEffect(()=>{
                     add book
                 </Button>
             </Box>
-
             <Modal open={open} onClose={handleClose} keepMounted>
                 <BookAddingContext.Provider
                     value={{
