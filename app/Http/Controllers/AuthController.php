@@ -31,7 +31,7 @@ class AuthController extends Controller
             'full_name' => $data['firstName'] . " " . $data["lastName"],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'library_id' => 1
+            'library_id' => 1,
         ]);
         $token = $user->createToken('main')->plainTextToken;
         return response(['user' => $user, 'token' => $token]);
