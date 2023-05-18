@@ -25,10 +25,10 @@ import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utilities/axiosClient";
-import AddBook from "../../components/Book.add";
+import AddResearchPaper from "../../components/ResearchPaper.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
-const Cataloging = () => {
+const ResearchPapers = () => {
     const theme = useTheme();
     
     const colors = tokens(theme.palette.mode);
@@ -58,7 +58,7 @@ const Cataloging = () => {
         );
     };
 useEffect(()=>{
-    axiosClient.get("/books").then(res=>{
+    axiosClient.get("/researchpapers").then(res=>{
         setFilteredRows(res)
     }).catch(err=>{})
 },[]);
@@ -161,10 +161,6 @@ useEffect(()=>{
     const [vendors, setVendors] = useState([]);
 
     useEffect(() => {
-
-        //axiosClient.get("/books").then((response) => {
-        //    setFilteredRows(response.data);
-        //});
         axiosClient.get("/languages").then((response) => {
             setLanguages(response.data);
         });
@@ -180,7 +176,6 @@ useEffect(()=>{
         axiosClient.get("/locations").then((response) => {
             setLocations(response.data);
         });
-
     }, []);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -218,23 +213,23 @@ useEffect(()=>{
             align: "left",
         },
         {
-            field: "keywords",
-            headerName: "Keywords",
+            field: "publisher",
+            headerName: "Publisher",
             flex: 1,
         },
         {
-            field: "publish_date",
+            field: "publicationDate",
             headerName: "Publication Date",
             flex: 1,
         },
         {
             field: "barcode",
-            headerName: "Location",
+            headerName: "BarCode",
             flex: 1,
         },
         {
-            field: "description",
-            headerName: "Description",
+            field: "availability",
+            headerName: "Availability",
             flex: 1,
             renderCell: (params) => (
                 <Box
@@ -281,7 +276,7 @@ useEffect(()=>{
     return (
         <Box m="20px">
             <Box sx={{ justifyContent: "space-between", display: "flex" }}>
-                <Header title="Books" subtitle="List of Books in The Library" />
+                <Header title="Research papers" subtitle="List of research papers in The Library" />
                 <Button
                     variant="contained"
                     color="primary"
@@ -331,7 +326,7 @@ useEffect(()=>{
                         locations,
                     }}
                 >
-                    <AddBook style={style} />
+                    <AddResearchPaper style={style} />
                 </BookAddingContext.Provider>
             </Modal>
             <Box
@@ -548,4 +543,4 @@ useEffect(()=>{
         </Box>
     );
 };
-export default Cataloging;
+export default ResearchPapers;
