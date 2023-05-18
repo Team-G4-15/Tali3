@@ -12,7 +12,7 @@ export const UserContextProvider = ({ children }) => {
     // global states that will be passed through the contextProvider
 
     /*the user is a json object holding the user info*/
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(localStorage.getItem("user"));
     /*token is a plain String where the inital state is retreived from the localStorage*/
 
     const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));

@@ -156,6 +156,10 @@ const Cataloging = () => {
     const [vendors, setVendors] = useState([]);
 
     useEffect(() => {
+
+        //axiosClient.get("/books").then((response) => {
+        //    setFilteredRows(response.data);
+        //});
         axiosClient.get("/languages").then((response) => {
             setLanguages(response.data);
         });
@@ -171,6 +175,7 @@ const Cataloging = () => {
         axiosClient.get("/locations").then((response) => {
             setLocations(response.data);
         });
+
     }, []);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -208,23 +213,23 @@ const Cataloging = () => {
             align: "left",
         },
         {
-            field: "publisher",
-            headerName: "Publisher",
+            field: "keywords",
+            headerName: "Keywords",
             flex: 1,
         },
         {
-            field: "publicationDate",
+            field: "publish_date",
             headerName: "Publication Date",
             flex: 1,
         },
         {
             field: "barcode",
-            headerName: "BarCode",
+            headerName: "Location",
             flex: 1,
         },
         {
-            field: "availability",
-            headerName: "Availability",
+            field: "description",
+            headerName: "Description",
             flex: 1,
             renderCell: (params) => (
                 <Box

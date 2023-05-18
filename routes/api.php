@@ -36,6 +36,8 @@ Route::get("/locations", [LocationContoller::class, 'getAllLocations']);
 Route::get("/authors", [AuthorContoller::class, 'getAllAuthors']);
 Route::get("/languages", [LanguageContoller::class, 'getAllLanguages']);
 
+Route::get("/books",[BookController::class, 'getPaginateBooks']);
+
 
 
 //Book modification routes
