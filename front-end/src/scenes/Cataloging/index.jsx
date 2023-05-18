@@ -30,11 +30,11 @@ import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
 const Cataloging = () => {
     const theme = useTheme();
-    
+
     const colors = tokens(theme.palette.mode);
 
     //const navigate = useNavigate();
-    const [filteredRows, setFilteredRows] = useState(mockDataContacts);
+    const [filteredRows, setFilteredRows] = useState([]);
     const [deleteRowId, setDeleteRowId] = useState(null);
     const [successOpen, setSuccessOpen] = useState(null);
     const [errorOpen, setErrorOpen] = useState(null);
@@ -59,7 +59,8 @@ const Cataloging = () => {
     };
 useEffect(()=>{
     axiosClient.get("/books").then(res=>{
-        setFilteredRows(res)
+        console.log(res.data.data)
+        setFilteredRows(res.data.data)
     }).catch(err=>{})
 },[]);
     const handleSearchAuthor = (value) => {
@@ -142,8 +143,16 @@ useEffect(()=>{
     };
 
     const handleDelete = (id) => {
-        setDeleteRowId(id);
-    };
+        axiosClient.delete(`/book/${id}`).then(res=>{
+
+            setDeleteRowId(id);
+        }
+        ).catch(err=>{
+
+            // do something for netwok error
+        });
+
+        }
 
     const handleConfirmDelete = () => {
         setFilteredRows((rows) => rows.filter((row) => row.id !== deleteRowId));
@@ -228,13 +237,13 @@ useEffect(()=>{
             flex: 1,
         },
         {
-            field: "barcode",
+            field: "location",
             headerName: "Location",
             flex: 1,
         },
         {
-            field: "description",
-            headerName: "Description",
+            field: "availability",
+            headerName: "Availability",
             flex: 1,
             renderCell: (params) => (
                 <Box
@@ -242,7 +251,7 @@ useEffect(()=>{
                         color:
                             params.value === "Available"
                                 ? "#03C988"
-                                : params.value === "On Loan"
+                                : params.value === "Not Available"
                                 ? "#FE3535"
                                 : "#0A2A5C",
                         borderRadius: "4px",

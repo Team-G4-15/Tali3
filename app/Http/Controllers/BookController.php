@@ -22,10 +22,13 @@ class BookController extends Controller
         $offset = $request->query("offset");
         $pageSize = $request->query("pageSize");
         $Books = DB::table('published')
-            ->join('book', 'published.book_id', '=', 'book.book_id')
-            ->join('author', 'published.author_id', '=', 'author.author_id')
-            ->select('book.*', DB::raw('GROUP_CONCAT(author.author_name SEPARATOR ", ") as author_names'))
-            ->groupBy('book.book_id')->paginate($pageSize??25, ['*'], 'page', $offset??0);
+            ->leftjoin('book', 'published.book_id', '=', 'book.book_id')
+            ->leftjoin('author', 'published.author_id', '=', 'author.author_id')
+            ->leftjoin("location", "book.location_id", "=", "location.location_id")
+            ->select('book.*', 'book.book_id as id', 'location.aisle', 'location.shelf', DB::raw('GROUP_CONCAT(author.author_name SEPARATOR ", ") as author'))
+            ->selectRaw("CONCAT(location.shelf, '-', location.aisle) as location")
+            ->selectRaw('IF(quantity > 0, "Available", "not available") as availability')
+            ->groupBy('book.book_id')->paginate($pageSize ?? 25, ['*'], 'page', $offset ?? 0);
         return $Books;
     }
 
