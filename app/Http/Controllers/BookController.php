@@ -27,8 +27,8 @@ class BookController extends Controller
             ->leftjoin("location", "book.location_id", "=", "location.location_id")
             ->select('book.*', 'book.book_id as id', 'location.aisle', 'location.shelf', DB::raw('GROUP_CONCAT(author.author_name SEPARATOR ", ") as author'))
             ->selectRaw("CONCAT(location.shelf, '-', location.aisle) as location")
-            ->selectRaw('IF(quantity > 0, "Available", "not available") as availability')
-            ->groupBy('book.book_id')->paginate($pageSize ?? 25, ['*'], 'page', $offset ?? 0);
+            ->selectRaw('IF(quantity > 0, "Available", "Not Available") as availability')
+            ->groupBy('book.book_id')->paginate($pageSize ?? 100, ['*'], 'page', $offset ?? 0);
         return $Books;
     }
 
