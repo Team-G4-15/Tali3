@@ -17,12 +17,15 @@ import { BookAddingContext } from "../contexts/BookAddingContext";
 
 const AddBook = ({ style }) => {
     //response not working/compatible.
+
+    const [locationState, setLocationState] = useState("");
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
-    const [error, setErrors] = useState(null);
     const {
         setErrorOpen,
         setSuccessOpen,
+        setErrorMessage,
+        setFilteredRows,
         handleClose,
         setProcessing,
         feilds,
@@ -34,14 +37,21 @@ const AddBook = ({ style }) => {
 
     const handleFormSubmit = (values) => {
         setProcessing(true);
-
         handleClose();
 
         axiosClient
             .post("/books/add", values)
             .then((respose) => {
+                console.log(respose);
+                values = {
+                    ...values,
+                    id: respose.data.book_id,
+                    availability: "Available",
+                    location: locationState
+                };
                 setProcessing(false);
                 setSuccessOpen(true);
+                setFilteredRows((prev) => [...prev, values]);
             })
             .catch((err) => {
                 setErrorOpen(true);
@@ -50,9 +60,9 @@ const AddBook = ({ style }) => {
                 console.log(err);
                 let data = err.response.data;
                 if (!data.message) {
-                    setErrors(data);
+                    setErrorMessage(data);
                 } else {
-                    setErrors(data.message);
+                    setErrorMessage(data.message);
                 }
             });
     };
@@ -71,7 +81,7 @@ const AddBook = ({ style }) => {
                         values,
                         errors,
                         touched,
-                        handleBlur,
+                        //handleBlur,
                         handleChange,
                         handleSubmit,
                     }) => (
@@ -93,7 +103,7 @@ const AddBook = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="Title"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.title}
                                     name="title"
@@ -105,23 +115,21 @@ const AddBook = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="Keywords (seperated by comma)"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.keywords}
                                     name="keywords"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
-
-
                                 <TextField
                                     fullWidth
                                     variant="filled"
                                     type="text"
                                     label="Item Description"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.description}
+                                    value={values.description ?? ""}
                                     name="description"
                                     sx={{ gridColumn: "span 4" }}
                                 />
@@ -131,7 +139,7 @@ const AddBook = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="Type (Insert a Character)"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.type}
                                     name="type"
@@ -143,7 +151,7 @@ const AddBook = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="ISBN"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.isbn}
                                     name="isbn"
@@ -155,7 +163,7 @@ const AddBook = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="Quantity"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.quantity}
                                     name="quantity"
@@ -167,7 +175,7 @@ const AddBook = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="Edition"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.edition}
                                     name="edition"
@@ -178,7 +186,7 @@ const AddBook = ({ style }) => {
                                     fullWidth
                                     variant="filled"
                                     type="date"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.publish_date}
                                     name="publish_date"
@@ -269,7 +277,7 @@ const AddBook = ({ style }) => {
                                     //renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                     {languages.map((e) => {
+                                    {languages.map((e) => {
                                         return (
                                             <MenuItem
                                                 value={e.language_code}
@@ -279,7 +287,6 @@ const AddBook = ({ style }) => {
                                             </MenuItem>
                                         );
                                     })}
-
                                 </Select>
 
                                 <InputLabel id="demo-simple-select-label">
@@ -290,11 +297,28 @@ const AddBook = ({ style }) => {
                                     id="demo-simple-select"
                                     value={values.location_id}
                                     name="location_id"
-                                    onChange={handleChange}
+                                    onChange={event => {
+                                        handleChange(event);
+                                        setLocationState(() => {
+                                            let locationRow = locations.filter(
+                                                (e) =>
+                                                e.location_id ===
+                                                event.target.value
+                                            );
+
+
+
+                                            return (
+                                                locationRow[0].aisle +
+                                                "-" +
+                                                locationRow[0].shelf
+                                            );
+                                        });
+                                    }}
                                     //renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                     {locations.map((e) => {
+                                    {locations.map((e) => {
                                         return (
                                             <MenuItem
                                                 value={e.location_id}
@@ -304,7 +328,6 @@ const AddBook = ({ style }) => {
                                             </MenuItem>
                                         );
                                     })}
-
                                 </Select>
                             </Box>
                             <Box
@@ -340,6 +363,7 @@ const initialValues = {
     publisher_id: "",
     field_name: "",
     language_code: "",
+    location: "",
     edition: "",
     publish_date: "",
 };

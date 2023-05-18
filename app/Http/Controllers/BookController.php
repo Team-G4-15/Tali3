@@ -7,7 +7,6 @@ use App\Http\Requests\LoanRequest;
 use App\Models\book;
 use App\Models\published;
 use App\Models\current_loan;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -42,7 +41,7 @@ class BookController extends Controller
             if ($author) {
                 published::create($author);
             }
-            return response("Book Created Succesfully", 200);
+            return response($book, 200);
         } else {
             return response("Error creating the book", 400);
         }

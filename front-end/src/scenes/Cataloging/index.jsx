@@ -19,7 +19,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
+import { initialRows } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
@@ -35,16 +35,17 @@ const Cataloging = () => {
 
     //const navigate = useNavigate();
     const [filteredRows, setFilteredRows] = useState([]);
+    const [initialRows, setInitialRows] = useState([]);
     const [deleteRowId, setDeleteRowId] = useState(null);
     const [successOpen, setSuccessOpen] = useState(null);
     const [errorOpen, setErrorOpen] = useState(null);
     const [processing, setProcessing] = useState(null);
-
+    const [errorMessage, setErrorMessage] = useState(null);
+    // a dummy variable indicating that a book was added successfully so that we will add it the current list of books
     const [searchState, setSearchState] = useState({});
 
-
     // we need to refactor the state
-    const [pageNumber,setPageNumber]=useState(0);
+    const [pageNumber, setPageNumber] = useState(0);
     const handleSearchTitle = (value) => {
         // this is the function that handles the search input changing fields
         HandleSearchChanges(
@@ -52,24 +53,28 @@ const Cataloging = () => {
             searchState,
             "title",
             filteredRows,
-            mockDataContacts,
+            initialRows,
             setSearchState,
             setFilteredRows
         );
     };
-useEffect(()=>{
-    axiosClient.get("/books").then(res=>{
-        console.log(res.data.data)
-        setFilteredRows(res.data.data)
-    }).catch(err=>{})
-},[]);
+    useEffect(() => {
+        axiosClient
+            .get("/books")
+            .then((res) => {
+                console.log(res.data.data);
+                setFilteredRows(res.data.data);
+                setInitialRows(res.data.data);
+            })
+            .catch((err) => {});
+    }, []);
     const handleSearchAuthor = (value) => {
         HandleSearchChanges(
             value,
             searchState,
             "author",
             filteredRows,
-            mockDataContacts,
+            initialRows,
             setSearchState,
             setFilteredRows
         );
@@ -81,7 +86,7 @@ useEffect(()=>{
             searchState,
             "isbn",
             filteredRows,
-            mockDataContacts,
+            initialRows,
             setSearchState,
             setFilteredRows
         );
@@ -93,7 +98,7 @@ useEffect(()=>{
             searchState,
             "publisher",
             filteredRows,
-            mockDataContacts,
+            initialRows,
             setSearchState,
             setFilteredRows
         );
@@ -105,7 +110,7 @@ useEffect(()=>{
             searchState,
             "publicationDate",
             filteredRows,
-            mockDataContacts,
+            initialRows,
             setSearchState,
             setFilteredRows
         );
@@ -117,7 +122,7 @@ useEffect(()=>{
             searchState,
             "barcode",
             filteredRows,
-            mockDataContacts,
+            initialRows,
             setSearchState,
             setFilteredRows
         );
@@ -129,30 +134,29 @@ useEffect(()=>{
             searchState,
             "availability",
             filteredRows,
-            mockDataContacts,
+            initialRows,
             setSearchState,
             setFilteredRows
         );
     };
 
     const handleClearSearch = () => {
-        setFilteredRows(mockDataContacts);
+        setFilteredRows(initialRows);
         document.querySelectorAll("input[type='text']").forEach((input) => {
             input.value = "";
         });
     };
 
     const handleDelete = (id) => {
-        axiosClient.delete(`/book/${id}`).then(res=>{
-
-            setDeleteRowId(id);
-        }
-        ).catch(err=>{
-
-            // do something for netwok error
-        });
-
-        }
+        axiosClient
+            .delete(`/book/${id}`)
+            .then((res) => {
+                setDeleteRowId(id);
+            })
+            .catch((err) => {
+                // do something for netwok error
+            });
+    };
 
     const handleConfirmDelete = () => {
         setFilteredRows((rows) => rows.filter((row) => row.id !== deleteRowId));
@@ -170,7 +174,6 @@ useEffect(()=>{
     const [vendors, setVendors] = useState([]);
 
     useEffect(() => {
-
         //axiosClient.get("/books").then((response) => {
         //    setFilteredRows(response.data);
         //});
@@ -189,7 +192,6 @@ useEffect(()=>{
         axiosClient.get("/locations").then((response) => {
             setLocations(response.data);
         });
-
     }, []);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -331,6 +333,8 @@ useEffect(()=>{
                     value={{
                         setErrorOpen,
                         setSuccessOpen,
+                        setErrorMessage,
+                        setFilteredRows,
                         handleClose,
                         setProcessing,
                         feilds,
@@ -498,7 +502,7 @@ useEffect(()=>{
                         }
                         sx={{ mb: 2 }}
                     >
-                        Server Error Occured When Adding The Book
+                        {errorMessage}
                     </Alert>
                 </Collapse>
 
@@ -506,15 +510,13 @@ useEffect(()=>{
                     rows={filteredRows}
                     columns={columns}
                     components={{ Toolbar: GridToolbar }}
-                    onPageChange={(newPage)=>{
-                        if(newPage>pageNumber){
+                    onPageChange={(newPage) => {
+                        if (newPage > pageNumber) {
                             console.log("Next Page");
-                        }else{
+                        } else {
                             console.log("Previous Page");
                         }
-                    }
-                }
-
+                    }}
                 />
             </Box>
             <Dialog
@@ -525,7 +527,7 @@ useEffect(()=>{
                 <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>
                     <Typography>
-                        Are you sure you want to delete this row?
+                        Are you sure you want to delete this Book?
                     </Typography>
                 </DialogContent>
                 <DialogActions sx={{ justifyContent: "center", pb: "24px" }}>
