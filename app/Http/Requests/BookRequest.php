@@ -25,7 +25,7 @@ class BookRequest extends FormRequest
             'title' => 'required|string',
             'isbn' => 'string|required',
             'description' => 'string|required',
-            'quantity' => 'integer|required',
+            'quantity' => 'integer|required|min:1',
             'language_code' => 'string',
             'location_id' => 'integer',
             'field_name' => 'string|required',
@@ -34,7 +34,7 @@ class BookRequest extends FormRequest
             'edition' => 'string|required',
             'type' => 'string',
             'keywords' => 'string',
-            
+
         ];
     }
 }
