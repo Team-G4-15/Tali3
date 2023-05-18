@@ -15,6 +15,25 @@ class BookController extends Controller
 {
 
 
+    private static $searchFileds = [
+        'title',
+        'isbn',
+        'description',
+        'keywords',
+        'language_code',
+        'location_id',
+        'field_name',
+        'vendor_name',
+        'vendor_email',
+        'publish_date',
+        'edition',
+        'field_name',
+        'type',
+        'quantity',
+        'author_name',
+
+    ];
+
     function getPaginateBooks(Request $request)
     {
 
@@ -63,6 +82,36 @@ class BookController extends Controller
         } else {
             return response("Error creating the loan", 400);
         }
+    }
+
+
+    function SearchBook(Request $request)
+    {
+        // here is an example of how the search will be
+        $query = DB::table('published')
+            ->leftJoin('book', 'published.book_id', '=', 'book.book_id')
+            ->leftJoin('field', 'book.field_name', '=', 'field.field_name')
+            ->leftJoin('author', 'published.author_id', '=', 'author.author_id')
+            ->leftJoin('location', 'book.location_id', '=', 'location.location_id')
+            ->leftJoin('vendor', 'book.vendor_id', '=', 'vendor.vendor_id')
+            ->selectRaw("CONCAT(location.shelf, '-', location.aisle) as location")
+            ->selectRaw('IF(quantity > 0, "Available", "Not Available") as availability')
+            ->select('book.*', 'book.book_id as id', 'vendor.vendor_name', 'vendor.vendor_email', 'location.aisle', 'location.shelf', DB::raw('GROUP_CONCAT(author.author_name SEPARATOR ", ") as author'))
+            ->groupBy('book.book_id');
+
+        foreach ($request->query() as $field => $value) {
+            if (!in_array($field, BookController::$searchFileds) || empty($value)) {
+                continue;
+            }
+            else
+                $query->where($field, 'like', "%$value%");
+        }
+
+        $pageSize = $request->query('per_page', 100);
+        $books = $query->paginate($pageSize, ['*'], 'page', $request->query('page', 1));
+
+        return $books;
+
     }
 
 

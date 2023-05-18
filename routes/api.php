@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post("/books/add", [BookController::class, 'AddBook']);
     Route::delete("/book/{id}", [BookController::class, 'DeleteBook']);
     Route::post("/book/{id}", [BookController::class, 'LoanBook']);
-    
+
 });
 Route::get("/books",[BookController::class,'AllBooks']);
 Route::post("/researchpapers/add", [BookController::class, 'AddResearchpaper']);
@@ -40,6 +40,8 @@ Route::get("/authors", [AuthorContoller::class, 'getAllAuthors']);
 Route::get("/languages", [LanguageContoller::class, 'getAllLanguages']);
 
 Route::get("/books",[BookController::class, 'getPaginateBooks']);
+
+Route::get("/books/search",[BookController::class, 'SearchBook']);
 
 
 
