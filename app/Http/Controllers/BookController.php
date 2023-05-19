@@ -46,8 +46,27 @@ class BookController extends Controller
             ->select('book.*', 'book.book_id as id', 'location.aisle', 'location.shelf', DB::raw('GROUP_CONCAT(author.author_name SEPARATOR ", ") as author'))
             ->selectRaw("CONCAT(location.shelf, '-', location.aisle) as location")
             ->selectRaw('IF(quantity > 0, "Available", "Not Available") as availability')
-            ->groupBy('book.book_id')->paginate($pageSize ?? 100, ['*'], 'page', $offset ?? 0);
+            ->groupBy('book.book_id', 'book.title', 'location.aisle', 'location.shelf', 'book.quantity','author.author_name','book.keywords',
+            'book.description','book.type','book.isbn','book.location_id','book.language_code','book.vendor_id','book.field_name',
+            'book.edition','book.publish_date','book.created_at','book.updated_at')->paginate($pageSize ?? 100, ['*'], 'page', $offset ?? 0);
         return $Books;
+    }
+
+    function UpdateBook(BookRequest $request)
+    {
+        $data = $request->validated();
+        $update = book::update($data);
+        if($update) {
+            $book = book::findOrFail($data);
+            error_log($book);
+            $author = ["book_id" => $book["book_id"],"author_id" => (int) $request["publisher_id"]];
+            if($author) {
+                published::update($author);
+            }
+            return response($book,200);
+        }else{
+            return response("Error updating the book",400);
+        }
     }
 
     function AddBook(BookRequest $request)

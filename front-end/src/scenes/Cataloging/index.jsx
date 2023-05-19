@@ -19,7 +19,6 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { initialRows } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
@@ -325,7 +324,7 @@ const Cataloging = () => {
                     }}
                     onClick={handleOpen}
                 >
-                    add book
+                    Add book
                 </Button>
             </Box>
             <Modal open={open} onClose={handleClose} keepMounted>
