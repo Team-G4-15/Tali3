@@ -22,9 +22,9 @@ class published extends Model
         return $this->belongsTo(author::class, 'author_id', 'author_id');
     }
 
-    public function item()
+    public function book()
     {
-        return $this->belongsTo(item::class, 'item_id', 'item_id');
+        return $this->belongsTo(Book::class, 'book_id', 'book_id');
     }
 
     use HasFactory;

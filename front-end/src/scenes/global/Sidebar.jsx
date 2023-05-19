@@ -147,22 +147,7 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Login"
-              to="/login"
-              icon={<LoginOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Item
-              title="Sign Up"
-              to="/"
-              icon={<PersonAdd />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
+            
             {(user && token) && <Item
               title="Dashboard"
               to="/dashboard"
@@ -200,6 +185,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Cataloging (Rps)"
+              to="/researchpapers"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
             <Typography
               variant="h6"
@@ -223,8 +215,8 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="FAQ Page"
-              to="/faq"
+              title="Filter"
+              to="/Filtering"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

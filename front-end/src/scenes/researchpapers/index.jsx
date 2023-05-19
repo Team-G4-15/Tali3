@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState, useRef, useLayoutEffect } from "react";
-import { AddingContext } from "../../contexts/AddingContext";
+import { useEffect, useState } from "react";
+import { BookAddingContext } from "../../contexts/BookAddingContext";
 import {
     Box,
     IconButton,
@@ -15,67 +15,36 @@ import {
     Alert,
     CircularProgress,
 } from "@mui/material";
+
 import CloseIcon from "@mui/icons-material/Close";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
+import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utilities/axiosClient";
-import AddBook from "../../components/Book.add";
-<<<<<<< HEAD
-import { ColorLensSharp } from "@mui/icons-material";
-import { AddAuthor } from "../../components/Author.add";
-import { AppHeightContext } from "../../contexts/AppHeight";
-import { AddVendor } from "../../components/Vendor.add";
-const Cataloging = () => {
-    const theme = useTheme();
-    const { setHeight } = useContext(AppHeightContext);
-=======
+import AddResearchPaper from "../../components/ResearchPaper.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
-const Cataloging = () => {
+const ResearchPapers = () => {
     const theme = useTheme();
-
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
+    
     const colors = tokens(theme.palette.mode);
 
     //const navigate = useNavigate();
-    const [filteredRows, setFilteredRows] = useState([]);
-    const [initialRows, setInitialRows] = useState([]);
+    const [filteredRows, setFilteredRows] = useState(mockDataContacts);
     const [deleteRowId, setDeleteRowId] = useState(null);
     const [successOpen, setSuccessOpen] = useState(null);
     const [errorOpen, setErrorOpen] = useState(null);
     const [processing, setProcessing] = useState(null);
-<<<<<<< HEAD
 
-    const ref = useRef(null);
-
-
-    const [height, setHeightState] = useState(0);
-
-    useLayoutEffect(() => {
-
-        //setHeightState(ref.current.offsetHeight);
-        setHeight(ref.current.offsetHeight + 120);
-        console.log(ref.current.offsetHeight);
-    }, []);
-
-    const handleSearchTitle = (value) => {
-        const newfilteredRows = filteredRows.filter((row) =>
-            String(row.title).toLowerCase().includes(value.toLowerCase())
-        );
-        setFilteredRows(newfilteredRows);
-    };
-=======
-    const [errorMessage, setErrorMessage] = useState(null);
-    // a dummy variable indicating that a book was added successfully so that we will add it the current list of books
     const [searchState, setSearchState] = useState({});
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
+
 
     // we need to refactor the state
-    const [pageNumber, setPageNumber] = useState(0);
+    const [pageNumber,setPageNumber]=useState(0);
     const handleSearchTitle = (value) => {
         // this is the function that handles the search input changing fields
         HandleSearchChanges(
@@ -83,28 +52,23 @@ const Cataloging = () => {
             searchState,
             "title",
             filteredRows,
-            initialRows,
+            mockDataContacts,
             setSearchState,
             setFilteredRows
         );
     };
-    useEffect(() => {
-        axiosClient
-            .get("/books")
-            .then((res) => {
-                console.log(res.data.data);
-                setFilteredRows(res.data.data);
-                setInitialRows(res.data.data);
-            })
-            .catch((err) => {});
-    }, []);
+useEffect(()=>{
+    axiosClient.get("/researchpapers").then(res=>{
+        setFilteredRows(res)
+    }).catch(err=>{})
+},[]);
     const handleSearchAuthor = (value) => {
         HandleSearchChanges(
             value,
             searchState,
             "author",
             filteredRows,
-            initialRows,
+            mockDataContacts,
             setSearchState,
             setFilteredRows
         );
@@ -116,7 +80,7 @@ const Cataloging = () => {
             searchState,
             "isbn",
             filteredRows,
-            initialRows,
+            mockDataContacts,
             setSearchState,
             setFilteredRows
         );
@@ -128,7 +92,7 @@ const Cataloging = () => {
             searchState,
             "publisher",
             filteredRows,
-            initialRows,
+            mockDataContacts,
             setSearchState,
             setFilteredRows
         );
@@ -140,7 +104,7 @@ const Cataloging = () => {
             searchState,
             "publicationDate",
             filteredRows,
-            initialRows,
+            mockDataContacts,
             setSearchState,
             setFilteredRows
         );
@@ -152,7 +116,7 @@ const Cataloging = () => {
             searchState,
             "barcode",
             filteredRows,
-            initialRows,
+            mockDataContacts,
             setSearchState,
             setFilteredRows
         );
@@ -164,28 +128,21 @@ const Cataloging = () => {
             searchState,
             "availability",
             filteredRows,
-            initialRows,
+            mockDataContacts,
             setSearchState,
             setFilteredRows
         );
     };
 
     const handleClearSearch = () => {
-        setFilteredRows(initialRows);
+        setFilteredRows(mockDataContacts);
         document.querySelectorAll("input[type='text']").forEach((input) => {
             input.value = "";
         });
     };
 
     const handleDelete = (id) => {
-        axiosClient
-            .delete(`/book/${id}`)
-            .then((res) => {
-                setDeleteRowId(id);
-            })
-            .catch((err) => {
-                // do something for netwok error
-            });
+        setDeleteRowId(id);
     };
 
     const handleConfirmDelete = () => {
@@ -204,9 +161,6 @@ const Cataloging = () => {
     const [vendors, setVendors] = useState([]);
 
     useEffect(() => {
-        //axiosClient.get("/books").then((response) => {
-        //    setFilteredRows(response.data);
-        //});
         axiosClient.get("/languages").then((response) => {
             setLanguages(response.data);
         });
@@ -223,48 +177,9 @@ const Cataloging = () => {
             setLocations(response.data);
         });
     }, []);
-
-
-
-
-
-    // CONTROLLERS FOR ADD BOOK MODAL
-    const [openBookAdd, setOpenBookAdd] = useState(false);
-    const handleOpenBookAdd = () => setOpenBookAdd(true);
-    const handleCloseBookAdd = () => setOpenBookAdd(false);
-
-
-
-    // CONTROLLERS FOR ADD AUTHOR MODAL
-    const [openAuthorAdd, setOpenAuthorAdd] = useState(false);
-    const handleOpenAuthorAdd = () => {
-        setOpenAuthorAdd(true);
-    }
-    const handleCloseAuthorAdd = () => {
-        setOpenAuthorAdd(false);
-        setOpenBookAdd(true);
-    }
-
-
-    // CONTROLLERS FOR ADD VENDOR MODAL
-    const [openVendorAdd, setOpenVendorAdd] = useState(false);
-    const handleOpenVendorAdd = () => {
-        setOpenVendorAdd(true);
-    }
-    const handleCloseVendorAdd = () => {
-        setOpenVendorAdd(false);
-        handleOpenBookAdd();
-    };
-
-
-
-    const [selectedBook, setSelectedBook] = useState(null);
-    const [dialogOpen, setDialogOpen] = useState(false);
-
-    const handleBookRowClick = (book) => {
-        setSelectedBook(book);
-        setDialogOpen(true);
-    };
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const style = {
         position: "absolute",
@@ -283,12 +198,7 @@ const Cataloging = () => {
 
     const columns = [
         { field: "pic", headerName: "Pic", flex: 0.5 },
-        { field: "title", headerName: "Title",
-            renderCell: (params) => (
-                <Button onClick={() => handleBookRowClick(params.row)}>
-                    {params.value}
-                </Button>
-            ), },
+        { field: "title", headerName: "Title" },
         {
             field: "author",
             headerName: "Author",
@@ -303,18 +213,18 @@ const Cataloging = () => {
             align: "left",
         },
         {
-            field: "keywords",
-            headerName: "Keywords",
+            field: "publisher",
+            headerName: "Publisher",
             flex: 1,
         },
         {
-            field: "publish_date",
+            field: "publicationDate",
             headerName: "Publication Date",
             flex: 1,
         },
         {
-            field: "location",
-            headerName: "Location",
+            field: "barcode",
+            headerName: "BarCode",
             flex: 1,
         },
         {
@@ -327,15 +237,9 @@ const Cataloging = () => {
                         color:
                             params.value === "Available"
                                 ? "#03C988"
-<<<<<<< HEAD
                                 : params.value === "On Loan"
-                                    ? "#FE3535"
-                                    : "#0A2A5C",
-=======
-                                : params.value === "Not Available"
                                 ? "#FE3535"
                                 : "#0A2A5C",
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
                         borderRadius: "4px",
                         padding: "4px 8px",
                     }}
@@ -370,9 +274,9 @@ const Cataloging = () => {
         },
     ];
     return (
-        <Box m="20px" ref={ref}>
+        <Box m="20px">
             <Box sx={{ justifyContent: "space-between", display: "flex" }}>
-                <Header title="Books" subtitle="List of Books in The Library" />
+                <Header title="Research papers" subtitle="List of research papers in The Library" />
                 <Button
                     variant="contained"
                     color="primary"
@@ -403,88 +307,28 @@ const Cataloging = () => {
                             backgroundColor: "#A0A0A0",
                         },
                     }}
-                    onClick={handleOpenBookAdd}
+                    onClick={handleOpen}
                 >
-                    Add book
+                    add ResearchPaper
                 </Button>
             </Box>
-<<<<<<< HEAD
-
-
-            <Modal
-                open={openBookAdd}
-                onClose={handleCloseBookAdd}
-                keepMounted
-            >
-                <AddingContext.Provider
-                    value={{
-                        setErrorOpen,
-                        setSuccessOpen,
-                        handleCloseBookAdd,
-=======
             <Modal open={open} onClose={handleClose} keepMounted>
                 <BookAddingContext.Provider
                     value={{
                         setErrorOpen,
                         setSuccessOpen,
-                        setErrorMessage,
-                        setFilteredRows,
                         handleClose,
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
                         setProcessing,
                         feilds,
                         publisher,
                         languages,
                         vendors,
                         locations,
-                        handleOpenAuthorAdd,
-                        handleOpenVendorAdd
                     }}
                 >
-                    <AddBook style={style} />
-                </AddingContext.Provider>
+                    <AddResearchPaper style={style} />
+                </BookAddingContext.Provider>
             </Modal>
-
-
-
-            {/* ADDING AUTHOR MODAL */}
-
-            <Modal
-                open={openAuthorAdd}
-                onClose={handleCloseAuthorAdd}
-                keepMounted
-            >
-                <AddingContext.Provider
-                    value={{
-                        handleCloseAuthorAdd,
-                        handleOpenBookAdd,
-                        setPublisher
-                    }}
-                >
-                    <AddAuthor style={style} />
-                </AddingContext.Provider>
-            </Modal>
-
-            {/* ADDING VENDOR MODAL */}
-
-            <Modal
-                open={openVendorAdd}
-                onClose={handleCloseVendorAdd}
-                keepMounted
-            >
-                <AddingContext.Provider
-                    value={{
-                        handleCloseVendorAdd,
-                        handleOpenBookAdd,
-                        setVendors
-                    }}
-                >
-                    <AddVendor style={style} />
-                </AddingContext.Provider>
-            </Modal>
-
-
-
             <Box
                 style={{
                     display: "flex",
@@ -590,12 +434,7 @@ const Cataloging = () => {
                     },
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                         color: `colors.primary[1000] !important`,
-<<<<<<< HEAD
-                        gap: "250px",
-                    }
-=======
                     },
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
                 }}
             >
                 <Collapse in={processing}>
@@ -645,7 +484,7 @@ const Cataloging = () => {
                         }
                         sx={{ mb: 2 }}
                     >
-                        {errorMessage}
+                        Server Error Occured When Adding The Book
                     </Alert>
                 </Collapse>
 
@@ -653,14 +492,15 @@ const Cataloging = () => {
                     rows={filteredRows}
                     columns={columns}
                     components={{ Toolbar: GridToolbar }}
-                    onPageChange={(newPage) => {
-                        if (newPage > pageNumber) {
+                    onPageChange={(newPage)=>{
+                        if(newPage>pageNumber){
                             console.log("Next Page");
-                        } else {
+                        }else{
                             console.log("Previous Page");
                         }
-                    }}
-                    onRowClick={(params) => setSelectedBook(params.row.id)}
+                    }
+                }
+
                 />
             </Box>
             <Dialog
@@ -671,7 +511,7 @@ const Cataloging = () => {
                 <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>
                     <Typography>
-                        Are you sure you want to delete this Book?
+                        Are you sure you want to delete this row?
                     </Typography>
                 </DialogContent>
                 <DialogActions sx={{ justifyContent: "center", pb: "24px" }}>
@@ -700,127 +540,7 @@ const Cataloging = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-<<<<<<< HEAD
-        </Box >
-=======
-
-            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-                <DialogTitle>{selectedBook && selectedBook.title}</DialogTitle>
-                <DialogContent>
-                    <Box
-                    sx={{
-                         
-                            p: 2,
-                            width: "100%", 
-                        }}
-                        >
-                            <img
-                            src="../../public/BasicLinearAlgebra.png"
-                            alt="book"
-                            sx={{
-                                marginRight: "50%",
-                                width: "50%",
-                                height: "auto",
-                                objectFit: "cover",
-                                borderRadius: "5px",
-                                }}
-                                />
-                                <Typography
-                                sx={{
-                                    mt: 2,
-                                    mb: 2,
-                                    color: "text.secondary",
-                                    fontSize: "1rem",
-                                width: "100%", 
-                               
-                                    }}
-                                    >
-                                        title: Linear ALGEBRA
-
-                                    </Typography>
-                                    <Typography
-                                    sx={{
-                                        mt: 2,
-                                        mb: 2,
-                                        color: "text.secondary",
-                                        fontSize: "1rem",
-                                        }}
-                                        >
-                                            Author: {selectedBook && selectedBook.author}
-                                        </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            Genre: {selectedBook && selectedBook.genre}
-                                        </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            Pages: {selectedBook && selectedBook.pages}
-                                        </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            Published Year: {selectedBook && selectedBook.publishedYear}
-                                            </Typography>
-                                            <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                                Language: {selectedBook && selectedBook.language}
-                                            </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            ISBN: {selectedBook && selectedBook.isbn}
-                                        </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            Publisher: {selectedBook && selectedBook.publisher}
-                                            </Typography>
-                                            <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                                Edition: {}
-                                            </Typography>
-
-                                        
-                        </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDialogOpen(false)}>Close</Button>
-                </DialogActions>
-            </Dialog>
         </Box>
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
     );
 };
-export default Cataloging;
+export default ResearchPapers;

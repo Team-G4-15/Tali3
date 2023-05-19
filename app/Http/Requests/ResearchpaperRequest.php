@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoanRequest extends FormRequest{
+class ResearchpaperRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -11,6 +13,7 @@ class LoanRequest extends FormRequest{
     {
         return true;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -19,15 +22,16 @@ class LoanRequest extends FormRequest{
     public function rules(): array
     {
         return [
-            'book_id' => 'required|integer',
-            'patron_email' => 'string|required',
-            'copy_number' => 'integer|required',
-            'loan_date' => 'date|required',
-            'due_date' => 'date|required',
-            'renewal_count' => 'integer',
-            'email' =>"string|required",
+            'title' => 'required|string',
+            'iso' => 'string|required',
+            'description' => 'string|required',
+            'quantity' => 'integer|required',
+            'language_code' => 'string',
+            'location_id' => 'integer',
+            'field_name' => 'string|required',
+            'publish_date' => 'date',
+            'keywords' => 'string',
             
         ];
     }
 }
-?>

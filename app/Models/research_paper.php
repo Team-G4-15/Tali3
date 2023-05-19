@@ -12,7 +12,18 @@ class research_paper extends Model
     protected $table = 'research_paper';
     protected $primaryKey = 'paper_id';
 
-
+    protected $fillable = [
+        'title' ,
+        'doi' ,
+        'description' ,
+        'keywords',
+        'language_code',
+        'location_id',
+        'field_name',
+        'publish_date',
+        'field_name' ,
+        'quantity'
+    ];
 
     public function item()
     {

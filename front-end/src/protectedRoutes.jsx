@@ -2,8 +2,9 @@ import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Members from "./scenes/team";
-import Invoices from "./scenes/invoices";
-//import Contacts from "./scenes/contacts";
+import BookSearch from "./scenes/Filtering/BookSearch";
+import PeriodicalSearch from "./scenes/Filtering/PeriodicalsSearch";
+import SearchPage from "./scenes/Filtering";
 import Bar from "./scenes/bar";
 import Form from "./scenes/form";
 import Line from "./scenes/line";
@@ -12,7 +13,12 @@ import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import Calendar from "./scenes/calendar/calendar";
 import AddBook from "./components/Book.add";
+<<<<<<< HEAD
 import Cataloging from "./scenes/Cataloging";
+=======
+import ResearchPapers from "./scenes/researchpapers";
+import AddResearchPaper from "./components/ResearchPaper.add";
+>>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
 import { useEffect } from "react";
@@ -47,6 +53,12 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                             <Route path="/geography" element={<Geography />} />
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/addBook" element={<AddBook />} />
+                            <Route path="/researchpapers/add" element={<AddResearchPaper />} />
+                            
+                            <Route path="/Book.search" element={<BookSearch />}></Route>
+                            <Route path="/Filtering" element={<SearchPage />}></Route>
+                            <Route path="/Filtering" element={<PeriodicalSearch/>}></Route>
+                            <Route path="/researchpapers" element={<ResearchPapers/>}></Route>
                         </Routes>
                     </main>
                 </>

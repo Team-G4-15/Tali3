@@ -12,7 +12,7 @@ export const UserContextProvider = ({ children }) => {
     // global states that will be passed through the contextProvider
 
     /*the user is a json object holding the user info*/
-    const [user, setUser] = useState({});
+    const [user, _setUser] = useState(JSON.parse(localStorage.getItem("user")));
     /*token is a plain String where the inital state is retreived from the localStorage*/
 
     const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
@@ -26,9 +26,18 @@ export const UserContextProvider = ({ children }) => {
             localStorage.removeItem("ACCESS_TOKEN");
         }
     };
+    const setUser = (user) => {
+        if (user) {
+            _setUser(user);
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("user");
+            _setUser(null);
+        }
+    };
     return (
         // To provide the User info to the gloabl App Scope
-        <UserContext.Provider value={{user, token, setUser, setToken}}>
+        <UserContext.Provider value={{ user, token, setUser, setToken }}>
             {/*To render the children of the global Provider*/}
             {children}
         </UserContext.Provider>
