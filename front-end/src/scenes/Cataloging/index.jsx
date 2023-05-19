@@ -24,14 +24,10 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { axiosClient } from "../../utilities/axiosClient";
 import AddBook from "../../components/Book.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
-
-const axiosClient = axios.create({
-    baseURL: "http://localhost:8000/api", 
-});
 const Cataloging = () => {
     const theme = useTheme();
 
@@ -150,52 +146,15 @@ const Cataloging = () => {
             input.value = "";
         });
     };
-    const handleCreateBook = (book) => {
-        axiosClient
-            .post("/books", book)
-            .then((res) => {
-                setFilteredRows((prevRows) => [...prevRows, res.data]); 
-                setInitialRows((prevRows) => [...prevRows, res.data]); 
-                handleClose(); 
-                setSuccessOpen(true);
-            })
-            .catch((err) => {
-                setErrorOpen(true); 
-                setErrorMessage("Failed to create book. Please try again."); // Set the error message
-            });
-    };
-
-    const handleUpdateBook = (id, updatedBook) => {
-        axiosClient
-            .put(`/books/${id}`, updatedBook)
-            .then((res) => {
-                setFilteredRows((prevRows) =>
-                    prevRows.map((row) => (row.id === id ? res.data : row))
-                ); // Update the filtered rows with the updated book
-                setInitialRows((prevRows) =>
-                    prevRows.map((row) => (row.id === id ? res.data : row))
-                ); 
-                handleClose(); // Close the book adding modal
-                setSuccessOpen(true); // Show success alert
-            })
-            .catch((err) => {
-                setErrorOpen(true); // Show error alert
-                setErrorMessage("Failed to update book. Please try again."); 
-            });
-    };
-
 
     const handleDelete = (id) => {
         axiosClient
-            .delete(`/books/${id}`)
+            .delete(`/book/${id}`)
             .then((res) => {
-
                 setDeleteRowId(id);
-                setSuccessOpen(true);
             })
             .catch((err) => {
-                setErrorOpen(true); // Show error alert
-                setErrorMessage("Failed to delete book. Please try again.");
+                // do something for netwok error
             });
     };
 
@@ -238,6 +197,14 @@ const Cataloging = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const [selectedBook, setSelectedBook] = useState(null);
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+    const handleBookRowClick = (book) => {
+        setSelectedBook(book);
+        setDialogOpen(true);
+    };
+
     const style = {
         position: "absolute",
         top: "50%",
@@ -255,7 +222,12 @@ const Cataloging = () => {
 
     const columns = [
         { field: "pic", headerName: "Pic", flex: 0.5 },
-        { field: "title", headerName: "Title" },
+        { field: "title", headerName: "Title",
+            renderCell: (params) => (
+                <Button onClick={() => handleBookRowClick(params.row)}>
+                    {params.value}
+                </Button>
+            ), },
         {
             field: "author",
             headerName: "Author",
@@ -385,12 +357,7 @@ const Cataloging = () => {
                         locations,
                     }}
                 >
-                    <AddBook
-                        style={style}
-                        handleCreateBook={handleCreateBook}
-                        handleUpdateBook={handleUpdateBook}
-                        // handleDeleteBook={handleDeleteBook}
-                    />
+                    <AddBook style={style} />
                 </BookAddingContext.Provider>
             </Modal>
             <Box
@@ -563,6 +530,7 @@ const Cataloging = () => {
                             console.log("Previous Page");
                         }
                     }}
+                    onRowClick={(params) => setSelectedBook(params.row.id)}
                 />
             </Box>
             <Dialog
@@ -600,6 +568,122 @@ const Cataloging = () => {
                     >
                         Delete
                     </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+                <DialogTitle>{selectedBook && selectedBook.title}</DialogTitle>
+                <DialogContent>
+                    <Box
+                    sx={{
+                         
+                            p: 2,
+                            width: "100%", 
+                        }}
+                        >
+                            <img
+                            src="../../public/BasicLinearAlgebra.png"
+                            alt="book"
+                            sx={{
+                                marginRight: "50%",
+                                width: "50%",
+                                height: "auto",
+                                objectFit: "cover",
+                                borderRadius: "5px",
+                                }}
+                                />
+                                <Typography
+                                sx={{
+                                    mt: 2,
+                                    mb: 2,
+                                    color: "text.secondary",
+                                    fontSize: "1rem",
+                                width: "100%", 
+                               
+                                    }}
+                                    >
+                                        title: Linear ALGEBRA
+
+                                    </Typography>
+                                    <Typography
+                                    sx={{
+                                        mt: 2,
+                                        mb: 2,
+                                        color: "text.secondary",
+                                        fontSize: "1rem",
+                                        }}
+                                        >
+                                            Author: {selectedBook && selectedBook.author}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Genre: {selectedBook && selectedBook.genre}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Pages: {selectedBook && selectedBook.pages}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Published Year: {selectedBook && selectedBook.publishedYear}
+                                            </Typography>
+                                            <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                                Language: {selectedBook && selectedBook.language}
+                                            </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            ISBN: {selectedBook && selectedBook.isbn}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Publisher: {selectedBook && selectedBook.publisher}
+                                            </Typography>
+                                            <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                                Edition: {}
+                                            </Typography>
+
+                                        
+                        </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDialogOpen(false)}>Close</Button>
                 </DialogActions>
             </Dialog>
         </Box>
