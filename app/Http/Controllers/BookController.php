@@ -7,6 +7,7 @@ use App\Http\Requests\LoanRequest;
 use App\Models\book;
 use App\Models\published;
 use App\Models\current_loan;
+use App\Models\copy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -78,6 +79,12 @@ class BookController extends Controller
             $author = ["book_id" => $book["book_id"], "author_id" => (int) $request["publisher_id"]];
             if ($author) {
                 published::create($author);
+            }
+            for($i = 1; $i <= $book["quantity"]; $i++){
+                $copy_data = ["book_id" => $book["book_id"], "copy_number" => $i,"reception_date" => now()];
+                if($copy_data){
+                    copy::create($copy_data);
+                }
             }
             return response($book, 200);
         } else {
