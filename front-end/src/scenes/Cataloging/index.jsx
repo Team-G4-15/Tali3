@@ -24,21 +24,16 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utilities/axiosClient";
 import AddBook from "../../components/Book.add";
-<<<<<<< HEAD
 import { ColorLensSharp } from "@mui/icons-material";
 import { AddAuthor } from "../../components/Author.add";
 import { AppHeightContext } from "../../contexts/AppHeight";
 import { AddVendor } from "../../components/Vendor.add";
-const Cataloging = () => {
-    const theme = useTheme();
-    const { setHeight } = useContext(AppHeightContext);
-=======
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
 const Cataloging = () => {
     const theme = useTheme();
 
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
+    const { setHeight } = useContext(AppHeightContext);
     const colors = tokens(theme.palette.mode);
 
     //const navigate = useNavigate();
@@ -48,7 +43,6 @@ const Cataloging = () => {
     const [successOpen, setSuccessOpen] = useState(null);
     const [errorOpen, setErrorOpen] = useState(null);
     const [processing, setProcessing] = useState(null);
-<<<<<<< HEAD
 
     const ref = useRef(null);
 
@@ -62,17 +56,15 @@ const Cataloging = () => {
         console.log(ref.current.offsetHeight);
     }, []);
 
-    const handleSearchTitle = (value) => {
+    /* const handleSearchTitle = (value) => {
         const newfilteredRows = filteredRows.filter((row) =>
             String(row.title).toLowerCase().includes(value.toLowerCase())
         );
         setFilteredRows(newfilteredRows);
-    };
-=======
+    }; */
     const [errorMessage, setErrorMessage] = useState(null);
     // a dummy variable indicating that a book was added successfully so that we will add it the current list of books
     const [searchState, setSearchState] = useState({});
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
 
     // we need to refactor the state
     const [pageNumber, setPageNumber] = useState(0);
@@ -96,7 +88,7 @@ const Cataloging = () => {
                 setFilteredRows(res.data.data);
                 setInitialRows(res.data.data);
             })
-            .catch((err) => {});
+            .catch((err) => { });
     }, []);
     const handleSearchAuthor = (value) => {
         HandleSearchChanges(
@@ -283,12 +275,14 @@ const Cataloging = () => {
 
     const columns = [
         { field: "pic", headerName: "Pic", flex: 0.5 },
-        { field: "title", headerName: "Title",
+        {
+            field: "title", headerName: "Title",
             renderCell: (params) => (
                 <Button onClick={() => handleBookRowClick(params.row)}>
                     {params.value}
                 </Button>
-            ), },
+            ),
+        },
         {
             field: "author",
             headerName: "Author",
@@ -327,15 +321,9 @@ const Cataloging = () => {
                         color:
                             params.value === "Available"
                                 ? "#03C988"
-<<<<<<< HEAD
-                                : params.value === "On Loan"
+                                : params.value === "Not Available"
                                     ? "#FE3535"
                                     : "#0A2A5C",
-=======
-                                : params.value === "Not Available"
-                                ? "#FE3535"
-                                : "#0A2A5C",
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
                         borderRadius: "4px",
                         padding: "4px 8px",
                     }}
@@ -373,6 +361,7 @@ const Cataloging = () => {
         <Box m="20px" ref={ref}>
             <Box sx={{ justifyContent: "space-between", display: "flex" }}>
                 <Header title="Books" subtitle="List of Books in The Library" />
+
                 <Button
                     variant="contained"
                     color="primary"
@@ -407,30 +396,15 @@ const Cataloging = () => {
                 >
                     Add book
                 </Button>
+
             </Box>
-<<<<<<< HEAD
-
-
-            <Modal
-                open={openBookAdd}
-                onClose={handleCloseBookAdd}
-                keepMounted
-            >
+            <Modal open={openBookAdd} onClose={handleCloseBookAdd} keepMounted>
                 <AddingContext.Provider
-                    value={{
-                        setErrorOpen,
-                        setSuccessOpen,
-                        handleCloseBookAdd,
-=======
-            <Modal open={open} onClose={handleClose} keepMounted>
-                <BookAddingContext.Provider
                     value={{
                         setErrorOpen,
                         setSuccessOpen,
                         setErrorMessage,
                         setFilteredRows,
-                        handleClose,
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
                         setProcessing,
                         feilds,
                         publisher,
@@ -438,7 +412,8 @@ const Cataloging = () => {
                         vendors,
                         locations,
                         handleOpenAuthorAdd,
-                        handleOpenVendorAdd
+                        handleOpenVendorAdd,
+                        handleCloseBookAdd
                     }}
                 >
                     <AddBook style={style} />
@@ -590,12 +565,7 @@ const Cataloging = () => {
                     },
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                         color: `colors.primary[1000] !important`,
-<<<<<<< HEAD
-                        gap: "250px",
-                    }
-=======
                     },
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
                 }}
             >
                 <Collapse in={processing}>
@@ -700,21 +670,18 @@ const Cataloging = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-<<<<<<< HEAD
-        </Box >
-=======
 
             <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
                 <DialogTitle>{selectedBook && selectedBook.title}</DialogTitle>
                 <DialogContent>
                     <Box
-                    sx={{
-                         
+                        sx={{
+
                             p: 2,
-                            width: "100%", 
+                            width: "100%",
                         }}
-                        >
-                            <img
+                    >
+                        <img
                             src="../../public/BasicLinearAlgebra.png"
                             alt="book"
                             sx={{
@@ -723,104 +690,103 @@ const Cataloging = () => {
                                 height: "auto",
                                 objectFit: "cover",
                                 borderRadius: "5px",
-                                }}
-                                />
-                                <Typography
-                                sx={{
-                                    mt: 2,
-                                    mb: 2,
-                                    color: "text.secondary",
-                                    fontSize: "1rem",
-                                width: "100%", 
-                               
-                                    }}
-                                    >
-                                        title: Linear ALGEBRA
+                            }}
+                        />
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                                width: "100%",
 
-                                    </Typography>
-                                    <Typography
-                                    sx={{
-                                        mt: 2,
-                                        mb: 2,
-                                        color: "text.secondary",
-                                        fontSize: "1rem",
-                                        }}
-                                        >
-                                            Author: {selectedBook && selectedBook.author}
-                                        </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            Genre: {selectedBook && selectedBook.genre}
-                                        </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            Pages: {selectedBook && selectedBook.pages}
-                                        </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            Published Year: {selectedBook && selectedBook.publishedYear}
-                                            </Typography>
-                                            <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                                Language: {selectedBook && selectedBook.language}
-                                            </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            ISBN: {selectedBook && selectedBook.isbn}
-                                        </Typography>
-                                        <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                            Publisher: {selectedBook && selectedBook.publisher}
-                                            </Typography>
-                                            <Typography
-                            sx={{
-                                mt: 2,
-                                mb: 2,
-                                color: "text.secondary",
-                                fontSize: "1rem",
-                            }}>
-                                                Edition: {}
-                                            </Typography>
+                            }}
+                        >
+                            title: Linear ALGEBRA
 
-                                        
-                        </Box>
+                        </Typography>
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}
+                        >
+                            Author: {selectedBook && selectedBook.author}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                            Genre: {selectedBook && selectedBook.genre}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                            Pages: {selectedBook && selectedBook.pages}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                            Published Year: {selectedBook && selectedBook.publishedYear}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                            Language: {selectedBook && selectedBook.language}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                            ISBN: {selectedBook && selectedBook.isbn}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                            Publisher: {selectedBook && selectedBook.publisher}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                            Edition: { }
+                        </Typography>
+
+
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setDialogOpen(false)}>Close</Button>
                 </DialogActions>
             </Dialog>
         </Box>
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
     );
 };
 export default Cataloging;

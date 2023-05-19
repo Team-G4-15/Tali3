@@ -15,30 +15,17 @@ import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { AddingContext } from "../contexts/AddingContext";
 import { Add } from "@mui/icons-material";
-import { DatePicker } from '@mui/x-date-pickers';
 const AddBook = ({ style }) => {
-<<<<<<< HEAD
-
+    const [locationState, setLocationState] = useState("");
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [error, setErrors] = useState(null);
     const {
         setErrorOpen,
         setSuccessOpen,
         handleCloseBookAdd,
-=======
-    //response not working/compatible.
-
-    const [locationState, setLocationState] = useState("");
-    const isNonMobile = useMediaQuery("(min-width:600px)");
-    const navigate = useNavigate();
-    const {
-        setErrorOpen,
-        setSuccessOpen,
-        setErrorMessage,
-        setFilteredRows,
-        handleClose,
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
         setProcessing,
+        setFilteredRows,
+        setErrorMessage,
         feilds,
         publisher,
         languages,
@@ -50,12 +37,8 @@ const AddBook = ({ style }) => {
 
     const handleFormSubmit = (values) => {
         setProcessing(true);
-<<<<<<< HEAD
 
         handleCloseBookAdd();
-=======
-        handleClose();
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
 
         axiosClient
             .post("/books/add", values)
@@ -302,7 +285,6 @@ const AddBook = ({ style }) => {
                                             console.log("book closed");
                                             handleOpenAuthorAdd();
                                             console.log("auhtor open");
-
                                         }}
                                     >
                                         Author
@@ -361,7 +343,6 @@ const AddBook = ({ style }) => {
                                 <InputLabel id="demo-simple-select-label">
                                     Location
                                 </InputLabel>
-<<<<<<< HEAD
 
                                 <Box
                                     display="flex"
@@ -431,45 +412,6 @@ const AddBook = ({ style }) => {
 
                                 </Box>
 
-=======
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={values.location_id}
-                                    name="location_id"
-                                    onChange={event => {
-                                        handleChange(event);
-                                        setLocationState(() => {
-                                            let locationRow = locations.filter(
-                                                (e) =>
-                                                e.location_id ===
-                                                event.target.value
-                                            );
-
-
-
-                                            return (
-                                                locationRow[0].aisle +
-                                                "-" +
-                                                locationRow[0].shelf
-                                            );
-                                        });
-                                    }}
-                                    //renderValue={(value) => value}
-                                    sx={{ gridColumn: "span 4" }}
-                                >
-                                    {locations.map((e) => {
-                                        return (
-                                            <MenuItem
-                                                value={e.location_id}
-                                                name="v"
-                                            >
-                                                {e.aisle}-{e.shelf}
-                                            </MenuItem>
-                                        );
-                                    })}
-                                </Select>
->>>>>>> ce51e22cd1abf1d76040a9cf2b654b9155aaa089
                             </Box>
                             <Box
                                 display="flex"
