@@ -24,10 +24,14 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useNavigate } from "react-router-dom";
-import { axiosClient } from "../../utilities/axiosClient";
+import axios from "axios";
 import AddBook from "../../components/Book.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
+
+const axiosClient = axios.create({
+    baseURL: "http://localhost:8000/api", 
+});
 const Cataloging = () => {
     const theme = useTheme();
 
@@ -146,15 +150,52 @@ const Cataloging = () => {
             input.value = "";
         });
     };
+    const handleCreateBook = (book) => {
+        axiosClient
+            .post("/books", book)
+            .then((res) => {
+                setFilteredRows((prevRows) => [...prevRows, res.data]); 
+                setInitialRows((prevRows) => [...prevRows, res.data]); 
+                handleClose(); 
+                setSuccessOpen(true);
+            })
+            .catch((err) => {
+                setErrorOpen(true); 
+                setErrorMessage("Failed to create book. Please try again."); // Set the error message
+            });
+    };
+
+    const handleUpdateBook = (id, updatedBook) => {
+        axiosClient
+            .put(`/books/${id}`, updatedBook)
+            .then((res) => {
+                setFilteredRows((prevRows) =>
+                    prevRows.map((row) => (row.id === id ? res.data : row))
+                ); // Update the filtered rows with the updated book
+                setInitialRows((prevRows) =>
+                    prevRows.map((row) => (row.id === id ? res.data : row))
+                ); 
+                handleClose(); // Close the book adding modal
+                setSuccessOpen(true); // Show success alert
+            })
+            .catch((err) => {
+                setErrorOpen(true); // Show error alert
+                setErrorMessage("Failed to update book. Please try again."); 
+            });
+    };
+
 
     const handleDelete = (id) => {
         axiosClient
-            .delete(`/book/${id}`)
+            .delete(`/books/${id}`)
             .then((res) => {
+
                 setDeleteRowId(id);
+                setSuccessOpen(true);
             })
             .catch((err) => {
-                // do something for netwok error
+                setErrorOpen(true); // Show error alert
+                setErrorMessage("Failed to delete book. Please try again.");
             });
     };
 
@@ -344,7 +385,12 @@ const Cataloging = () => {
                         locations,
                     }}
                 >
-                    <AddBook style={style} />
+                    <AddBook
+                        style={style}
+                        handleCreateBook={handleCreateBook}
+                        handleUpdateBook={handleUpdateBook}
+                        // handleDeleteBook={handleDeleteBook}
+                    />
                 </BookAddingContext.Provider>
             </Modal>
             <Box
