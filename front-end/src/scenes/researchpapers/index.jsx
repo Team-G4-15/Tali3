@@ -309,7 +309,7 @@ useEffect(()=>{
                     }}
                     onClick={handleOpen}
                 >
-                    add book
+                    add ResearchPaper
                 </Button>
             </Box>
             <Modal open={open} onClose={handleClose} keepMounted>
