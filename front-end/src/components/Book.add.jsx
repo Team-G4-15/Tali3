@@ -2,6 +2,7 @@ import React, { useContext, useState, useTransition } from "react";
 import {
     Box,
     Button,
+    FormControl,
     InputLabel,
     MenuItem,
     Select,
@@ -12,10 +13,9 @@ import Header from "./Header";
 import { Formik } from "formik";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
-import { useNavigate } from "react-router-dom";
 import { AddingContext } from "../contexts/AddingContext";
 import { Add } from "@mui/icons-material";
-
+import { DatePicker } from '@mui/x-date-pickers';
 const AddBook = ({ style }) => {
 
     const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -175,7 +175,9 @@ const AddBook = ({ style }) => {
                                     name="edition"
                                     sx={{ gridColumn: "span 4" }}
                                 />
-
+                                <InputLabel>
+                                    Publish Date
+                                </InputLabel>
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -184,7 +186,7 @@ const AddBook = ({ style }) => {
                                     onChange={handleChange}
                                     value={values.publish_date}
                                     name="publish_date"
-                                    sx={{ gridColumn: "span 4" }}
+                                    sx={{ gridColumn: "span 4", m: 0 }}
                                 />
 
                                 <InputLabel id="demo-simple-select-label">
@@ -197,6 +199,7 @@ const AddBook = ({ style }) => {
                                     justifyContent="space-between"
                                     sx={{ gridColumn: "span 4" }}
                                 >
+
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
@@ -335,27 +338,75 @@ const AddBook = ({ style }) => {
                                 <InputLabel id="demo-simple-select-label">
                                     Location
                                 </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={values.location_id}
-                                    name="location_id"
-                                    onChange={handleChange}
-                                    //renderValue={(value) => value}
-                                    sx={{ gridColumn: "span 4" }}
-                                >
-                                    {locations.map((e) => {
-                                        return (
-                                            <MenuItem
-                                                value={e.location_id}
-                                                name="v"
-                                            >
-                                                {e.aisle}-{e.shelf}
-                                            </MenuItem>
-                                        );
-                                    })}
 
-                                </Select>
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    sx={{ gridColumn: "span 2" }}
+                                >
+                                    <Box
+                                    // fullWidth
+                                    >
+
+                                        <InputLabel >
+                                            Aisle (Character)
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={values.location_id}
+                                            name="location_id"
+                                            onChange={handleChange}
+                                            sx={{ gridColumn: "span 4", mr: 2 }}
+
+                                        >
+                                            {locations.map((e) => {
+                                                return (
+                                                    <MenuItem
+                                                        value={e.location_id}
+                                                        name="v"
+                                                    >
+                                                        {e.aisle}
+                                                    </MenuItem>
+                                                );
+                                            })}
+
+                                        </Select>
+                                    </Box>
+
+
+                                    <Box
+                                        fullWidth
+                                    >
+                                        <InputLabel >
+                                            Shelf Number
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            label=""
+                                            id="demo-simple-select"
+                                            value={values.location_id}
+                                            name="location_id"
+                                            onChange={handleChange}
+                                            sx={{ gridColumn: "span 4" }}
+                                            fullWidth
+                                        >
+                                            {locations.map((e) => {
+                                                return (
+                                                    <MenuItem
+                                                        value={e.location_id}
+                                                        name="v"
+                                                    >
+                                                        {e.shelf}
+                                                    </MenuItem>
+                                                );
+                                            })}
+
+                                        </Select>
+                                    </Box>
+
+                                </Box>
+
                             </Box>
                             <Box
                                 display="flex"
