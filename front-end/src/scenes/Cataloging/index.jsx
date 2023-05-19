@@ -196,6 +196,14 @@ const Cataloging = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const [selectedBook, setSelectedBook] = useState(null);
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+    const handleBookRowClick = (book) => {
+        setSelectedBook(book);
+        setDialogOpen(true);
+    };
+
     const style = {
         position: "absolute",
         top: "50%",
@@ -213,7 +221,12 @@ const Cataloging = () => {
 
     const columns = [
         { field: "pic", headerName: "Pic", flex: 0.5 },
-        { field: "title", headerName: "Title" },
+        { field: "title", headerName: "Title",
+            renderCell: (params) => (
+                <Button onClick={() => handleBookRowClick(params.row)}>
+                    {params.value}
+                </Button>
+            ), },
         {
             field: "author",
             headerName: "Author",
@@ -516,6 +529,7 @@ const Cataloging = () => {
                             console.log("Previous Page");
                         }
                     }}
+                    onRowClick={(params) => setSelectedBook(params.row.id)}
                 />
             </Box>
             <Dialog
@@ -553,6 +567,122 @@ const Cataloging = () => {
                     >
                         Delete
                     </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+                <DialogTitle>{selectedBook && selectedBook.title}</DialogTitle>
+                <DialogContent>
+                    <Box
+                    sx={{
+                         
+                            p: 2,
+                            width: "100%", 
+                        }}
+                        >
+                            <img
+                            src="../../public/BasicLinearAlgebra.png"
+                            alt="book"
+                            sx={{
+                                marginRight: "50%",
+                                width: "50%",
+                                height: "auto",
+                                objectFit: "cover",
+                                borderRadius: "5px",
+                                }}
+                                />
+                                <Typography
+                                sx={{
+                                    mt: 2,
+                                    mb: 2,
+                                    color: "text.secondary",
+                                    fontSize: "1rem",
+                                width: "100%", 
+                               
+                                    }}
+                                    >
+                                        title: Linear ALGEBRA
+
+                                    </Typography>
+                                    <Typography
+                                    sx={{
+                                        mt: 2,
+                                        mb: 2,
+                                        color: "text.secondary",
+                                        fontSize: "1rem",
+                                        }}
+                                        >
+                                            Author: {selectedBook && selectedBook.author}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Genre: {selectedBook && selectedBook.genre}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Pages: {selectedBook && selectedBook.pages}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Published Year: {selectedBook && selectedBook.publishedYear}
+                                            </Typography>
+                                            <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                                Language: {selectedBook && selectedBook.language}
+                                            </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            ISBN: {selectedBook && selectedBook.isbn}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Publisher: {selectedBook && selectedBook.publisher}
+                                            </Typography>
+                                            <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                                Edition: {}
+                                            </Typography>
+
+                                        
+                        </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDialogOpen(false)}>Close</Button>
                 </DialogActions>
             </Dialog>
         </Box>
