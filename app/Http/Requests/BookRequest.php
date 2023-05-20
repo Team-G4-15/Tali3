@@ -23,16 +23,17 @@ class BookRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'ISBN' => 'integer|required',
-            'desc' => 'string',
-            'Quantity' => 'integer|required',
-            'lang_id' => 'integer',
+            'isbn' => 'string|required',
+            'description' => 'string|required',
+            'quantity' => 'required|integer|required|min:1',
+            'language_code' => 'required|string',
             'location_id' => 'integer',
-            'field_id' => 'integer',
+            'field_name' => 'required|string|required',
             'vendor_id' => 'integer',
             'publish_date' => 'date',
             'edition' => 'string|required',
-            //
+            'type' => 'string',
+            'keywords' => 'string',
         ];
     }
 }

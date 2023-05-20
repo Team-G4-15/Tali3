@@ -21,3 +21,4 @@ yarn-error.log
 /.idea
 /.vscode
 >>>>>>> 29394bf (Base Sever and Frontend App provided with http clients,authentication ,redux and  context api)
+app/Models/Book.php

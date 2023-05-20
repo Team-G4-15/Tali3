@@ -18,7 +18,7 @@ class Library{
 }
 
 class Librarian{
-  + Librarian_Email:String (Primary key)
+  + email:String (Primary key)
   Full_Name:String
   Password:String
 }
@@ -99,7 +99,7 @@ class ResearchPaper{
 
 class CurrentLoan{
   + Loan_ID: Integer(Primary key)
-  + Librarian_Email:String(Foreign key)
+  + email:String(Foreign key)
   + Item_ID:Integer(Foreign key)
   + Patron_Email:String(Foreign key)
   Copy_Number:Integer
@@ -113,7 +113,7 @@ class CurrentLoan{
 
 class History{
   + Loan_ID: Integer(Primary key)
-  + Librarian_Email:String(Foreign key)
+  + email:String(Foreign key)
   + Item_ID:Integer(Foreign key)
   + Patron_Email:String(Foreign key)
   Copy_Number:Integer
@@ -133,13 +133,13 @@ class Renewals{
 }
 
 class LostItems{
-  + Librarian_Email:String(Foreign key)
+  + email:String(Foreign key)
   + Item_ID:Integer(Foreign key)
   Copy_Number:Integer
   Reception_date: Date
   Lost_date:date
   Reason:String
-  + PrimaryKey(Item_ID,Librarian_Email,Copy_Number)
+  + PrimaryKey(Item_ID,email,Copy_Number)
 }
 
 class Location{
@@ -162,7 +162,7 @@ class Vendors{
 }
 
 class LibrarianHistory{
-  + Librarian_Email:String (Primary key)
+  + email:String (Primary key)
   Full_Name:String
   Quit_Date:Date
 }

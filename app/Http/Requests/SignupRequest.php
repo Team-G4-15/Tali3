@@ -26,8 +26,9 @@ class SignupRequest extends FormRequest
         /* This will help us to get proper error messages */
         return [
 
-            'name' => 'required|string|max:50',
-            'email' => 'required|email|unique:users,email,except,id',
+            'firstName' => 'required|string|max:50',
+            'lastName' => 'required|string|max:50',
+            'email' => 'required|email|unique:librarian,email,except,id',
             'password' => ['required', 'confirmed', Password::min(8)->letters()->symbols()]
         ];
     }

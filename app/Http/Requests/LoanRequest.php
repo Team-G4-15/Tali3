@@ -19,13 +19,14 @@ class LoanRequest extends FormRequest{
     public function rules(): array
     {
         return [
-            'books_id' => 'required|integer',
+            'book_id' => 'required|integer',
             'patron_email' => 'string|required',
-            'Copy_Number' => 'integer',
-            'Loan_date' => 'date|required',
+            'copy_number' => 'integer|required',
+            'loan_date' => 'date|required',
             'due_date' => 'date|required',
-            'Renewal_count' => 'integer',
-            //
+            'renewal_count' => 'integer',
+            'email' =>"string|required",
+            
         ];
     }
 }

@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
@@ -6,9 +6,11 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
-
-const Team = () => {
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
+const Members = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
   const columns = [
     {
@@ -60,8 +62,8 @@ const Team = () => {
               access === "admin"
                 ? colors.greenAccent[600]
                 : access === "manager"
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
+                  ? colors.greenAccent[700]
+                  : colors.greenAccent[700]
             }
             borderRadius="4px"
           >
@@ -79,7 +81,33 @@ const Team = () => {
 
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Box sx={{ justifyContent: "space-between", display: "flex" }}>
+        <Header title="Members" subtitle="Managing the members" />
+         <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon />}
+                    sx={{
+                        backgroundColor: "#FD5F00",
+                        color: "white",
+                        "&:hover": {
+                            backgroundColor: "#FF7100",
+                        },
+                        "&:active": {
+                            backgroundColor: "#FF7100",
+                        },
+                        "&:focus": {
+                            backgroundColor: "#FF7100",
+                        },
+                        borderRadius: "10%",
+                        padding: "12px 24px",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                    }}
+                    
+          onClick={() => navigate("/AddUser")}
+        >Add Member</Button>
+      </Box>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -115,4 +143,4 @@ const Team = () => {
   );
 };
 
-export default Memeber;
+export default Members;

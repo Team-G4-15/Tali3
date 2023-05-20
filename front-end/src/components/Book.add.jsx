@@ -1,50 +1,87 @@
-import React, { useState } from "react";
-import { Box, Button, InputLabel, MenuItem, Select, TextField, useMediaQuery } from "@mui/material";
+import React, { useContext, useState } from "react";
+import {
+    Box,
+    Button,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+    useMediaQuery,
+} from "@mui/material";
 import Header from "./Header";
-import { useUserContext } from "../contexts/UserContextProvider";
 import { Formik } from "formik";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
-const AddBook = () => {
+import { BookAddingContext } from "../contexts/BookAddingContext";
+
+const AddBook = ({ style }) => {
+    //response not working/compatible.
+
+    const [locationState, setLocationState] = useState("");
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
-    let { setUser, setToken } = useUserContext();
-    let [error, setErrors] = useState(null); //
+    const {
+        setErrorOpen,
+        setSuccessOpen,
+        setErrorMessage,
+        setFilteredRows,
+        handleClose,
+        setProcessing,
+        feilds,
+        publisher,
+        languages,
+        vendors,
+        locations,
+    } = useContext(BookAddingContext);
+
     const handleFormSubmit = (values) => {
+        setProcessing(true);
+        handleClose();
 
-        console.log(values);
-
-        //console.log(payload);
         axiosClient
-            .post("/AdminLogin", values)
+            .post("/books/add", values)
             .then((respose) => {
-                setUser(respose.data.user);
-                setToken(respose.data.token);
-                navigate("/dashboard");
+                console.log(respose);
+                values = {
+                    ...values,
+                    id: respose.data.book_id,
+                    availability: "Available",
+                    location: locationState
+                };
+                setProcessing(false);
+                setSuccessOpen(true);
+                setFilteredRows((prev) => [...prev, values]);
             })
             .catch((err) => {
-                console.log(err);
+                setErrorOpen(true);
+                setProcessing(false);
 
+                console.log(err);
                 let data = err.response.data;
                 if (!data.message) {
-                    setErrors(data);
+                    setErrorMessage(data);
                 } else {
-                    setErrors(data.message);
+                    setErrorMessage(data.message);
                 }
             });
     };
     return (
         <>
-
-            <Box m="20px">
-                <Header title="Add a Book" subtitle="Add a book to Tali3's Database" />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
+            <Box m="20px" sx={style}>
+                <Header
+                    title="Add a Book"
+                    subtitle="Add a book to Tali3's Database"
+                />
+                <Formik
+                    onSubmit={handleFormSubmit}
+                    initialValues={initialValues}
+                >
                     {({
                         values,
                         errors,
                         touched,
-                        handleBlur,
+                        //handleBlur,
                         handleChange,
                         handleSubmit,
                     }) => (
@@ -54,7 +91,11 @@ const AddBook = () => {
                                 gap="30px"
                                 gridTemplateColumns="repeat(4, minmax(0, 1fr))"
                                 sx={{
-                                    "& > div": { gridColumn: isNonMobile ? undefined : "span 2" },
+                                    "& > div": {
+                                        gridColumn: isNonMobile
+                                            ? undefined
+                                            : "span 2",
+                                    },
                                 }}
                             >
                                 <TextField
@@ -62,10 +103,10 @@ const AddBook = () => {
                                     variant="filled"
                                     type="text"
                                     label="Title"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_title}
-                                    name="book_title"
+                                    value={values.title}
+                                    name="title"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -74,22 +115,10 @@ const AddBook = () => {
                                     variant="filled"
                                     type="text"
                                     label="Keywords (seperated by comma)"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_keywords}
-                                    name="book_keywords"
-                                    sx={{ gridColumn: "span 4" }}
-                                />
-
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Location ID"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.book_locationID}
-                                    name="book_locationID"
+                                    value={values.keywords}
+                                    name="keywords"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -98,10 +127,10 @@ const AddBook = () => {
                                     variant="filled"
                                     type="text"
                                     label="Item Description"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_desc}
-                                    name="book_desc"
+                                    value={values.description ?? ""}
+                                    name="description"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -110,10 +139,10 @@ const AddBook = () => {
                                     variant="filled"
                                     type="text"
                                     label="Type (Insert a Character)"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_type}
-                                    name="book_type"
+                                    value={values.type}
+                                    name="type"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -122,10 +151,10 @@ const AddBook = () => {
                                     variant="filled"
                                     type="text"
                                     label="ISBN"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_isbn}
-                                    name="book_isbn"
+                                    value={values.isbn}
+                                    name="isbn"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -134,127 +163,211 @@ const AddBook = () => {
                                     variant="filled"
                                     type="text"
                                     label="Quantity"
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.book_quantity}
-                                    name="book_quantity"
+                                    value={values.quantity}
+                                    name="quantity"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
-                                <InputLabel
-                                    id="demo-simple-select-label">Vendor ID</InputLabel>
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Edition"
+                                    // onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.edition}
+                                    name="edition"
+                                    sx={{ gridColumn: "span 4" }}
+                                />
+
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="date"
+                                    // onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.publish_date}
+                                    name="publish_date"
+                                    sx={{ gridColumn: "span 4" }}
+                                />
+
+                                <InputLabel id="demo-simple-select-label">
+                                    Vendor
+                                </InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.vendorID}
-                                    label="VendorID"
-                                    name="vendorID"
+                                    value={values.vendor_id}
+                                    name="vendor_id"
+                                    //renderValue={(value) => value}
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
-
                                 >
-                                    <MenuItem value={values.vendor1} name="vendor1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.vendor2} name="vendor2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.vendor3} name="vendor3">MOCKDATA</MenuItem>
+                                    {vendors.map((e) => {
+                                        return (
+                                            <MenuItem
+                                                value={e.vendor_id}
+                                                name="v"
+                                            >
+                                                {e.name}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </Select>
 
-
-                                <InputLabel id="demo-simple-select-label">Publisher ID</InputLabel>
+                                <InputLabel id="demo-simple-select-label">
+                                    Publisher
+                                </InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.publisherID}
-                                    name="publisherID"
-                                    label="publisherID"
+                                    value={values.publisher_id}
+                                    name="publisher_id"
                                     onChange={handleChange}
+                                    //renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.publisher1} name="publisher1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.publisher2} name="publisher2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.publisher3} name="publisher3">MOCKDATA</MenuItem>
+                                    {publisher.map((e) => {
+                                        return (
+                                            <MenuItem
+                                                value={e.author_id}
+                                                name="v"
+                                            >
+                                                {e.author_name}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </Select>
 
-                                <InputLabel id="demo-simple-select-label">Field ID</InputLabel>
+                                <InputLabel id="demo-simple-select-label">
+                                    Field
+                                </InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.fieldID}
-                                    label="fieldID"
-                                    name="fieldID"
+                                    value={values.field_name}
+                                    name="field_name"
                                     onChange={handleChange}
+                                    renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.field1} name="field1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.field2} name="field2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.field3} name="field3">MOCKDATA</MenuItem>
+                                    {feilds.map((e) => {
+                                        return (
+                                            <MenuItem
+                                                value={e.field_name}
+                                                name="v"
+                                            >
+                                                {e.field_name}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </Select>
 
-
-                                <InputLabel id="demo-simple-select-label">Language Code</InputLabel>
+                                <InputLabel id="demo-simple-select-label">
+                                    Language Code
+                                </InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.langcode}
-                                    label="langcode"
-                                    name="langcode"
+                                    value={values.language_code}
+                                    name="language_code"
                                     onChange={handleChange}
+                                    //renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <MenuItem value={values.langcode1} name="langcode1">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.langcode2} name="langcode2">MOCKDATA</MenuItem>
-                                    <MenuItem value={values.langcode3} name="langcode3">MOCKDATA</MenuItem>
+                                    {languages.map((e) => {
+                                        return (
+                                            <MenuItem
+                                                value={e.language_code}
+                                                name="v"
+                                            >
+                                                {e.language}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </Select>
 
+                                <InputLabel id="demo-simple-select-label">
+                                    Location
+                                </InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={values.location_id}
+                                    name="location_id"
+                                    onChange={event => {
+                                        handleChange(event);
+                                        setLocationState(() => {
+                                            let locationRow = locations.filter(
+                                                (e) =>
+                                                e.location_id ===
+                                                event.target.value
+                                            );
 
 
+
+                                            return (
+                                                locationRow[0].aisle +
+                                                "-" +
+                                                locationRow[0].shelf
+                                            );
+                                        });
+                                    }}
+                                    //renderValue={(value) => value}
+                                    sx={{ gridColumn: "span 4" }}
+                                >
+                                    {locations.map((e) => {
+                                        return (
+                                            <MenuItem
+                                                value={e.location_id}
+                                                name="v"
+                                            >
+                                                {e.aisle}-{e.shelf}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
                             </Box>
-                            <Box display="flex" justifyContent="center" mt="20px">
-                                <Button type="submit" color="secondary" variant="contained" onClick={handleSubmit}>
+                            <Box
+                                display="flex"
+                                justifyContent="center"
+                                mt="20px"
+                            >
+                                <Button
+                                    type="submit"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={handleSubmit}
+                                >
                                     Add Book
                                 </Button>
                             </Box>
                         </form>
                     )}
                 </Formik>
-
             </Box>
-
-
-
-
         </>
-
-
-
-    )
-
-
-}
+    );
+};
 const initialValues = {
     title: "",
-    book_title: "",
-    book_keywords: "",
-    locationID: "",
-    book_desc: "",
-    book_type: "",
-    book_isbn: "",
-    book_quantity: "",
-    vendorID: "",
-    vendor1: "",
-    vendor2: "",
-    vendor3: "",
-    publisherID: "",
-    publisher1: "",
-    publisher2: "",
-    publisher3: "",
-    fieldID: "",
-    field1: "",
-    field2: "",
-    field3: "",
-    langcode: "",
-    langcode1: "",
-    langcode2: "",
-    langcode3: ""
+    keywords: "",
+    location_id: "",
+    description: "",
+    type: "",
+    isbn: "",
+    quantity: "",
+    vendor_id: "",
+    publisher_id: "",
+    field_name: "",
+    language_code: "",
+    location: "",
+    edition: "",
+    publish_date: "",
 };
+
+export default AddBook;
 
 export default AddBook;
