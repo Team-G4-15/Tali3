@@ -8,7 +8,7 @@ import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
-const Members = () => {
+const Member = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
@@ -143,4 +143,4 @@ const Members = () => {
   );
 };
 
-export default Members;
+export default Member;

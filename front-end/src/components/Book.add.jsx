@@ -369,5 +369,3 @@ const initialValues = {
 };
 
 export default AddBook;
-
-export default AddBook;
