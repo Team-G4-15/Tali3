@@ -11,7 +11,7 @@ class copy extends Model
     protected $primaryKey = ['item_id', 'copy_number'];
 
     protected $fillable=[
-        "item_id",
+        'book_id',
         'copy_number',
         'reception_date'
     ];
