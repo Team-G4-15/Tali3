@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get("/books",[BookController::class,'AllBooks']);
 Route::post("/researchpapers/add", [BookController::class, 'AddResearchpaper']);
 Route::delete("/researchpapers/{id}", [BookController::class, 'DeleteResearchpaper']);
+
 // authentication routes
 Route::post('/AddAdmin', [AuthController::class, 'signup']);
 Route::post('/AdminLogin', [AuthController::class, 'login']);
@@ -44,5 +45,9 @@ Route::get("/books",[BookController::class, 'getPaginateBooks']);
 Route::get("/books/search",[BookController::class, 'SearchBook']);
 
 
+// Patron routes
+Route::post("/patrons/{id}", [PatronController::class, 'AddPatron']);
+Route::delete("/patrons/{id}", [PatronController::class, 'DeletePatron']);
+Route::get("/patrons", [PatronController::class, 'getAllPatrons']);
 
 //Book modification routes
