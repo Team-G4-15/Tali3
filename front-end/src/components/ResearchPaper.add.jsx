@@ -28,7 +28,7 @@ const AddResearchPaper = ({ style }) => {
         feilds,
         publisher,
         languages,
-        vendors,
+        Level,
         locations,
     } = useContext(BookAddingContext);
 
@@ -60,8 +60,8 @@ const AddResearchPaper = ({ style }) => {
         <>
             <Box m="20px" sx={style}>
                 <Header
-                    title="Add a Book"
-                    subtitle="Add a book to Tali3's Database"
+                    title="Add a Resaech Paper"
+                    subtitle="Add a Resaech Paper to Tali3's Database"
                 />
                 <Formik
                     onSubmit={handleFormSubmit}
@@ -142,11 +142,11 @@ const AddResearchPaper = ({ style }) => {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="ISBN"
+                                    label="DOI"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.isbn}
-                                    name="isbn"
+                                    value={values.DOI}
+                                    name="DOI"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -162,17 +162,6 @@ const AddResearchPaper = ({ style }) => {
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Edition"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.edition}
-                                    name="edition"
-                                    sx={{ gridColumn: "span 4" }}
-                                />
 
                                 <TextField
                                     fullWidth
@@ -186,21 +175,21 @@ const AddResearchPaper = ({ style }) => {
                                 />
 
                                 <InputLabel id="demo-simple-select-label">
-                                    Vendor
+                                    Level
                                 </InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={values.vendor_id}
-                                    name="vendor_id"
+                                    value={values.level_id}
+                                    name="level_id"
                                     //renderValue={(value) => value}
                                     onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    {vendors.map((e) => {
+                                    {Level.map((e) => {
                                         return (
                                             <MenuItem
-                                                value={e.vendor_id}
+                                                value={e.level_id}
                                                 name="v"
                                             >
                                                 {e.name}
@@ -318,7 +307,7 @@ const AddResearchPaper = ({ style }) => {
                                     variant="contained"
                                     onClick={handleSubmit}
                                 >
-                                    Add Book
+                                    Add Resaech Paper
                                 </Button>
                             </Box>
                         </form>
@@ -334,13 +323,12 @@ const initialValues = {
     location_id: "",
     description: "",
     type: "",
-    isbn: "",
+    DOI: "",
     quantity: "",
-    vendor_id: "",
+    level_id: "",
     publisher_id: "",
     field_name: "",
     language_code: "",
-    edition: "",
     publish_date: "",
 };
 

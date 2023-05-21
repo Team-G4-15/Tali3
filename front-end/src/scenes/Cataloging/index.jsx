@@ -22,7 +22,6 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utilities/axiosClient";
 import AddBook from "../../components/Book.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
@@ -366,7 +365,7 @@ const Cataloging = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "16px",
-                    backgroundColor: "#F6F6E9",
+                    backgroundColor: colors.primary[400],
                     padding: "16px",
                     borderRadius: "8px",
                 }}

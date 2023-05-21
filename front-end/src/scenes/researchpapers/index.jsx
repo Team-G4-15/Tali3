@@ -23,7 +23,6 @@ import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utilities/axiosClient";
 import AddResearchPaper from "../../components/ResearchPaper.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
@@ -74,11 +73,11 @@ useEffect(()=>{
         );
     };
 
-    const handleSearchISBN = (value) => {
+    const handleSearchDOI = (value) => {
         HandleSearchChanges(
             value,
             searchState,
-            "isbn",
+            "DOI",
             filteredRows,
             mockDataContacts,
             setSearchState,
@@ -110,11 +109,11 @@ useEffect(()=>{
         );
     };
 
-    const handleSearchBarCode = (value) => {
+    const handleSearchLevel = (value) => {
         HandleSearchChanges(
             value,
             searchState,
-            "barcode",
+            "Level",
             filteredRows,
             mockDataContacts,
             setSearchState,
@@ -158,14 +157,14 @@ useEffect(()=>{
     const [publisher, setPublisher] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [locations, setLocations] = useState([]);
-    const [vendors, setVendors] = useState([]);
+    const [Level, setLevel] = useState([]);
 
     useEffect(() => {
         axiosClient.get("/languages").then((response) => {
             setLanguages(response.data);
         });
-        axiosClient.get("/vendors").then((response) => {
-            setVendors(response.data);
+        axiosClient.get("/Level").then((response) => {
+            setLevel(response.data);
         });
         axiosClient.get("/fields").then((response) => {
             setFields(response.data);
@@ -206,8 +205,8 @@ useEffect(()=>{
             cellClassName: "name-column--cell",
         },
         {
-            field: "isbn",
-            headerName: "ISBN",
+            field: "DOI",
+            headerName: "DOI",
             type: "number",
             headerAlign: "left",
             align: "left",
@@ -223,9 +222,18 @@ useEffect(()=>{
             flex: 1,
         },
         {
-            field: "barcode",
-            headerName: "BarCode",
+            field: "Level",
+            headerName: "Level",
             flex: 1,
+            renderCell: (params) => (
+                <Box
+            sx={{
+                color:"#FD5F00"
+            }}
+            >
+                {params.value}
+                </Box>
+            ),
         },
         {
             field: "availability",
@@ -322,7 +330,7 @@ useEffect(()=>{
                         feilds,
                         publisher,
                         languages,
-                        vendors,
+                        Level,
                         locations,
                     }}
                 >
@@ -336,7 +344,7 @@ useEffect(()=>{
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "16px",
-                    backgroundColor: "#F6F6E9",
+                    backgroundColor: colors.primary[400],
                     padding: "16px",
                     borderRadius: "8px",
                 }}
@@ -363,9 +371,9 @@ useEffect(()=>{
                 />
                 <TextField
                     size="small"
-                    placeholder="ISBN"
+                    placeholder="DOI"
                     variant="outlined"
-                    onChange={(e) => handleSearchISBN(e.target.value)}
+                    onChange={(e) => handleSearchDOI(e.target.value)}
                     sx={{ marginRight: "8px" }}
                 />
                 <TextField
@@ -386,10 +394,11 @@ useEffect(()=>{
                 />
                 <TextField
                     size="small"
-                    placeholder="BarCode"
+                    placeholder="Level"
                     variant="outlined"
-                    onChange={(e) => handleSearchBarCode(e.target.value)}
-                    sx={{ marginRight: "8px" }}
+                    onChange={(e) => handleSearchLevel(e.target.value)}
+                    sx={{ marginRight: "8px"
+                 }}
                 />
                 <TextField
                     size="small"
@@ -466,7 +475,7 @@ useEffect(()=>{
                             mb: 2,
                         }}
                     >
-                        Book Added Succesfully !
+                        Research Paper Added Succesfully !
                     </Alert>
                 </Collapse>
                 <Collapse in={errorOpen}>
@@ -484,7 +493,7 @@ useEffect(()=>{
                         }
                         sx={{ mb: 2 }}
                     >
-                        Server Error Occured When Adding The Book
+                        Server Error Occured When Adding The Research Paper
                     </Alert>
                 </Collapse>
 
