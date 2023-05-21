@@ -14,11 +14,6 @@ import { AddingContext } from "../contexts/AddingContext";
 
 export const AddAuthor = ({ style }) => {
 
-    useEffect(() => {
-        console.log("Author opned hdvsh effect");
-    }, [])
-
-
     const isNonMobile = useMediaQuery("(min-width:600px)");
 
 

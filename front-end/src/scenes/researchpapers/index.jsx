@@ -28,7 +28,8 @@ import { axiosClient } from "../../utilities/axiosClient";
 import AddResearchPaper from "../../components/ResearchPaper.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
-const ResearchPapers = () => {
+const 
+    ResearchPapers = () => {
     const theme = useTheme();
 
     const colors = tokens(theme.palette.mode);
@@ -57,6 +58,7 @@ const ResearchPapers = () => {
             setFilteredRows
         );
     };
+
     useEffect(() => {
         axiosClient.get("/researchpapers").then(res => {
             setFilteredRows(res)
