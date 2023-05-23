@@ -3,7 +3,7 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Members from "./scenes/team";
 import BookSearch from "./scenes/Filtering/BookSearch";
-import PeriodicalSearch from "./scenes/Filtering/PeriodicalsSearch";
+
 import SearchPage from "./scenes/Filtering";
 import Bar from "./scenes/bar";
 import Form from "./scenes/form";

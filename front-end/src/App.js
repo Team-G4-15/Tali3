@@ -61,24 +61,7 @@ function App() {
 
                                 {/* TO BE REMOVED AFTER WORK */}
                                 <AppHeightContext.Provider value={{ height, setHeight }}>
-                                    <Sidebar isSidebar={isSidebar} />
-                                    <main className="content">
-                                        <Topbar setIsSidebar={setIsSidebar} />
-                                        <Routes>
-                                            <Route path="/members" element={<Members />} />
-                                            {/* <Route path="/contacts" element={<Contacts />} /> */}
-                                            <Route path="/Cataloging" element={<Cataloging />} />
-                                            <Route path="/form" element={<Form />} />
-                                            <Route path="/bar" element={<Bar />} />
-                                            <Route path="/pie" element={<Pie />} />
-                                            <Route path="/line" element={<Line />} />
-                                            <Route path="/faq" element={<FAQ />} />
-                                            <Route path="/calendar" element={<Calendar />} />
-                                            <Route path="/geography" element={<Geography />} />
-                                            <Route path="/dashboard" element={<Dashboard />} />
-                                            <Route path="/addBook" element={<AddBook />} />
-                                        </Routes>
-                                    </main>
+                                    <ProtectedRoutes></ProtectedRoutes>
                                 </AppHeightContext.Provider>
                             </>
                         )}
