@@ -8,6 +8,7 @@ const UserContext = createContext({
     setUser: () => {},
     setToken: () => {},
 });
+// nothing
 export const UserContextProvider = ({ children }) => {
     // global states that will be passed through the contextProvider
 
