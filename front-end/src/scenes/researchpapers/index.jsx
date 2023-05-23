@@ -21,6 +21,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
+import UpdateIcon from "@mui/icons-material/Update";
 import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { axiosClient } from "../../utilities/axiosClient";
@@ -36,8 +37,11 @@ const ResearchPapers = () => {
     const [filteredRows, setFilteredRows] = useState(mockDataContacts);
     const [deleteRowId, setDeleteRowId] = useState(null);
     const [successOpen, setSuccessOpen] = useState(null);
+    const [initialRows, setInitialRows] = useState([]);
     const [errorOpen, setErrorOpen] = useState(null);
     const [processing, setProcessing] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
+
 
     const [searchState, setSearchState] = useState({});
 
@@ -142,6 +146,31 @@ useEffect(()=>{
 
     const handleDelete = (id) => {
         setDeleteRowId(id);
+    };
+    const handleUpdate = (id, updatedBook) => {
+        setProcessing(true);
+        axiosClient
+            .put(`/book/${id}`, updatedBook)
+            .then((res) => {
+                const updatedRows = filteredRows.map((row) => {
+                    if (row.id === id) {
+                        return {
+                            ...row,
+                            ...updatedBook,
+                        };
+                    }
+                    return row;
+                });
+                setFilteredRows(updatedRows);
+                setInitialRows(updatedRows);
+                setSuccessOpen(true);
+                setProcessing(false);
+            })
+            .catch((err) => {
+                setErrorMessage(err.message);
+                setErrorOpen(true);
+                setProcessing(false);
+            });
     };
 
     const handleConfirmDelete = () => {
@@ -318,6 +347,34 @@ useEffect(()=>{
                     onClick={handleOpen}
                 >
                     add ResearchPaper
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<UpdateIcon />}
+                    sx={{
+                        backgroundColor: "#1976d2",
+                        "&:hover": {
+                            backgroundColor: "#1e88e5",
+                        },
+                        "&:focus": {
+                            backgroundColor: "#1e88e5",
+                        },
+                        borderRadius: "2.5%",
+                        color: "#fff",
+                        width: "10%",
+                        height: "130%",
+                        "& .MuiButton-label": {
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                        },
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.24)",
+                    }}
+                    onClick={handleUpdate}
+                >
+                    Update ResearchPaper
                 </Button>
             </Box>
             <Modal open={open} onClose={handleClose} keepMounted>

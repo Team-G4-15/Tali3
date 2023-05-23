@@ -146,11 +146,12 @@ const Cataloging = () => {
     };
 
     const handleDelete = (id) => {
-        axiosClient
-            .delete(`/book/${id}`)
+
+        axiosClient.delete(`/book/${id}`)
             .then((res) => {
                 setDeleteRowId(id);
             })
+        
             .catch((err) => {
                 // do something for netwok error
             });
