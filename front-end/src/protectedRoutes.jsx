@@ -13,19 +13,19 @@ import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import Calendar from "./scenes/calendar/calendar";
 import AddBook from "./components/Book.add";
+import Cataloging from "./scenes/Cataloging";
 import ResearchPapers from "./scenes/researchpapers";
 import AddResearchPaper from "./components/ResearchPaper.add";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
 import { useEffect } from "react";
-import Cataloging from "./scenes/Cataloging";
 export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
     const { user, token } = useUserContext();
     let navigate = useNavigate();
 
     useEffect(() => {
         if (!user || !token) {
-           navigate("/");
+            navigate("/");
         }
     }, []);
 
@@ -50,8 +50,11 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/addBook" element={<AddBook />} />
                             <Route path="/researchpapers/add" element={<AddResearchPaper />} />
-                            <Route path="/Filtering" element={<SearchPage />}></Route>
-                            <Route path="/researchpapers" element={<ResearchPapers/>}></Route>
+
+                            <Route path="/Book.search" element={<BookSearch />} />
+                            <Route path="/Filtering" element={<SearchPage />} />
+                            {/* <Route path="/Filtering" element={<PeriodicalSearch />} /> */}
+                            <Route path="/researchpapers" element={<ResearchPapers />} />
                         </Routes>
                     </main>
                 </>

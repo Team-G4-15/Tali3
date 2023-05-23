@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BookAddingContext } from "../../contexts/BookAddingContext";
+import { AddingContext } from "../../contexts/AddingContext";
 import {
     Box,
     IconButton,
@@ -27,9 +27,10 @@ import { axiosClient } from "../../utilities/axiosClient";
 import AddResearchPaper from "../../components/ResearchPaper.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
-const ResearchPapers = () => {
+const 
+    ResearchPapers = () => {
     const theme = useTheme();
-    
+
     const colors = tokens(theme.palette.mode);
 
     //const navigate = useNavigate();
@@ -43,7 +44,7 @@ const ResearchPapers = () => {
 
 
     // we need to refactor the state
-    const [pageNumber,setPageNumber]=useState(0);
+    const [pageNumber, setPageNumber] = useState(0);
     const handleSearchTitle = (value) => {
         // this is the function that handles the search input changing fields
         HandleSearchChanges(
@@ -56,11 +57,12 @@ const ResearchPapers = () => {
             setFilteredRows
         );
     };
-useEffect(()=>{
-    axiosClient.get("/researchpapers").then(res=>{
-        setFilteredRows(res)
-    }).catch(err=>{})
-},[]);
+
+    useEffect(() => {
+        axiosClient.get("/researchpapers").then(res => {
+            setFilteredRows(res)
+        }).catch(err => { })
+    }, []);
     const handleSearchAuthor = (value) => {
         HandleSearchChanges(
             value,
@@ -246,8 +248,8 @@ useEffect(()=>{
                             params.value === "Available"
                                 ? "#03C988"
                                 : params.value === "On Loan"
-                                ? "#FE3535"
-                                : "#0A2A5C",
+                                    ? "#FE3535"
+                                    : "#0A2A5C",
                         borderRadius: "4px",
                         padding: "4px 8px",
                     }}
@@ -321,7 +323,7 @@ useEffect(()=>{
                 </Button>
             </Box>
             <Modal open={open} onClose={handleClose} keepMounted>
-                <BookAddingContext.Provider
+                <AddingContext.Provider
                     value={{
                         setErrorOpen,
                         setSuccessOpen,
@@ -335,7 +337,7 @@ useEffect(()=>{
                     }}
                 >
                     <AddResearchPaper style={style} />
-                </BookAddingContext.Provider>
+                </AddingContext.Provider>
             </Modal>
             <Box
                 style={{
@@ -501,14 +503,14 @@ useEffect(()=>{
                     rows={filteredRows}
                     columns={columns}
                     components={{ Toolbar: GridToolbar }}
-                    onPageChange={(newPage)=>{
-                        if(newPage>pageNumber){
+                    onPageChange={(newPage) => {
+                        if (newPage > pageNumber) {
                             console.log("Next Page");
-                        }else{
+                        } else {
                             console.log("Previous Page");
                         }
                     }
-                }
+                    }
 
                 />
             </Box>

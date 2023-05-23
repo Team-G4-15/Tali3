@@ -1,12 +1,8 @@
-import React, { useState } from "react";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { useState, useRef, useContext, useEffect } from "react";
+import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Box, IconButton, SvgIcon, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "../../components/Logo";
-import {
-  ProSidebar,
-  Menu,
-  MenuItem,
-} from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -24,6 +20,8 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import DescriptionIcon from '@mui/icons-material/Description';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { useUserContext } from "../../contexts/UserContextProvider";
+import { AppHeightContext } from "../../contexts/AppHeight";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -44,12 +42,19 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const Sidebar = () => {
+
+
+  const { height } = useContext(AppHeightContext);
+
   const [isLogged, setLogged] = useState(false);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const { user, token } = useUserContext();
+
+
+  //useEffect(() => { height = height ? height + 200 : null }, [])
 
 
   return (
@@ -76,6 +81,9 @@ const Sidebar = () => {
         "& .pro-item.selected": {
           color: "#0443A5 !important",
         },
+        "height": {
+          height
+        }
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
@@ -134,7 +142,7 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            
+
             {(user && token) && <Item
               title="Dashboard"
               to="/dashboard"
@@ -168,7 +176,7 @@ const Sidebar = () => {
             <Item
               title="Books"
               to="/Cataloging"
-              icon={<MenuBookIcon  />}
+              icon={<MenuBookIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -247,7 +255,7 @@ const Sidebar = () => {
           </Box>
         </Menu>
       </ProSidebar>
-    </Box>
+    </Box >
   );
 };
 

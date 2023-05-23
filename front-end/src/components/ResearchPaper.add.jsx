@@ -13,7 +13,7 @@ import { Formik } from "formik";
 import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
-import { BookAddingContext } from "../contexts/BookAddingContext";
+import { AddingContext } from "../contexts/AddingContext";
 
 const AddResearchPaper = ({ style }) => {
     //response not working/compatible.
@@ -30,7 +30,7 @@ const AddResearchPaper = ({ style }) => {
         languages,
         Level,
         locations,
-    } = useContext(BookAddingContext);
+    } = useContext(AddingContext);
 
     const handleFormSubmit = (values) => {
         setProcessing(true);
@@ -258,7 +258,7 @@ const AddResearchPaper = ({ style }) => {
                                     //renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                     {languages.map((e) => {
+                                    {languages.map((e) => {
                                         return (
                                             <MenuItem
                                                 value={e.language_code}
@@ -283,7 +283,7 @@ const AddResearchPaper = ({ style }) => {
                                     //renderValue={(value) => value}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                     {locations.map((e) => {
+                                    {locations.map((e) => {
                                         return (
                                             <MenuItem
                                                 value={e.location_id}
@@ -332,4 +332,4 @@ const initialValues = {
     publish_date: "",
 };
 
-export default AddResearchPaper ;
+export default AddResearchPaper;
