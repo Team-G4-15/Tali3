@@ -8,29 +8,38 @@ import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
-const Members = () => {
+const Member = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
   const columns = [
+    {
+      field: "avatar",
+      headerName: "",
+      flex: 1,
+      renderCell: (params) => (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "40px",
+          }}
+        >
+          <img
+            src={params.value}
+            alt="avatar"
+            style={{ borderRadius: "50%", width: "40px", height: "40px" }}
+          />
+        </Box>
+      ),
+    },
     { field: "id", headerName: "ID" },
     {
       field: "name",
       headerName: "Name",
       flex: 1,
       cellClassName: "name-column--cell",
-    },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
     },
     {
       field: "email",
@@ -113,7 +122,7 @@ const Members = () => {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: "{colors.primary[400]}",
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -121,7 +130,7 @@ const Members = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: "{colors.primary[400]}",
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
@@ -134,4 +143,4 @@ const Members = () => {
   );
 };
 
-export default Members;
+export default Member;

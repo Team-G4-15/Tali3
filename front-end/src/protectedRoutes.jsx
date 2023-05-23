@@ -19,7 +19,6 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
 import { useEffect } from "react";
 import Cataloging from "./scenes/Cataloging";
-
 export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
     const { user, token } = useUserContext();
     let navigate = useNavigate();
@@ -51,10 +50,7 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/addBook" element={<AddBook />} />
                             <Route path="/researchpapers/add" element={<AddResearchPaper />} />
-                            
-                            <Route path="/Book.search" element={<BookSearch />}></Route>
                             <Route path="/Filtering" element={<SearchPage />}></Route>
-                            <Route path="/Filtering" element={<PeriodicalSearch/>}></Route>
                             <Route path="/researchpapers" element={<ResearchPapers/>}></Route>
                         </Routes>
                     </main>

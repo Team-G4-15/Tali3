@@ -32,7 +32,6 @@ class BookController extends Controller
         'type',
         'quantity',
         'author_name',
-
     ];
 
     function getPaginateBooks(Request $request)
