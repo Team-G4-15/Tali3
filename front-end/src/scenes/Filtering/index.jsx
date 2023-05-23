@@ -246,13 +246,7 @@ function  SearchPage() {
           sx={{ gridColumn: "span 4" }}
         />
         {
-        
-        
-        
         ((bookSelected && (!paperSelected && !periodicalSelected))||(!paperSelected && !periodicalSelected  && !bookSelected))  ?
-        
-        
-        
         (
           <>
               <TextField
