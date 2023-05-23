@@ -19,7 +19,6 @@ import AddResearchPaper from "./components/ResearchPaper.add";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
 import { useEffect } from "react";
-
 export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
     const { user, token } = useUserContext();
     let navigate = useNavigate();

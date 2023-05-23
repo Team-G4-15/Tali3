@@ -2,9 +2,9 @@ import { useState, useRef, useContext, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, SvgIcon, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import Logo from "../../components/Logo";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import Logo from "../../components/Logo";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/Autorenew";
@@ -17,15 +17,8 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import {
-  Add,
-  JoinFull,
-  LoginOutlined,
-  PersonAdd,
-  SignalCellular0BarRounded,
-  Upcoming,
-  Upload,
-} from "@mui/icons-material";
+import DescriptionIcon from '@mui/icons-material/Description';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { useUserContext } from "../../contexts/UserContextProvider";
 import { AppHeightContext } from "../../contexts/AppHeight";
 
@@ -77,14 +70,16 @@ const Sidebar = () => {
           padding: "5px 35px 5px 20px !important",
           color: "#000000 !important",
         },
+
         "& .pro-inner-item:hover": {
           color: "#FD5F00 !important",
         },
         "& .pro-inner-item:active": {
-          color: "#FD5F00 !important",
+          color: "#0443A5 !important",
         },
-        "& .pro-menu-item.active": {
-          color: "#FD5F00 !important",
+
+        "& .pro-item.selected": {
+          color: "#0443A5 !important",
         },
         "height": {
           height
@@ -147,7 +142,7 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            
+
             {(user && token) && <Item
               title="Dashboard"
               to="/dashboard"
@@ -179,16 +174,16 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Cataloging (Books)"
+              title="Books"
               to="/Cataloging"
-              icon={<ReceiptOutlinedIcon />}
+              icon={<MenuBookIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Cataloging (Rps)"
+              title="Research Papers"
               to="/researchpapers"
-              icon={<ReceiptOutlinedIcon />}
+              icon={<DescriptionIcon />}
               selected={selected}
               setSelected={setSelected}
             />

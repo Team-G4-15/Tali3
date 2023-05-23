@@ -15,7 +15,6 @@ import Pie from "./scenes/pie";
 import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import Calendar from "./scenes/calendar/calendar";
-import AddBook from "./components/Book.add";
 import Cataloging from "./scenes/Cataloging";
 
 // TO BE REMOVED AFTER WORK
@@ -23,6 +22,7 @@ import Cataloging from "./scenes/Cataloging";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { UserContextProvider } from "./contexts/UserContextProvider";
+import AddBook from "./components/Book.add";
 import SplitScreenLogin from "./components/SplitScreen.login";
 import SplitScreenSignup from "./components/SplitScreen.signup";
 
