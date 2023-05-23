@@ -8,8 +8,7 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  FormGroup,
-  colors
+  FormGroup
 } from '@mui/material';
 import ArticleIcon from '@mui/icons-material/Article';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -44,7 +43,9 @@ function  SearchPage() {
     setKeywords(event.target.value);
   };
   const handleTypeChange = (event) => {
-        setSelectedType(event.target.value);   
+    alert(event.target);
+        setSelectedType(event.target.value); 
+        
   };
   const handletypeChange = (event) => {
     settype(event.target.value);
@@ -150,9 +151,12 @@ function  SearchPage() {
       console.error(error);
     }
   };
-  const isBookSelected = selectedType.includes('Book');
-  const isPeriodicalSelected = selectedType.includes('Periodical');
-  const isPaperSelected = selectedType.includes('Paper');
+  const [bookSelected, setBookSelected] = useState(false);
+  const [paperSelected, setPaperSelected] = useState(false);
+  const [periodicalSelected, setPeriodicalSelected] = useState(false);
+
+  
+
   return (
     <div className="search-popup-container" style={{width:"100%", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px'}}>
       <h2 style={{color: 'orange'}}>Advanced Search</h2>
@@ -169,13 +173,11 @@ function  SearchPage() {
             <Checkbox
               id="type"
               value="Book"
-              onChange={handleTypeChange}
-              icon={<MenuBookIcon
-                style={{
-                  fontSize: '50px',
-                  transition: 'font-size 0.3s',
-                  color: isBookSelected ? '#FD5F00' : '#0443A5',
-                }} />}
+              onChange={ () =>{
+                setBookSelected((previous) =>  !previous );
+                handleTypeChange();
+              }  }
+              icon={<MenuBookIcon />}
               checkedIcon={<MenuBookIcon />}
             />
           }
@@ -186,13 +188,13 @@ function  SearchPage() {
             <Checkbox
               id="type"
               value="Periodical"
-              onChange={handleTypeChange}
-              icon={<ImportContactsIcon 
-                style={{
-                  fontSize: '50px',
-                  transition: 'font-size 0.3s',
-                  color: isPeriodicalSelected ? '#FD5F00' : '#0443A5',
-                }}/>}
+              onChange={ () => {
+                setPeriodicalSelected(previous => !previous);
+                handleTypeChange();
+              }
+            }
+                
+              icon={<ImportContactsIcon />}
               checkedIcon={<ImportContactsIcon />}
             />
           }
@@ -203,13 +205,13 @@ function  SearchPage() {
             <Checkbox
               id="type"
               value="Paper"
-              onChange={handleTypeChange}
-              icon={<ArticleIcon 
-                style={{
-                  fontSize: '50px',
-                  transition: 'font-size 0.3s',
-                  color: isPaperSelected ? '#FD5F00' : '#0443A5',
-                }}/>}
+              onChange={ () => {
+                setPaperSelected(previous => !previous);
+                handleTypeChange();
+              }
+                
+              }
+              icon={<ArticleIcon />}
               checkedIcon={<ArticleIcon />}
             />
           }
@@ -243,62 +245,72 @@ function  SearchPage() {
           placeholder="Keywords"
           sx={{ gridColumn: "span 4" }}
         />
-        {selectedType === 'Book'  ? (
+        {
+        
+        
+        
+        ((bookSelected && (!paperSelected && !periodicalSelected))||(!paperSelected && !periodicalSelected  && !bookSelected))  ?
+        
+        
+        
+        (
           <>
-        <TextField
-          variant="filled"
-          type="text"
-          value={isbn}
-          onChange={handleIsbnChange}
-          placeholder="ISBN"
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          variant="filled"
-          type="text"
-          value={edition}
-          onChange={handleEditionChange}
-          placeholder="Edition"
-          sx={{ gridColumn: "span 4" }}
-        />
-        <InputLabel id="type-label">Type</InputLabel>
-        <Select
-          labelId="type-label"
-          id="type"
-          value={type}
-          onChange={handletypeChange}
-          displayEmpty
-          sx={{ gridColumn: "span 4" }}
-        >
-          <MenuItem value="">All types</MenuItem>
-          <MenuItem value="Art">Art</MenuItem>
-          <MenuItem value="Biography">Biography</MenuItem>
-          <MenuItem value="Business">Business</MenuItem>
-          <MenuItem value="Comics">Comics</MenuItem>
-          <MenuItem value="Cookbooks">Cookbooks</MenuItem>
-          <MenuItem value="Crafts">Crafts</MenuItem>
-          <MenuItem value="Education">Education</MenuItem>
-          <MenuItem value="Entertainment">Entertainment</MenuItem>
-          <MenuItem value="Health">Health</MenuItem>
-          <MenuItem value="History">History</MenuItem>
-          <MenuItem value="Horror">Horror</MenuItem>
-          <MenuItem value="Kids">Kids</MenuItem>
-          <MenuItem value="Memoir">Memoir</MenuItem>
-          <MenuItem value="Mystery">Mystery</MenuItem>
-          <MenuItem value="Philosophy">Philosophy</MenuItem>
-          <MenuItem value="Poetry">Poetry</MenuItem>
-          <MenuItem value="Politics">Politics</MenuItem>
-          <MenuItem value="Religion">Religion</MenuItem>
-          <MenuItem value="Romance">Romance</MenuItem>
-          <MenuItem value="Science">Science</MenuItem>
-          <MenuItem value="Self-Help">Self-Help</MenuItem>
-          <MenuItem value="Sports">Sports</MenuItem>
-          <MenuItem value="Thriller">Thriller</MenuItem>
-          <MenuItem value="Travel">Travel</MenuItem>
-        </Select>
+              <TextField
+                variant="filled"
+                type="text"
+                value={isbn}
+                onChange={handleIsbnChange}
+                placeholder="ISBN"
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                variant="filled"
+                type="text"
+                value={edition}
+                onChange={handleEditionChange}
+                placeholder="Edition"
+                sx={{ gridColumn: "span 4" }}
+              />
+              <InputLabel id="type-label">Type</InputLabel>
+              <Select
+                labelId="type-label"
+                id="type"
+                value={type}
+                onChange={handletypeChange}
+                displayEmpty
+                sx={{ gridColumn: "span 4" }}
+              >
+                <MenuItem value="">All types</MenuItem>
+                <MenuItem value="Art">Art</MenuItem>
+                <MenuItem value="Biography">Biography</MenuItem>
+                <MenuItem value="Business">Business</MenuItem>
+                <MenuItem value="Comics">Comics</MenuItem>
+                <MenuItem value="Cookbooks">Cookbooks</MenuItem>
+                <MenuItem value="Crafts">Crafts</MenuItem>
+                <MenuItem value="Education">Education</MenuItem>
+                <MenuItem value="Entertainment">Entertainment</MenuItem>
+                <MenuItem value="Health">Health</MenuItem>
+                <MenuItem value="History">History</MenuItem>
+                <MenuItem value="Horror">Horror</MenuItem>
+                <MenuItem value="Kids">Kids</MenuItem>
+                <MenuItem value="Memoir">Memoir</MenuItem>
+                <MenuItem value="Mystery">Mystery</MenuItem>
+                <MenuItem value="Philosophy">Philosophy</MenuItem>
+                <MenuItem value="Poetry">Poetry</MenuItem>
+                <MenuItem value="Politics">Politics</MenuItem>
+                <MenuItem value="Religion">Religion</MenuItem>
+                <MenuItem value="Romance">Romance</MenuItem>
+                <MenuItem value="Science">Science</MenuItem>
+                <MenuItem value="Self-Help">Self-Help</MenuItem>
+                <MenuItem value="Sports">Sports</MenuItem>
+                <MenuItem value="Thriller">Thriller</MenuItem>
+                <MenuItem value="Travel">Travel</MenuItem>
+              </Select>
         </>
         ):null}
-        {selectedType === 'Periodical'  ? (
+        {
+        
+        ((periodicalSelected && (!paperSelected && !bookSelected ))||(!paperSelected && !periodicalSelected  && !bookSelected))  ? (
             <>
         <TextField
       variant="filled"
@@ -318,7 +330,8 @@ function  SearchPage() {
     />
     </>
     ):null}
-    {selectedType === 'Paper'  ? (
+    {
+    ((paperSelected && (!periodicalSelected  && !bookSelected ))||(!paperSelected && !periodicalSelected  && !bookSelected))  ? (
           <>
         <TextField
           variant="filled"

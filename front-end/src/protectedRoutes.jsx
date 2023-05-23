@@ -53,7 +53,7 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
 
                             <Route path="/Book.search" element={<BookSearch />} />
                             <Route path="/Filtering" element={<SearchPage />} />
-                            <Route path="/Filtering" element={<PeriodicalSearch />} />
+                            {/* <Route path="/Filtering" element={<PeriodicalSearch />} /> */}
                             <Route path="/researchpapers" element={<ResearchPapers />} />
                         </Routes>
                     </main>

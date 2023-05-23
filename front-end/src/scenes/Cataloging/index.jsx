@@ -16,6 +16,7 @@ import {
     CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import UpdateIcon from "@mui/icons-material/Update";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
@@ -178,6 +179,33 @@ const Cataloging = () => {
                 // do something for netwok error
             });
     };
+
+    const handleUpdate = (id, updatedBook) => {
+        setProcessing(true);
+        axiosClient
+            .put(`/book/${id}`, updatedBook)
+            .then((res) => {
+                const updatedRows = filteredRows.map((row) => {
+                    if (row.id === id) {
+                        return {
+                            ...row,
+                            ...updatedBook,
+                        };
+                    }
+                    return row;
+                });
+                setFilteredRows(updatedRows);
+                setInitialRows(updatedRows);
+                setSuccessOpen(true);
+                setProcessing(false);
+            })
+            .catch((err) => {
+                setErrorMessage(err.message);
+                setErrorOpen(true);
+                setProcessing(false);
+            });
+    };
+
 
     const handleConfirmDelete = () => {
         setFilteredRows((rows) => rows.filter((row) => row.id !== deleteRowId));
@@ -395,7 +423,34 @@ const Cataloging = () => {
                 >
                     Add book
                 </Button>
-
+                <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<UpdateIcon />}
+                    sx={{
+                        backgroundColor: "#1976d2",
+                        "&:hover": {
+                            backgroundColor: "#1e88e5",
+                        },
+                        "&:focus": {
+                            backgroundColor: "#1e88e5",
+                        },
+                        borderRadius: "2.5%",
+                        color: "#fff",
+                        width: "10%",
+                        height: "130%",
+                        "& .MuiButton-label": {
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                        },
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.24)",
+                    }}
+                    onClick={handleUpdate}
+                >
+                    Update book
+                </Button>
             </Box>
             <Modal open={openBookAdd} onClose={handleCloseBookAdd} keepMounted>
                 <AddingContext.Provider
