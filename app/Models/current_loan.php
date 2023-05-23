@@ -10,7 +10,7 @@ class current_loan extends Model
     protected $table = 'current_loan';
     protected $primaryKey = 'loan_id';
     public $incrementing = true;
-    public $timestamps=false;
+    public $timestamps=true;
 
     protected $fillable = [
         'due_date',
