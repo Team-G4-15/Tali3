@@ -1,7 +1,7 @@
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
-import Members from "./scenes/team";
+import Member from "./scenes/Member";
 import BookSearch from "./scenes/Filtering/BookSearch";
 import PeriodicalSearch from "./scenes/Filtering/PeriodicalsSearch";
 import SearchPage from "./scenes/Filtering";
@@ -19,6 +19,8 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
 import { useEffect } from "react";
 import Cataloging from "./scenes/Cataloging";
+import AddMember from "./scenes/Member/AddMember";
+
 export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
     const { user, token } = useUserContext();
     let navigate = useNavigate();
@@ -37,7 +39,6 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                     <main className="content">
                         <Topbar setIsSidebar={setIsSidebar} />
                         <Routes>
-                            <Route path="/members" element={<Members />} />
                             {/* <Route path="/contacts" element={<Contacts />} /> */}
                             <Route path="/Cataloging" element={<Cataloging />} />
                             <Route path="/form" element={<Form />} />
@@ -52,6 +53,8 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                             <Route path="/researchpapers/add" element={<AddResearchPaper />} />
                             <Route path="/Filtering" element={<SearchPage />}></Route>
                             <Route path="/researchpapers" element={<ResearchPapers/>}></Route>
+                            <Route path="/Member" element={<Member />}></Route>
+                            <Route path="/AddMember" element={<AddMember />}></Route>
                         </Routes>
                     </main>
                 </>

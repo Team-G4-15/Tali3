@@ -113,54 +113,7 @@ export const mockDataContacts = [
 ];
 
 export const mockTransactions = [
-  {
-    txId: "Basic Linear Algebra",
-    user: "johndoe",
-    date: "2021-09-01",
-    cost: "2 days",
-  },
-  {
-    txId: "Basic Linear Algebra.",
-    user: "jackdower",
-    date: "2022-04-01",
-    cost: "3 days",
-  },
-  {
-    txId: "Basic Linear Algebra.",
-    user: "aberdohnny",
-    date: "2021-09-01",
-    cost: "3 days",
-  },
-  {
-    txId: "Basic Linear Algebra.",
-    user: "goodmanave",
-    date: "2022-11-05",
-    cost: "3 days",
-  },
-  {
-    txId: "Basic Linear Algebra.",
-    user: "stevebower",
-    date: "2022-11-02",
-    cost: "13 days",
-  },
-  {
-    txId: "Basic Linear Algebra.",
-    user: "aberdohnny",
-    date: "2021-09-01",
-    cost: "3 days",
-  },
-  {
-    txId: "Basic Linear Algebra.",
-    user: "wootzifer",
-    date: "2019-04-15",
-    cost: "3 days",
-  },
-  {
-    txId: "Basic Linear Algebra.",
-    user: "jackdower",
-    date: "2022-04-01",
-    cost: "3 days",
-  },
+  { "patron_email": "hafida@gmail.com", "last_name": "The Great Gatsby", "first_name": "F. Scott Fitzgerald", "University": "978-0-7432-7356-5", "Type": "Scribner" },
 ];
 
 export const mockBarData = [
