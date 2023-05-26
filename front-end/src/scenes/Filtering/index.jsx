@@ -8,11 +8,20 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  FormGroup
+  FormGroup,
+   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@mui/material';
 import ArticleIcon from '@mui/icons-material/Article';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import Pagination from '@mui/material/Pagination';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+
+
 function  SearchPage() {
     const [DOI, setDOI] = useState('');
   const [title, setTitle] = useState('');
@@ -31,6 +40,22 @@ function  SearchPage() {
   const [selectedType, setSelectedType] = useState('');
   const [issn, setIssn] = useState('');
   const [frequency, setFrequency] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+
+  const itemsPerPage = 10;
+
+  const handleRowClick = (index) => {
+    setSelectedBook(searchResults[index]);
+  };
+
+  const handleBookClick = (book) => {
+    setSelectedBook(book);
+    setIsPopupOpen(true);
+  };
+
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -44,7 +69,7 @@ function  SearchPage() {
   };
   const handleTypeChange = (event) => {
     alert(event.target);
-        setSelectedType(event.target.value); 
+        setSelectedType(event.target.checked); 
         
   };
   const handletypeChange = (event) => {
@@ -101,7 +126,7 @@ function  SearchPage() {
     }
 
     if (DOI) {
-        url += `DOI:${DOI}&`;
+        url +=  `q=DOI:${DOI}&`;
       }
 
     if (type) {
@@ -140,8 +165,6 @@ function  SearchPage() {
       if (frequency) {
         url += `frequency:${frequency}&`;
       }
-    url += `maxResults=10`;
-
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -151,12 +174,36 @@ function  SearchPage() {
       console.error(error);
     }
   };
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+
   const [bookSelected, setBookSelected] = useState(false);
   const [paperSelected, setPaperSelected] = useState(false);
   const [periodicalSelected, setPeriodicalSelected] = useState(false);
 
-  
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem);
 
+  function BookDetailsDialog({ book, isOpen, onClose }) {
+    if (!isOpen || !book) {
+      return null;
+    }
+
+    return (
+      // Your pop-up dialog content here
+      <div>
+        <h3>{book.title}</h3>
+        <p>Author: {book.author}</p>
+        <p>ISBN: {book.isbn}</p>
+        {/* Include other book details */}
+        <button onClick={onClose}>Close</button>
+      </div>
+    );
+  }
   return (
     <div className="search-popup-container" style={{width:"100%", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px'}}>
       <h2 style={{color: 'orange'}}>Advanced Search</h2>
@@ -171,7 +218,6 @@ function  SearchPage() {
         <FormControlLabel
           control={
             <Checkbox
-              id="type"
               value="Book"
               onChange={ () =>{
                 setBookSelected((previous) =>  !previous );
@@ -186,7 +232,6 @@ function  SearchPage() {
         <FormControlLabel
           control={
             <Checkbox
-              id="type"
               value="Periodical"
               onChange={ () => {
                 setPeriodicalSelected(previous => !previous);
@@ -203,7 +248,6 @@ function  SearchPage() {
         <FormControlLabel
           control={
             <Checkbox
-              id="type"
               value="Paper"
               onChange={ () => {
                 setPaperSelected(previous => !previous);
@@ -431,14 +475,73 @@ function  SearchPage() {
                 </Button>
       </Box>
       <Box className="search-results-container">
-        {searchResults.map((book) => (
-          <Box key={book.id} className="search-result">
-            <h3>{book.volumeInfo.title}</h3>
-            <p>{book.volumeInfo.authors?.join(', ')}</p>
-          </Box>
-        ))}
+        {searchResults.length > 0 && (
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Authors</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Language</TableCell>
+                  <TableCell>ISBN</TableCell>
+                  <TableCell>Edition</TableCell>
+                  <TableCell>Publish Date</TableCell>
+                  <TableCell>Vendor</TableCell>
+
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {currentItems.map((book) => (
+                  <TableRow key={book.id} onClick={() => handleBookClick(book)}>
+                    <TableCell>{book.volumeInfo.title}</TableCell>
+                    <TableCell>{book.volumeInfo.authors}</TableCell>
+                    <TableCell>{book.volumeInfo.type}</TableCell>
+                    <TableCell>{book.volumeInfo.language}</TableCell>
+                    <TableCell>{book.volumeInfo.isbn}</TableCell>
+                    <TableCell>{book.volumeInfo.edition}</TableCell>
+                    <TableCell>{book.volumeInfo.publishDate}</TableCell>
+                    <TableCell>{book.volumeInfo.placeOfCreation}</TableCell>
+                    <TableCell>{book.volumeInfo.vendor}</TableCell>
+
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+          <Pagination
+            count={Math.ceil(searchResults.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Box>
       </Box>
+
+      <Dialog open={selectedBook !== null} onClose={() => setSelectedBook(null)} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <DialogTitle>Book Details</DialogTitle>
+        <DialogContent>
+          {selectedBook && (
+            <DialogContentText>
+              Title: {selectedBook.title}<br /><br/>
+              Authors: {selectedBook.authors}<br /><br />
+              Type: {selectedBook.type}<br /><br />
+              Language: {selectedBook.language}<br /><br />
+              ISBN: {selectedBook.isbn}<br /><br />
+              Edition: {selectedBook.edition}<br /><br />
+              Publish Date: {selectedBook.publishDate}<br /><br />
+              Vendor: {selectedBook.vendor}<br /><br />
+            </DialogContentText>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSelectedBook(null)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
+    
   );
 }
 

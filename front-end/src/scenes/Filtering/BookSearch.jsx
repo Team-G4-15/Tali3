@@ -6,6 +6,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@mui/material';
 
 function  BookSearch() {
@@ -104,7 +105,6 @@ function  BookSearch() {
       url += `inpublisher:${placeOfCreation}&`;
     }
 
-    url += `maxResults=10`;
 
     try {
       const response = await fetch(url);
@@ -271,12 +271,40 @@ function  BookSearch() {
                 </Button>
       </Box>
       <Box className="search-results-container">
-        {searchResults.map((book) => (
-          <Box key={book.id} className="search-result">
-            <h3>{book.volumeInfo.title}</h3>
-            <p>{book.volumeInfo.authors?.join(', ')}</p>
-          </Box>
-        ))}
+        {searchResults.length > 0 && (
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Authors</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Language</TableCell>
+                  <TableCell>ISBN</TableCell>
+                  <TableCell>Edition</TableCell>
+                  <TableCell>Publish Date</TableCell>                 
+                   <TableCell>Place Of creation</TableCell>
+
+
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {searchResults.map((book) => (
+                  <TableRow key={book.id}>
+                    <TableCell>{book.volumeInfo.title}</TableCell>
+                    <TableCell>{book.volumeInfo.authors}</TableCell>
+                    <TableCell>{book.volumeInfo.type}</TableCell>
+                    <TableCell>{book.volumeInfo.language}</TableCell>
+                    <TableCell>{book.volumeInfo.isbn}</TableCell>
+                    <TableCell>{book.volumeInfo.edition}</TableCell>
+                    <TableCell>{book.volumeInfo.publishDate}</TableCell>
+                    <TableCell>{book.volumeInfo.placeOfCreation}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Box>
     </div>
   );

@@ -7,6 +7,8 @@ MenuItem,
 Select,
 TextField,
 useMediaQuery,
+Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+
 } from '@mui/material';
 
 function PeriodicalSearch() {
@@ -94,8 +96,6 @@ if (frequency) {
 if (placeOfPublication) {
   url += `inpublisher:${placeOfPublication}&`;
 }
-
-url += `maxResults=10`;
 
 try {
   const response = await fetch(url);
@@ -231,13 +231,37 @@ return (
       Search
     </Button>
   </Box>
-  <Box style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
-    {searchResults.map((result) => (
-      <div key={result.id}>
-        <h3>{result.volumeInfo.title}</h3>
-        <p>{result.volumeInfo.authors?.join(', ')}</p>
-      </div>
-    ))}
+  <Box style={{display: 'flex', flexDirection: 'column', gap: '5px'}}>
+      {searchResults.length > 0 && (
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Title</TableCell>
+                <TableCell>Authors</TableCell>
+                <TableCell>type</TableCell>
+                <TableCell>Language</TableCell>
+                <TableCell>ISSN </TableCell>
+                <TableCell>Frequency</TableCell>
+                <TableCell>Place Of Publication</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {searchResults.map((Periodical) => (
+                <TableRow key={Periodical.id}>
+                  <TableCell>{Periodical.volumeInfo.title}</TableCell>
+                  <TableCell>{Periodical.volumeInfo.authors}</TableCell>
+                  <TableCell>{Periodical.volumeInfo.type}</TableCell>
+                  <TableCell>{Periodical.volumeInfo.language}</TableCell>
+                  <TableCell>{Periodical.volumeInfo.issn}</TableCell>
+                  <TableCell>{Periodical.volumeInfo.frequency}</TableCell>
+                  <TableCell>{Periodical.volumeInfo.placeOfPublication}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
   </Box>
 </div>
 );
