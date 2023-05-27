@@ -1,15 +1,10 @@
-import React, { useState } from "react";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { useState, useRef, useContext, useEffect } from "react";
+import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Box, IconButton, SvgIcon, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "../../components/Logo";
-import {
-  ProSidebar,
-  Menu,
-  MenuItem,
-} from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import Logo from "../../components/Logo";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/Autorenew";
@@ -22,8 +17,8 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import DescriptionIcon from '@mui/icons-material/Description';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import DescriptionIcon from "@mui/icons-material/Description";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useUserContext } from "../../contexts/UserContextProvider";
 import { AppHeightContext } from "../../contexts/AppHeight";
 import SavedSearchIcon from "@mui/icons-material/SavedSearch";
@@ -59,37 +54,44 @@ const Sidebar = () => {
 
     //useEffect(() => { height = height ? height + 200 : null }, [])
 
-  return (
-    <Box
-      sx={{
-        "& .pro-sidebar-inner": {
-          background: `#F6F6E9 !important`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-          color: "#000000 !important",
-        },
+    return (
+        <Box
+            sx={{
+                "& .pro-sidebar-inner": {
+                    background: `#F6F6E9 !important`,
+                },
+                "& .pro-icon-wrapper": {
+                    backgroundColor: "transparent !important",
+                },
+                "& .pro-inner-item": {
+                    padding: "5px 35px 5px 20px !important",
+                    color: "#000000 !important",
+                },
 
-        "& .pro-inner-item:hover": {
-          color: "#FD5F00 !important",
-        },
-        "& .pro-inner-item:active": {
-          color: "#0443A5 !important",
-        },
+                "& .pro-inner-item:hover": {
+                    color: "#FD5F00 !important",
+                },
+                "& .pro-inner-item:active": {
+                    color: "#0443A5 !important",
+                },
 
-        "& .pro-item.selected": {
-          color: "#0443A5 !important",
-        },
-      }}
-    >
-      <ProSidebar collapsed={isCollapsed}>
-        <Menu iconShape="square">
-          <Box display="flex" justifyContent="center" alignItems="center">
-            {!isCollapsed && <Logo />}
-          </Box>
+                "& .pro-item.selected": {
+                    color: "#0443A5 !important",
+                },
+                height: {
+                    height,
+                },
+            }}
+        >
+            <ProSidebar collapsed={isCollapsed}>
+                <Menu iconShape="square">
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        {!isCollapsed && <Logo />}
+                    </Box>
 
                     <MenuItem
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -149,122 +151,114 @@ const Sidebar = () => {
                         </Box>
                     )}
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+                    <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+                        {user && token && (
+                            <Item
+                                title="Dashboard"
+                                to="/dashboard"
+                                icon={<HomeOutlinedIcon />}
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+                        )}
 
-            {(user && token) && <Item
-              title="Dashboard"
-              to="/dashboard"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            }
+                        <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 20px" }}
+                        >
+                            Data
+                        </Typography>
+                        <Item
+                            title="Members"
+                            to="/members"
+                            icon={<PeopleOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Library Loan"
+                            to="/loan"
+                            icon={<ContactsOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Books"
+                            to="/Cataloging"
+                            icon={<MenuBookIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Research Papers"
+                            to="/researchpapers"
+                            icon={<DescriptionIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Data
-            </Typography>
-            <Item
-              title="Members"
-              to="/members"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Library Loan"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Books"
-              to="/Cataloging"
-              icon={<MenuBookIcon  />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Research Papers"
-              to="/researchpapers"
-              icon={<DescriptionIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Pages
-            </Typography>
-            <Item
-              title="Profile Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Calendar"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Filter"
-              to="/Filtering"
-              icon={<HelpOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography>
-            <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Pie Chart"
-              to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Line Chart"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Geography Chart"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-          </Box>
-        </Menu>
-      </ProSidebar>
-    </Box>
-  );
+                        <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 20px" }}
+                        >
+                            Tools
+                        </Typography>
+                        <Item
+                            title="Account Setting"
+                            to="/account"
+                            icon={<AccountCircleIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Advanced Search"
+                            to="/Filtering"
+                            icon={<SavedSearchIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 20px" }}
+                        >
+                            Charts
+                        </Typography>
+                        <Item
+                            title="Bar Chart"
+                            to="/bar"
+                            icon={<BarChartOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Pie Chart"
+                            to="/pie"
+                            icon={<PieChartOutlineOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Line Chart"
+                            to="/line"
+                            icon={<TimelineOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Geography Chart"
+                            to="/geography"
+                            icon={<MapOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                    </Box>
+                </Menu>
+            </ProSidebar>
+        </Box>
+    );
 };
 
 export default Sidebar;
