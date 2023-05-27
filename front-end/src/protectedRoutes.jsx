@@ -3,7 +3,7 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Members from "./scenes/team";
 import BookSearch from "./scenes/Filtering/BookSearch";
-
+import AccountOV from "./components/AccountOV";
 import SearchPage from "./scenes/Filtering";
 import Bar from "./scenes/bar";
 import Form from "./scenes/form";
@@ -19,6 +19,7 @@ import AddResearchPaper from "./components/ResearchPaper.add";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useUserContext } from "./contexts/UserContextProvider";
 import { useEffect } from "react";
+import {Loan} from "./scenes/Loan/index.jsx"
 export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
     const { user, token } = useUserContext();
     let navigate = useNavigate();
@@ -38,7 +39,7 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                         <Topbar setIsSidebar={setIsSidebar} />
                         <Routes>
                             <Route path="/members" element={<Members />} />
-                            {/* <Route path="/contacts" element={<Contacts />} /> */}
+                             <Route path="/loan" element={<Loan />} />
                             <Route path="/Cataloging" element={<Cataloging />} />
                             <Route path="/form" element={<Form />} />
                             <Route path="/bar" element={<Bar />} />
@@ -50,11 +51,11 @@ export let ProtectedRoutes = function (isSidebar, setIsSidebar) {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/addBook" element={<AddBook />} />
                             <Route path="/researchpapers/add" element={<AddResearchPaper />} />
-
                             <Route path="/Book.search" element={<BookSearch />} />
                             <Route path="/Filtering" element={<SearchPage />} />
                             {/* <Route path="/Filtering" element={<PeriodicalSearch />} /> */}
                             <Route path="/researchpapers" element={<ResearchPapers />} />
+                            <Route path="/account" element={<AccountOV />} />
                         </Routes>
                     </main>
                 </>

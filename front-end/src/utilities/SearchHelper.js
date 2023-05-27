@@ -8,22 +8,9 @@ export function HandleSearchChanges(
     setFilteredRows
 ) {
     let options = { ...searchState, [field]: value };
-    /*
-    if (value === "") {
-        options = { ...searchState };
-        if (field in options) {
-            // removing the field from the seach state
-            delete options.field;
-        }
-    } else {
-        options = { ...searchState, [field]: value };
-    }*/
-
-    //let result = SearchHelper(searchState, field);
 
     const newfilteredRows = mockDataContacts.filter(function (row) {
         let isRowMatch = true;
-
         for (const fieldItem in row) {
             if (fieldItem in options) {
                 if (fieldItem !== "isbn") {
@@ -43,6 +30,7 @@ export function HandleSearchChanges(
         }
         return isRowMatch;
     });
+    //console.log(newfilteredRows);
     setSearchState(options);
     setFilteredRows(newfilteredRows);
 }

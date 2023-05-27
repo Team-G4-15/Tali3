@@ -1,4 +1,10 @@
-import { useContext, useEffect, useState, useRef, useLayoutEffect } from "react";
+import {
+    useContext,
+    useEffect,
+    useState,
+    useRef,
+    useLayoutEffect,
+} from "react";
 import { AddingContext } from "../../contexts/AddingContext";
 import {
     Box,
@@ -24,7 +30,6 @@ import { useTheme } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { axiosClient } from "../../utilities/axiosClient";
 import AddBook from "../../components/Book.add";
-import { ColorLensSharp } from "@mui/icons-material";
 import { AddAuthor } from "../../components/Author.add";
 import { AppHeightContext } from "../../contexts/AppHeight";
 import { AddVendor } from "../../components/Vendor.add";
@@ -46,11 +51,9 @@ const Cataloging = () => {
 
     const ref = useRef(null);
 
-
     const [height, setHeightState] = useState(0);
 
     useLayoutEffect(() => {
-
         //setHeightState(ref.current.offsetHeight);
         setHeight(ref.current.offsetHeight + 120);
         console.log(ref.current.offsetHeight);
@@ -88,7 +91,7 @@ const Cataloging = () => {
                 setFilteredRows(res.data.data);
                 setInitialRows(res.data.data);
             })
-            .catch((err) => { });
+            .catch((err) => {});
     }, []);
     const handleSearchAuthor = (value) => {
         HandleSearchChanges(
@@ -114,11 +117,11 @@ const Cataloging = () => {
         );
     };
 
-    const handleSearchPublisher = (value) => {
+    const handleSearchKeywords = (value) => {
         HandleSearchChanges(
             value,
             searchState,
-            "publisher",
+            "keywords",
             filteredRows,
             initialRows,
             setSearchState,
@@ -130,7 +133,7 @@ const Cataloging = () => {
         HandleSearchChanges(
             value,
             searchState,
-            "publicationDate",
+            "publish_date",
             filteredRows,
             initialRows,
             setSearchState,
@@ -138,11 +141,11 @@ const Cataloging = () => {
         );
     };
 
-    const handleSearchBarCode = (value) => {
+    const handleSearchLocation = (value) => {
         HandleSearchChanges(
             value,
             searchState,
-            "barcode",
+            "location",
             filteredRows,
             initialRows,
             setSearchState,
@@ -173,7 +176,7 @@ const Cataloging = () => {
         axiosClient
             .delete(`/book/${id}`)
             .then((res) => {
-                setDeleteRowId(id);
+                //setDeleteRowId(id);
             })
             .catch((err) => {
                 // do something for netwok error
@@ -206,10 +209,10 @@ const Cataloging = () => {
             });
     };
 
-
     const handleConfirmDelete = () => {
         setFilteredRows((rows) => rows.filter((row) => row.id !== deleteRowId));
         setDeleteRowId(null);
+        handleDelete(deleteRowId);
     };
 
     const handleCloseDialog = () => {
@@ -243,39 +246,30 @@ const Cataloging = () => {
         });
     }, []);
 
-
-
-
-
     // CONTROLLERS FOR ADD BOOK MODAL
     const [openBookAdd, setOpenBookAdd] = useState(false);
     const handleOpenBookAdd = () => setOpenBookAdd(true);
     const handleCloseBookAdd = () => setOpenBookAdd(false);
 
-
-
     // CONTROLLERS FOR ADD AUTHOR MODAL
     const [openAuthorAdd, setOpenAuthorAdd] = useState(false);
     const handleOpenAuthorAdd = () => {
         setOpenAuthorAdd(true);
-    }
+    };
     const handleCloseAuthorAdd = () => {
         setOpenAuthorAdd(false);
         setOpenBookAdd(true);
-    }
-
+    };
 
     // CONTROLLERS FOR ADD VENDOR MODAL
     const [openVendorAdd, setOpenVendorAdd] = useState(false);
     const handleOpenVendorAdd = () => {
         setOpenVendorAdd(true);
-    }
+    };
     const handleCloseVendorAdd = () => {
         setOpenVendorAdd(false);
         handleOpenBookAdd();
     };
-
-
 
     const [selectedBook, setSelectedBook] = useState(null);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -303,7 +297,8 @@ const Cataloging = () => {
     const columns = [
         { field: "pic", headerName: "Pic", flex: 0.5 },
         {
-            field: "title", headerName: "Title",
+            field: "title",
+            headerName: "Title",
             renderCell: (params) => (
                 <Button onClick={() => handleBookRowClick(params.row)}>
                     {params.value}
@@ -349,8 +344,8 @@ const Cataloging = () => {
                             params.value === "Available"
                                 ? "#03C988"
                                 : params.value === "Not Available"
-                                    ? "#FE3535"
-                                    : "#0A2A5C",
+                                ? "#FE3535"
+                                : "#0A2A5C",
                         borderRadius: "4px",
                         padding: "4px 8px",
                     }}
@@ -365,7 +360,7 @@ const Cataloging = () => {
             flex: 1,
             renderCell: (params) => (
                 <IconButton
-                    onClick={() => handleDelete(params.row.id)}
+                    onClick={() => setDeleteRowId(params.row.id)}
                     sx={{
                         backgroundColor: "#ff1744",
                         borderRadius: "5%",
@@ -378,7 +373,7 @@ const Cataloging = () => {
                     }}
                 >
                     <Typography variant="srOnly" sx={{ fontSize: "51%" }}>
-                        Delete
+                        <Button onClick={() => {}}> Delete</Button>
                     </Typography>
                 </IconButton>
             ),
@@ -459,6 +454,7 @@ const Cataloging = () => {
                         setSuccessOpen,
                         setErrorMessage,
                         setFilteredRows,
+                        setInitialRows,
                         setProcessing,
                         feilds,
                         publisher,
@@ -467,14 +463,12 @@ const Cataloging = () => {
                         locations,
                         handleOpenAuthorAdd,
                         handleOpenVendorAdd,
-                        handleCloseBookAdd
+                        handleCloseBookAdd,
                     }}
                 >
                     <AddBook style={style} />
                 </AddingContext.Provider>
             </Modal>
-
-
 
             {/* ADDING AUTHOR MODAL */}
 
@@ -487,7 +481,7 @@ const Cataloging = () => {
                     value={{
                         handleCloseAuthorAdd,
                         handleOpenBookAdd,
-                        setPublisher
+                        setPublisher,
                     }}
                 >
                     <AddAuthor style={style} />
@@ -505,14 +499,12 @@ const Cataloging = () => {
                     value={{
                         handleCloseVendorAdd,
                         handleOpenBookAdd,
-                        setVendors
+                        setVendors,
                     }}
                 >
                     <AddVendor style={style} />
                 </AddingContext.Provider>
             </Modal>
-
-
 
             <Box
                 style={{
@@ -555,9 +547,9 @@ const Cataloging = () => {
                 />
                 <TextField
                     size="small"
-                    placeholder="Publisher"
+                    placeholder="Keywords"
                     variant="outlined"
-                    onChange={(e) => handleSearchPublisher(e.target.value)}
+                    onChange={(e) => handleSearchKeywords(e.target.value)}
                     sx={{ marginRight: "8px" }}
                 />
                 <TextField
@@ -571,9 +563,9 @@ const Cataloging = () => {
                 />
                 <TextField
                     size="small"
-                    placeholder="BarCode"
+                    placeholder="Location"
                     variant="outlined"
-                    onChange={(e) => handleSearchBarCode(e.target.value)}
+                    onChange={(e) => handleSearchLocation(e.target.value)}
                     sx={{ marginRight: "8px" }}
                 />
                 <TextField
@@ -730,7 +722,6 @@ const Cataloging = () => {
                 <DialogContent>
                     <Box
                         sx={{
-
                             p: 2,
                             width: "100%",
                         }}
@@ -753,11 +744,9 @@ const Cataloging = () => {
                                 color: "text.secondary",
                                 fontSize: "1rem",
                                 width: "100%",
-
                             }}
                         >
                             title: Linear ALGEBRA
-
                         </Typography>
                         <Typography
                             sx={{
@@ -775,7 +764,8 @@ const Cataloging = () => {
                                 mb: 2,
                                 color: "text.secondary",
                                 fontSize: "1rem",
-                            }}>
+                            }}
+                        >
                             Genre: {selectedBook && selectedBook.genre}
                         </Typography>
                         <Typography
@@ -784,7 +774,8 @@ const Cataloging = () => {
                                 mb: 2,
                                 color: "text.secondary",
                                 fontSize: "1rem",
-                            }}>
+                            }}
+                        >
                             Pages: {selectedBook && selectedBook.pages}
                         </Typography>
                         <Typography
@@ -793,8 +784,10 @@ const Cataloging = () => {
                                 mb: 2,
                                 color: "text.secondary",
                                 fontSize: "1rem",
-                            }}>
-                            Published Year: {selectedBook && selectedBook.publishedYear}
+                            }}
+                        >
+                            Published Year:{" "}
+                            {selectedBook && selectedBook.publishedYear}
                         </Typography>
                         <Typography
                             sx={{
@@ -802,7 +795,8 @@ const Cataloging = () => {
                                 mb: 2,
                                 color: "text.secondary",
                                 fontSize: "1rem",
-                            }}>
+                            }}
+                        >
                             Language: {selectedBook && selectedBook.language}
                         </Typography>
                         <Typography
@@ -811,7 +805,8 @@ const Cataloging = () => {
                                 mb: 2,
                                 color: "text.secondary",
                                 fontSize: "1rem",
-                            }}>
+                            }}
+                        >
                             ISBN: {selectedBook && selectedBook.isbn}
                         </Typography>
                         <Typography
@@ -820,7 +815,8 @@ const Cataloging = () => {
                                 mb: 2,
                                 color: "text.secondary",
                                 fontSize: "1rem",
-                            }}>
+                            }}
+                        >
                             Publisher: {selectedBook && selectedBook.publisher}
                         </Typography>
                         <Typography
@@ -829,11 +825,10 @@ const Cataloging = () => {
                                 mb: 2,
                                 color: "text.secondary",
                                 fontSize: "1rem",
-                            }}>
-                            Edition: { }
+                            }}
+                        >
+                            Edition: {}
                         </Typography>
-
-
                     </Box>
                 </DialogContent>
                 <DialogActions>

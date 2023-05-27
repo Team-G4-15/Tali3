@@ -5,24 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class copy extends Model
+class copy_rp extends Model
 {
-    protected $table = 'copy';
-    protected $primaryKey = ['item_id', 'copy_number'];
+    protected $table = 'copy_rp';
+    protected $primaryKey = ['paper_id', 'copy_number'];
 
     protected $fillable=[
-        'book_id',
-        'is_loaned',
+        'paper_id',
         'copy_number',
         'reception_date'
     ];
     public $incrementing = false;
     public $timestamps=false;
-
-    public function book()
-    {
-        return $this->belongsTo(book::class, 'item_id');
-    }
 
     public function current_loan()
     {
