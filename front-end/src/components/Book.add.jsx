@@ -2,6 +2,7 @@ import React, { useContext, useState, useTransition } from "react";
 import {
     Box,
     Button,
+    FormControl,
     InputLabel,
     MenuItem,
     Select,
@@ -24,7 +25,6 @@ const AddBook = ({ style }) => {
         handleCloseBookAdd,
         setProcessing,
         setFilteredRows,
-        setInitialRows,
         setErrorMessage,
         feilds,
         publisher,
@@ -32,7 +32,7 @@ const AddBook = ({ style }) => {
         vendors,
         locations,
         handleOpenAuthorAdd,
-        handleOpenVendorAdd,
+        handleOpenVendorAdd
     } = useContext(AddingContext);
 
     const handleFormSubmit = (values) => {
@@ -43,18 +43,16 @@ const AddBook = ({ style }) => {
         axiosClient
             .post("/books/add", values)
             .then((respose) => {
-
+                console.log(respose);
                 values = {
                     ...values,
                     id: respose.data.book_id,
                     availability: "Available",
-                    location: locationState,
+                    location: locationState
                 };
-                console.log(values);
                 setProcessing(false);
                 setSuccessOpen(true);
                 setFilteredRows((prev) => [...prev, values]);
-                setInitialRows((prev) => [...prev, values]);
             })
             .catch((err) => {
                 setErrorOpen(true);
@@ -184,7 +182,9 @@ const AddBook = ({ style }) => {
                                     name="edition"
                                     sx={{ gridColumn: "span 4" }}
                                 />
-                                <InputLabel>Publish Date</InputLabel>
+                                <InputLabel>
+                                    Publish Date
+                                </InputLabel>
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -200,11 +200,13 @@ const AddBook = ({ style }) => {
                                     Vendor
                                 </InputLabel>
 
+
                                 <Box
                                     display="flex"
                                     justifyContent="space-between"
                                     sx={{ gridColumn: "span 4" }}
                                 >
+
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
@@ -231,14 +233,18 @@ const AddBook = ({ style }) => {
                                         color="secondary"
                                         variant="contained"
                                         sx={{ marginLeft: "5px" }}
-                                        onClick={() => {
-                                            handleCloseBookAdd();
-                                            handleOpenVendorAdd();
-                                        }}
+                                        onClick={
+                                            () => {
+                                                handleCloseBookAdd();
+                                                handleOpenVendorAdd();
+                                            }
+                                        }
                                     >
                                         Vendor
                                     </Button>
                                 </Box>
+
+
 
                                 <InputLabel id="demo-simple-select-label">
                                     Publisher
@@ -254,10 +260,11 @@ const AddBook = ({ style }) => {
                                         value={values.publisher_id}
                                         name="publisher_id"
                                         onChange={handleChange}
-                                        //renderValue={(value) => value}
+                                        renderValue={(value) => value}
                                         fullWidth
                                     >
                                         {publisher.map((e) => {
+                                            console.log(e);
                                             return (
                                                 <MenuItem
                                                     value={e.author_id}
@@ -275,12 +282,15 @@ const AddBook = ({ style }) => {
                                         sx={{ marginLeft: "5px" }}
                                         onClick={() => {
                                             handleCloseBookAdd();
+                                            console.log("book closed");
                                             handleOpenAuthorAdd();
+                                            console.log("auhtor open");
                                         }}
                                     >
                                         Author
                                     </Button>
                                 </Box>
+
 
                                 <InputLabel id="demo-simple-select-label">
                                     Field
@@ -342,7 +352,8 @@ const AddBook = ({ style }) => {
                                     <Box
                                     // fullWidth
                                     >
-                                        <InputLabel>
+
+                                        <InputLabel >
                                             Aisle (Character)
                                         </InputLabel>
                                         <Select
@@ -352,6 +363,7 @@ const AddBook = ({ style }) => {
                                             name="location_id"
                                             onChange={handleChange}
                                             sx={{ gridColumn: "span 4", mr: 2 }}
+
                                         >
                                             {locations.map((e) => {
                                                 return (
@@ -363,11 +375,17 @@ const AddBook = ({ style }) => {
                                                     </MenuItem>
                                                 );
                                             })}
+
                                         </Select>
                                     </Box>
 
-                                    <Box fullWidth>
-                                        <InputLabel>Shelf Number</InputLabel>
+
+                                    <Box
+                                        fullWidth
+                                    >
+                                        <InputLabel >
+                                            Shelf Number
+                                        </InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             label=""
@@ -388,9 +406,12 @@ const AddBook = ({ style }) => {
                                                     </MenuItem>
                                                 );
                                             })}
+
                                         </Select>
                                     </Box>
+
                                 </Box>
+
                             </Box>
                             <Box
                                 display="flex"

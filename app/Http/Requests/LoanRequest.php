@@ -3,8 +3,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoanRequest extends FormRequest
-{
+class LoanRequest extends FormRequest{
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,11 +20,13 @@ class LoanRequest extends FormRequest
     {
         return [
             'book_id' => 'required|integer',
-            'patron_email' => 'email|required|exists:patron,patron_email',
+            'patron_email' => 'string|required',
             'copy_number' => 'integer|required',
             'loan_date' => 'date|required',
-            'due_date' => 'date|required|after:loan_date',
-            'email' => "email|required|exists:librarian,email",
+            'due_date' => 'date|required',
+            'renewal_count' => 'integer',
+            'email' =>"string|required",
+            
         ];
     }
 }

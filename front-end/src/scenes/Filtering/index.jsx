@@ -44,8 +44,13 @@ function  SearchPage() {
   };
   const handleTypeChange = (event) => {
     alert(event.target);
+<<<<<<< HEAD
         setSelectedType(event.target.value);
 
+=======
+        setSelectedType(event.target.value); 
+        
+>>>>>>> parent of 52a6d1a (Final version comming soon)
   };
   const handletypeChange = (event) => {
     settype(event.target.value);
@@ -69,7 +74,11 @@ function  SearchPage() {
   const handleIssnChange = (event) => {
     setIssn(event.target.value);
     };
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> parent of 52a6d1a (Final version comming soon)
     const handleFrequencyChange = (event) => {
     setFrequency(event.target.value);
     };
@@ -136,6 +145,7 @@ function  SearchPage() {
     if (issn) {
         url += `issn:${issn}&`;
       }
+<<<<<<< HEAD
 
       if (frequency) {
         url += `frequency:${frequency}&`;
@@ -157,6 +167,29 @@ function  SearchPage() {
 
 
 
+=======
+      
+      if (frequency) {
+        url += `frequency:${frequency}&`;
+      }
+    url += `maxResults=10`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      setSearchResults(data.items || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const [bookSelected, setBookSelected] = useState(false);
+  const [paperSelected, setPaperSelected] = useState(false);
+  const [periodicalSelected, setPeriodicalSelected] = useState(false);
+
+  
+
+>>>>>>> parent of 52a6d1a (Final version comming soon)
   return (
     <div className="search-popup-container" style={{width:"100%", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px'}}>
       <h2 style={{color: 'orange'}}>Advanced Search</h2>
@@ -193,7 +226,11 @@ function  SearchPage() {
                 handleTypeChange();
               }
             }
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> parent of 52a6d1a (Final version comming soon)
               icon={<ImportContactsIcon />}
               checkedIcon={<ImportContactsIcon />}
             />
@@ -209,7 +246,11 @@ function  SearchPage() {
                 setPaperSelected(previous => !previous);
                 handleTypeChange();
               }
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> parent of 52a6d1a (Final version comming soon)
               }
               icon={<ArticleIcon />}
               checkedIcon={<ArticleIcon />}
@@ -303,7 +344,11 @@ function  SearchPage() {
         </>
         ):null}
         {
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> parent of 52a6d1a (Final version comming soon)
         ((periodicalSelected && (!paperSelected && !bookSelected ))||(!paperSelected && !periodicalSelected  && !bookSelected))  ? (
             <>
         <TextField
@@ -377,7 +422,11 @@ function  SearchPage() {
           placeholder="Place of creation"
           sx={{ gridColumn: "span 4" }}
         />
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> parent of 52a6d1a (Final version comming soon)
         <InputLabel id="language-label">Language</InputLabel>
         <Select
           labelId="language-label"

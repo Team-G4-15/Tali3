@@ -10,15 +10,15 @@ class current_loan extends Model
     protected $table = 'current_loan';
     protected $primaryKey = 'loan_id';
     public $incrementing = true;
-    public $timestamps = true;
+    public $timestamps=true;
 
     protected $fillable = [
         'due_date',
         'renewal_count',
         'loan_date',
         'email',
-        'book_id',
         'patron_email',
+        'item_id',
         'copy_number'
     ];
     public function item()
@@ -29,7 +29,7 @@ class current_loan extends Model
 
     public function copy()
     {
-        return $this->hasOne(copy::class, 'item_id', 'item_id');
+        return $this->hasOne(copy::class ,'item_id','item_id');
     }
 
     public function librarian()

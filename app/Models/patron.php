@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class patron extends Model
 {
 
-    public $timestamps=true;
+    public $timestamps=false;
     protected $table = 'patron';
 
     protected $primaryKey = 'patron_email';
@@ -16,7 +16,6 @@ class patron extends Model
     protected $fillable = [
         'first_name',
         'last_name',
-        'patron_email',
         'type',
         'university_id'
     ];

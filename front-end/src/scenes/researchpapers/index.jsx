@@ -27,20 +27,18 @@ import { axiosClient } from "../../utilities/axiosClient";
 import AddResearchPaper from "../../components/ResearchPaper.add";
 import { HandleSearchChanges } from "../../utilities/SearchHelper";
 
-const
+const 
     ResearchPapers = () => {
     const theme = useTheme();
 
     const colors = tokens(theme.palette.mode);
 
     //const navigate = useNavigate();
-    const [filteredRows, setFilteredRows] = useState([]);
-    const [initialRows, setInitialRows] = useState([]);
+    const [filteredRows, setFilteredRows] = useState(mockDataContacts);
     const [deleteRowId, setDeleteRowId] = useState(null);
     const [successOpen, setSuccessOpen] = useState(null);
     const [errorOpen, setErrorOpen] = useState(null);
     const [processing, setProcessing] = useState(null);
-    const [errorMessage, setErrorMessage] = useState(null);
 
     const [searchState, setSearchState] = useState({});
 
@@ -62,8 +60,7 @@ const
 
     useEffect(() => {
         axiosClient.get("/researchpapers").then(res => {
-            setFilteredRows(res.data.data);
-            setInitialRows(res.data.data);
+            setFilteredRows(res)
         }).catch(err => { })
     }, []);
     const handleSearchAuthor = (value) => {
@@ -74,8 +71,7 @@ const
             filteredRows,
             mockDataContacts,
             setSearchState,
-            setFilteredRows,
-            initialRows
+            setFilteredRows
         );
     };
 
@@ -83,25 +79,23 @@ const
         HandleSearchChanges(
             value,
             searchState,
-            "doi",
+            "DOI",
             filteredRows,
             mockDataContacts,
             setSearchState,
-            setFilteredRows,
-            initialRows
+            setFilteredRows
         );
     };
 
-    const handleSearchKeywords = (value) => {
+    const handleSearchPublisher = (value) => {
         HandleSearchChanges(
             value,
             searchState,
-            "keywords",
+            "publisher",
             filteredRows,
             mockDataContacts,
             setSearchState,
-            setFilteredRows,
-            initialRows
+            setFilteredRows
         );
     };
 
@@ -109,20 +103,19 @@ const
         HandleSearchChanges(
             value,
             searchState,
-            "publish_date",
+            "publicationDate",
             filteredRows,
             mockDataContacts,
             setSearchState,
-            setFilteredRows,
-            initialRows
+            setFilteredRows
         );
     };
 
-    const handleSearchLocation = (value) => {
+    const handleSearchLevel = (value) => {
         HandleSearchChanges(
             value,
             searchState,
-            "location",
+            "Level",
             filteredRows,
             mockDataContacts,
             setSearchState,
@@ -141,60 +134,16 @@ const
             setFilteredRows
         );
     };
-    const handleSearchPublisher = (value) => {
-        HandleSearchChanges(
-            value,
-            searchState,
-            "publisher",
-            filteredRows,
-            mockDataContacts,
-            setSearchState,
-            setFilteredRows
-        );
-    };
 
     const handleClearSearch = () => {
-        setFilteredRows(initialRows);
+        setFilteredRows(mockDataContacts);
         document.querySelectorAll("input[type='text']").forEach((input) => {
             input.value = "";
         });
     };
 
     const handleDelete = (id) => {
-        axiosClient
-            .delete(`/researchpapers/${id}`)
-            .then((res) => {
-                setDeleteRowId(id);
-            })
-            .catch((err) => {
-                // do something for netwok error
-            });
-    };
-
-    const handleUpdate = (id, updatedResearchpaper) => {
-        setProcessing(true);
-        axiosClient
-            .put(`/researchpapers/${id}`, updatedResearchpaper)
-            .then((res) => {
-                const updatedRows = filteredRows.map((row) => {
-                    if (row.id === id) {
-                        return {
-                            ...row,
-                            ...updatedResearchpaper,
-                        };
-                    }
-                    return row;
-                });
-                setFilteredRows(updatedRows);
-                setInitialRows(updatedRows);
-                setSuccessOpen(true);
-                setProcessing(false);
-            })
-            .catch((err) => {
-                setErrorMessage(err.message);
-                setErrorOpen(true);
-                setProcessing(false);
-            });
+        setDeleteRowId(id);
     };
 
     const handleConfirmDelete = () => {
@@ -210,10 +159,14 @@ const
     const [publisher, setPublisher] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [locations, setLocations] = useState([]);
+    const [Level, setLevel] = useState([]);
 
     useEffect(() => {
         axiosClient.get("/languages").then((response) => {
             setLanguages(response.data);
+        });
+        axiosClient.get("/Level").then((response) => {
+            setLevel(response.data);
         });
         axiosClient.get("/fields").then((response) => {
             setFields(response.data);
@@ -228,23 +181,6 @@ const
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-    const [openAuthorAdd, setOpenAuthorAdd] = useState(false);
-    const handleOpenAuthorAdd = () => {
-        setOpenAuthorAdd(true);
-    };
-    const handleCloseAuthorAdd = () => {
-        setOpenAuthorAdd(false);
-        setOpen(true);
-    };
-    const [openVendorAdd, setOpenVendorAdd] = useState(false);
-    const handleOpenVendorAdd = () => {
-        setOpenVendorAdd(true);
-    };
-    const handleCloseVendorAdd = () => {
-        setOpenVendorAdd(false);
-        handleOpen();
-    };
 
     const style = {
         position: "absolute",
@@ -271,26 +207,35 @@ const
             cellClassName: "name-column--cell",
         },
         {
-            field: "doi",
+            field: "DOI",
             headerName: "DOI",
             type: "number",
             headerAlign: "left",
             align: "left",
         },
         {
-            field: "keywords",
-            headerName: "Keywords",
+            field: "publisher",
+            headerName: "Publisher",
             flex: 1,
         },
         {
-            field: "location",
-            headerName: "Location",
-            flex: 1,
-        },
-        {
-            field: "publish_date",
+            field: "publicationDate",
             headerName: "Publication Date",
             flex: 1,
+        },
+        {
+            field: "Level",
+            headerName: "Level",
+            flex: 1,
+            renderCell: (params) => (
+                <Box
+            sx={{
+                color:"#FD5F00"
+            }}
+            >
+                {params.value}
+                </Box>
+            ),
         },
         {
             field: "availability",
@@ -374,7 +319,7 @@ const
                     }}
                     onClick={handleOpen}
                 >
-                    Add Research paper
+                    add ResearchPaper
                 </Button>
             </Box>
             <Modal open={open} onClose={handleClose} keepMounted>
@@ -387,6 +332,7 @@ const
                         feilds,
                         publisher,
                         languages,
+                        Level,
                         locations,
                     }}
                 >
@@ -447,6 +393,14 @@ const
                         handleSearchPublicationDate(e.target.value)
                     }
                     sx={{ marginRight: "8px" }}
+                />
+                <TextField
+                    size="small"
+                    placeholder="Level"
+                    variant="outlined"
+                    onChange={(e) => handleSearchLevel(e.target.value)}
+                    sx={{ marginRight: "8px"
+                 }}
                 />
                 <TextField
                     size="small"
@@ -568,7 +522,7 @@ const
                 <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>
                     <Typography>
-                        Are you sure you want to delete this Research paper?
+                        Are you sure you want to delete this row?
                     </Typography>
                 </DialogContent>
                 <DialogActions sx={{ justifyContent: "center", pb: "24px" }}>

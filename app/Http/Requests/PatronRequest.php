@@ -24,8 +24,7 @@ class PatronRequest extends FormRequest
         return [
             'patron_email' => 'required|string',
             'last_name' => 'string|required',
-            'first_name' => 'string|required',
-            'type' => 'string|required'
+            'first_name' => 'string|required'
         ];
     }
 }

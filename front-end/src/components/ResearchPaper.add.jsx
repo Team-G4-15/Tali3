@@ -14,11 +14,9 @@ import "./checkbox.css";
 import { axiosClient } from "../utilities/axiosClient";
 import { useNavigate } from "react-router-dom";
 import { AddingContext } from "../contexts/AddingContext";
-import { Add } from "@mui/icons-material";
 
 const AddResearchPaper = ({ style }) => {
     //response not working/compatible.
-    const [locationState, setLocationState] = useState("");
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
     const [error, setErrors] = useState(null);
@@ -27,13 +25,11 @@ const AddResearchPaper = ({ style }) => {
         setSuccessOpen,
         handleClose,
         setProcessing,
-        setFilteredRows,
-        setInitialRows,
         feilds,
         publisher,
         languages,
+        Level,
         locations,
-        handleOpenAuthorAdd,
     } = useContext(AddingContext);
 
     const handleFormSubmit = (values) => {
@@ -44,16 +40,8 @@ const AddResearchPaper = ({ style }) => {
         axiosClient
             .post("/researchpapers/add", values)
             .then((respose) => {
-                values = {
-                    ...values,
-                    id: respose.data.paper_id,
-                    availability: "Available",
-                    location: locationState,
-                }
                 setProcessing(false);
                 setSuccessOpen(true);
-                setFilteredRows((prev) => [...prev, values]);
-                setInitialRows((prev) => [...prev, values]);
             })
             .catch((err) => {
                 setErrorOpen(true);
@@ -72,8 +60,8 @@ const AddResearchPaper = ({ style }) => {
         <>
             <Box m="20px" sx={style}>
                 <Header
-                    title="Add a Research Paper"
-                    subtitle="Add a Research Paper to Tali3's Database"
+                    title="Add a Resaech Paper"
+                    subtitle="Add a Resaech Paper to Tali3's Database"
                 />
                 <Formik
                     onSubmit={handleFormSubmit}
@@ -83,7 +71,7 @@ const AddResearchPaper = ({ style }) => {
                         values,
                         errors,
                         touched,
-                        //handleBlur,
+                        handleBlur,
                         handleChange,
                         handleSubmit,
                     }) => (
@@ -105,7 +93,7 @@ const AddResearchPaper = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="Title"
-                                    //onBlur={handleBlur}
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.title}
                                     name="title"
@@ -117,7 +105,7 @@ const AddResearchPaper = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="Keywords (seperated by comma)"
-                                    //onBlur={handleBlur}
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.keywords}
                                     name="keywords"
@@ -130,8 +118,8 @@ const AddResearchPaper = ({ style }) => {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="Research paper description"
-                                    //onBlur={handleBlur}
+                                    label="Item Description"
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.description}
                                     name="description"
@@ -142,11 +130,23 @@ const AddResearchPaper = ({ style }) => {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="DOI"
-                                    //onBlur={handleBlur}
+                                    label="Type (Insert a Character)"
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.doi}
-                                    name="doi"
+                                    value={values.type}
+                                    name="type"
+                                    sx={{ gridColumn: "span 4" }}
+                                />
+
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="DOI"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.DOI}
+                                    name="DOI"
                                     sx={{ gridColumn: "span 4" }}
                                 />
 
@@ -155,7 +155,7 @@ const AddResearchPaper = ({ style }) => {
                                     variant="filled"
                                     type="text"
                                     label="Quantity"
-                                    //onBlur={handleBlur}
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.quantity}
                                     name="quantity"
@@ -167,7 +167,7 @@ const AddResearchPaper = ({ style }) => {
                                     fullWidth
                                     variant="filled"
                                     type="date"
-                                    //onBlur={handleBlur}
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.publish_date}
                                     name="publish_date"
@@ -175,46 +175,52 @@ const AddResearchPaper = ({ style }) => {
                                 />
 
                                 <InputLabel id="demo-simple-select-label">
-                                    Author
+                                    Level
                                 </InputLabel>
-                                <Box
-                                    display="flex"
-                                    justifyContent="space-between"
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={values.level_id}
+                                    name="level_id"
+                                    //renderValue={(value) => value}
+                                    onChange={handleChange}
                                     sx={{ gridColumn: "span 4" }}
                                 >
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={values.publisher_id}
-                                        name="publisher_id"
-                                        onChange={handleChange}
-                                        //renderValue={(value) => value}
-                                        fullWidth
-                                    >
-                                        {publisher.map((e) => {
-                                            return (
-                                                <MenuItem
-                                                    value={e.author_id}
-                                                    name="v"
-                                                >
-                                                    {e.author_name}
-                                                </MenuItem>
-                                            );
-                                        })}
-                                    </Select>
-                                    <Button
-                                        startIcon={<Add />}
-                                        color="secondary"
-                                        variant="contained"
-                                        sx={{ marginLeft: "5px" }}
-                                        onClick={() => {
-                                            handleClose();
-                                            handleOpenAuthorAdd();
-                                        }}
-                                    >
-                                        Author
-                                    </Button>
-                                </Box>
+                                    {Level.map((e) => {
+                                        return (
+                                            <MenuItem
+                                                value={e.level_id}
+                                                name="v"
+                                            >
+                                                {e.name}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
+
+                                <InputLabel id="demo-simple-select-label">
+                                    Publisher
+                                </InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={values.publisher_id}
+                                    name="publisher_id"
+                                    onChange={handleChange}
+                                    //renderValue={(value) => value}
+                                    sx={{ gridColumn: "span 4" }}
+                                >
+                                    {publisher.map((e) => {
+                                        return (
+                                            <MenuItem
+                                                value={e.author_id}
+                                                name="v"
+                                            >
+                                                {e.author_name}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
 
                                 <InputLabel id="demo-simple-select-label">
                                     Field
@@ -268,64 +274,27 @@ const AddResearchPaper = ({ style }) => {
                                 <InputLabel id="demo-simple-select-label">
                                     Location
                                 </InputLabel>
-
-                                <Box
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    sx={{ gridColumn: "span 2" }}
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={values.location_id}
+                                    name="location_id"
+                                    onChange={handleChange}
+                                    //renderValue={(value) => value}
+                                    sx={{ gridColumn: "span 4" }}
                                 >
-                                    <Box
-                                    // fullWidth
-                                    >
-                                        <InputLabel>
-                                            Aisle (Character)
-                                        </InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={values.location_id}
-                                            name="location_id"
-                                            onChange={handleChange}
-                                            sx={{ gridColumn: "span 4", mr: 2 }}
-                                        >
-                                            {locations.map((e) => {
-                                                return (
-                                                    <MenuItem
-                                                        value={e.location_id}
-                                                        name="v"
-                                                    >
-                                                        {e.aisle}
-                                                    </MenuItem>
-                                                );
-                                            })}
-                                        </Select>
-                                    </Box>
+                                    {locations.map((e) => {
+                                        return (
+                                            <MenuItem
+                                                value={e.location_id}
+                                                name="v"
+                                            >
+                                                {e.aisle}-{e.shelf}
+                                            </MenuItem>
+                                        );
+                                    })}
 
-                                    <Box fullWidth>
-                                        <InputLabel>Shelf Number</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            label=""
-                                            id="demo-simple-select"
-                                            value={values.location_id}
-                                            name="location_id"
-                                            onChange={handleChange}
-                                            sx={{ gridColumn: "span 4" }}
-                                            fullWidth
-                                        >
-                                            {locations.map((e) => {
-                                                return (
-                                                    <MenuItem
-                                                        value={e.location_id}
-                                                        name="v"
-                                                    >
-                                                        {e.shelf}
-                                                    </MenuItem>
-                                                );
-                                            })}
-                                        </Select>
-                                    </Box>
-                                </Box>
+                                </Select>
                             </Box>
                             <Box
                                 display="flex"
@@ -353,8 +322,10 @@ const initialValues = {
     keywords: "",
     location_id: "",
     description: "",
-    doi: "",
+    type: "",
+    DOI: "",
     quantity: "",
+    level_id: "",
     publisher_id: "",
     field_name: "",
     language_code: "",

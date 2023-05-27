@@ -12,7 +12,6 @@ class copy extends Model
 
     protected $fillable=[
         'book_id',
-        'is_loaned',
         'copy_number',
         'reception_date'
     ];
