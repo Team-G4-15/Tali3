@@ -40,10 +40,15 @@ const ResearchPapers = () => {
     const [processing, setProcessing] = useState(null);
 
     const [searchState, setSearchState] = useState({});
-
-
     // we need to refactor the state
     const [pageNumber,setPageNumber]=useState(0);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+    const handleRowClick = (book) => {
+        setSelectedRow(book);
+        setDialogOpen(true);
+    };
     const handleSearchTitle = (value) => {
         // this is the function that handles the search input changing fields
         HandleSearchChanges(
@@ -197,7 +202,12 @@ useEffect(()=>{
 
     const columns = [
         { field: "pic", headerName: "Pic", flex: 0.5 },
-        { field: "title", headerName: "Title" },
+        { field: "title", headerName: "Title" ,
+          renderCell: (params) => (
+            <Button onClick={() => handleRowClick(params.row)}>
+                {params.value}
+            </Button>
+        ),},
         {
             field: "author",
             headerName: "Author",
@@ -282,6 +292,7 @@ useEffect(()=>{
         },
     ];
     return (
+        
         <Box m="20px">
             <Box sx={{ justifyContent: "space-between", display: "flex" }}>
                 <Header title="Research papers" subtitle="List of research papers in The Library" />
@@ -498,19 +509,18 @@ useEffect(()=>{
                 </Collapse>
 
                 <DataGrid
-                    rows={filteredRows}
-                    columns={columns}
-                    components={{ Toolbar: GridToolbar }}
-                    onPageChange={(newPage)=>{
-                        if(newPage>pageNumber){
-                            console.log("Next Page");
-                        }else{
-                            console.log("Previous Page");
-                        }
+                rows={filteredRows}
+                columns={columns}
+                components={{ Toolbar: GridToolbar }}
+                onPageChange={(newPage)=>{
+                    if(newPage>pageNumber){
+                        console.log("Next Page");
+                    }else{
+                        console.log("Previous Page");
                     }
-                }
-
-                />
+                }}
+                onRowClick={(row) => setSelectedRow(row)}
+            />
             </Box>
             <Dialog
                 open={Boolean(deleteRowId)}
@@ -547,6 +557,130 @@ useEffect(()=>{
                     >
                         Delete
                     </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+                <DialogTitle>{selectedRow && selectedRow.title}</DialogTitle>
+                <DialogContent>
+                    <Box
+                    sx={{
+                         
+                            p: 2,
+                            width: "100%", 
+                        }}
+                        >
+                            <img
+                            src="../../public/BasicLinearAlgebra.png"
+                            alt="Papre"
+                            sx={{
+                                marginRight: "50%",
+                                width: "50%",
+                                height: "auto",
+                                objectFit: "cover",
+                                borderRadius: "5px",
+                                }}
+                                />
+                                <Typography
+                                sx={{
+                                    mt: 2,
+                                    mb: 2,
+                                    color: "text.secondary",
+                                    fontSize: "1rem",
+                                width: "100%", 
+                               
+                                    }}
+                                    >
+                                        title: {selectedRow && selectedRow.title}
+
+                                    </Typography>
+                                    <Typography
+                                    sx={{
+                                        mt: 2,
+                                        mb: 2,
+                                        color: "text.secondary",
+                                        fontSize: "1rem",
+                                        }}
+                                        >
+                                            Author: {selectedRow && selectedRow.author}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Genre: {selectedRow && selectedRow.genre}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Pages: {selectedRow && selectedRow.pages}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Published Year: {selectedRow && selectedRow.publishedYear}
+                                            </Typography>
+                                            <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                                Language: {selectedRow && selectedRow.language}
+                                            </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            DOI: {selectedRow && selectedRow.isbn}
+                                        </Typography>
+                                        <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                            Publisher: {selectedRow && selectedRow.publisher}
+                                            </Typography>
+                                            <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                               publicationDate: {selectedRow && selectedRow.publicationDate}
+                                            </Typography>
+                                            <Typography
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                                color: "text.secondary",
+                                fontSize: "1rem",
+                            }}>
+                                                Level: {selectedRow && selectedRow.Level}
+                                            </Typography>
+
+                                        
+                        </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDialogOpen(false)}>Close</Button>
                 </DialogActions>
             </Dialog>
         </Box>

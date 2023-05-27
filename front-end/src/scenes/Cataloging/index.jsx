@@ -229,7 +229,6 @@ const Cataloging = () => {
         setSelectedBook(book);
         setDialogOpen(true);
     };
-
     const style = {
         position: "absolute",
         top: "50%",
@@ -244,7 +243,6 @@ const Cataloging = () => {
         maxHeight: "75%",
         borderRadius: "2.5%",
     };
-
     const columns = [
         { field: "pic", headerName: "Pic", flex: 0.5 },
         { field: "title", headerName: "Title",
