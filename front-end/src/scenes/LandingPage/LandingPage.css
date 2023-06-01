@@ -1,0 +1,149 @@
+.landing-page{
+        height: 100%;
+        width: 100%;
+}
+
+
+.welcome {
+    margin-top: 20%;
+    text-align: center;
+    font-family: "Gill Sans", sans-serif;
+    color: #333;
+    font-size: 6rem;
+
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+    letter-spacing: 2px;
+    margin-bottom: 20%;
+
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    height: 50px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links li a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-links li a:hover {
+    color: #0077ff;
+}
+
+.btn-group {
+    display: flex;
+    margin-left: 20px;
+}
+
+.login-btn,
+.signup-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.login-btn {
+    background-color: #0077ff;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.signup-btn {
+    background-color: #fff;
+    color: #0077ff;
+    border: 1px solid #0077ff;
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+    background-color: #005ae6;
+    color: #fff;
+}
+
+h1.welcome span {
+    background: linear-gradient(to right, darkblue, orangered);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    animation: floatAnimation 3s ease-in-out infinite alternate, colorAnimation 5s linear infinite;
+}
+
+@keyframes floatAnimation {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes colorAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+   @keyframes footer-animation {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.footer {
+    margin-top: 3%;
+}
+
+.footer-up {
+    animation: footer-animation 2s infinite;
+}
+

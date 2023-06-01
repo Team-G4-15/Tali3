@@ -1,0 +1,207 @@
+@startuml
+title Tali3 Database
+
+class University {
+
+  University_ID:Integer(Primary key)
+  Name:String
+  Address:String
+  PhoneNumber:String
+  Email:String
+}
+
+class Library{
+  Library_ID:Integer(Primary key)
+  Name:String
+  Department:String
+  University_ID:Integer(Foreign key)
+}
+
+class Librarian{
+  + email:String (Primary key)
+  Full_Name:String
+  Password:String
+}
+
+class Patron{
+  Patron_Email:String(Primary Key)
+  LastName:String
+  FirstName:String
+  Type:Char
+  University_ID:Integer(Forign Key)
+}
+
+
+class Field{
+  Field_ID:Integer (Primary key)
+  Field_Name:String
+  Field_keywords: String
+}
+
+class Item{
+  // to discuss the item
+  Title:String
+  Keywords:String
+  Location_ID:Integer
+  Item_Description:String
+  Type:Char
+  +Item_ID(Book or Any other class):(Primary and Foreign Key)
+  Quantity:Integer
+  +Vendor_ID:Integer(Foreign Key)
+  +Publisher_ID:Integer(Foreign Key)
+  +Field_ID:Integer(Foreign key)
+  +Language_Code: String (Foreign key)
+}
+
+class Book{
+  +Book_ID:Integer(Primary key)
+  ISBN:Integer
+  Edition:Integer
+  Publish_Date:Date
+}
+
+class Published{
+  Author_ID:Integer
+  Item_ID:Integer
+  + PrimaryKey(Author_ID,Item_ID)
+
+}
+
+class Author{
+  +Author_ID:Integer (Primary Key)
+  Author_Name:String
+}
+
+class Copy{
+  Copy_Number:Integer
+  Reception_Date:Date
+  + PrimaryKey(Copy_Number,Item_ID)
+  +Item_ID:Integer(Forgeign Key)
+}
+
+class Language{
+  +Code: String(Primary Key)
+  Name: String
+}
+
+
+class Periodical{
+  +Periodical_ID:Integer(Primary key)
+  ISSN: Integer
+  Frequency:String
+}
+
+class ResearchPaper{
+  +ResearchPaper_ID:Integer(Primary key)
+  DOI: Integer
+  Publish_Date:Date
+}
+
+class CurrentLoan{
+  + Loan_ID: Integer(Primary key)
+  + email:String(Foreign key)
+  + Item_ID:Integer(Foreign key)
+  + Patron_Email:String(Foreign key)
+  Copy_Number:Integer
+  Loan_date: date
+  due_date: date
+  Renewal_count: Integer
+  + PrimaryKey(Item_ID,Patron_Email,Copy_Number,Loan_date)
+
+  // we insert in the history whenever\n there is a new loan.once they return the book\n we delete form current loan and set boolean in history to false
+}
+
+class History{
+  + Loan_ID: Integer(Primary key)
+  + email:String(Foreign key)
+  + Item_ID:Integer(Foreign key)
+  + Patron_Email:String(Foreign key)
+  Copy_Number:Integer
+  Loan_date: date
+  due_date: date
+  return_date: date
+  Renewal_count: Integer
+  + PrimaryKey(Item_ID,Patron_Email,Copy_Number,Loan_date)
+}
+
+class Renewals{
+  + Loan_ID: Integer(Foreign key)
+  Renewal_date: date
+  Old_due_date: date
+  Due_date: date
+  + PrimaryKey(Loan_ID, Renewal_date)
+}
+
+class LostItems{
+  + email:String(Foreign key)
+  + Item_ID:Integer(Foreign key)
+  Copy_Number:Integer
+  Reception_date: Date
+  Lost_date:date
+  Reason:String
+  + PrimaryKey(Item_ID,email,Copy_Number)
+}
+
+class Location{
+  Location_ID:Integer(Primary key)
+  Location_Type:String
+  Aisle_Num: String
+  Shelf_Num: String
+}
+
+
+class Vendors{
+
+  Vendor_ID:String(Primary Key)
+  Vendor_Name:String
+  Vendor_email:String
+  Vendor_phone:Integer
+  Vendor_address:String
+  Vendor_type:String
+
+}
+
+class LibrarianHistory{
+  + email:String (Primary key)
+  Full_Name:String
+  Quit_Date:Date
+}
+
+
+Author-up->Published :published
+Item-down->Published :has_publisher
+
+University-down->Library :has
+Patron-up->University :is_registered_at
+Librarian-up->Library :works_at
+
+Librarian-down->Item :manages
+
+Copy-up->Book :child
+Copy-up->Periodical :child
+Copy-up->ResearchPaper :child
+
+Item-right->Language :is_written_in
+Item-left->Field :has
+Book-up->Item :child
+Periodical-up->Item :child
+ResearchPaper-up->Item :child
+
+CurrentLoan-up->Librarian :resposible_for
+Patron-up->CurrentLoan :loaned
+Copy-up->CurrentLoan :has_loaner
+
+Item-up->Location :is_located
+
+
+History-up->Librarian :resposible_for
+Patron-up->History :loaned
+Copy-up->History :has_loaner
+
+CurrentLoan-up->LostItems :move_to
+CurrentLoan-left->Renewals :renew
+
+Item -->Vendors:brought_from
+
+Librarian -up->LibrarianHistory:quit_job
+@enduml

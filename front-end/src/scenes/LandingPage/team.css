@@ -1,0 +1,90 @@
+#team .h100 {
+    margin: 20px 15px;
+    width: 350px;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 1s;
+}
+
+#team .h-100 {
+    transition: transform 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+#team .h-100:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#team .description {
+    background-color: #fff;
+    width: 350px;
+    height: 450px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+    transition: all 1s;
+}
+
+#team .description:hover {
+    background-color: rgba(8, 61, 119, 0.2);
+}
+
+#team img {
+    border-radius: 50%;
+    border: 3px solid rgba(8, 61, 119);
+}
+
+#team .social-media {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(8, 61, 119);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#team .social-media svg {
+    display: block;
+    width: 33%;
+    height: 100%;
+    font-size: 20px !important;
+    background-color: rgba(8, 61, 119);
+    border-right: 2px solid #fff;
+    border-left: 2px solid #fff;
+    color: #fff;
+    transition: all 1s;
+}
+
+#team .social-media svg:hover {
+    background-color: orangered;
+}
+
+#team .description h1 {
+    color: rgba(8, 61, 119);
+}
+
+#team .description h2 {
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    color: #f21b3f;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+#team .description p {
+    color: rgba(8, 61, 119);
+    text-align: justify;
+    padding: 0 15px;
+}
